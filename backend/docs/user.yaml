@@ -1,0 +1,49 @@
+openapi: '3.0.0'
+info:
+  title: Authentication APIs
+  version: '1.0.0'
+
+paths:
+  /api/register:
+    post:
+      summary: Register User
+      description: Register User
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Returns success of user registration
+
+  /api/login:
+    post:
+      summary: Login user
+      description: Login user
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Returns success of login and user details
