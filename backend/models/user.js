@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const ObjectId = Schema.Types.ObjectId;
+const moment=require("moment");
 
 const userSchema=new Schema({
   firstName: {
@@ -21,11 +22,12 @@ const userSchema=new Schema({
   },
   profilePicture: {
       type: String,
+      default:`http://gravatar.com/avatar/${moment().unix()}?d=identicon`
     },
   coverImage: String,
   enrolled: {
     type: Boolean,
-    default: true
+    default: false
   },
   college: String,
   branch: String,
