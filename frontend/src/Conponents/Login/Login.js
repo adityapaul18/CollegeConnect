@@ -7,34 +7,37 @@ import { useHistory } from 'react-router-dom';
 import axios from "axios";
 
 function Login() {
-    var user = localStorage.getItem("myuser")
+    var user = localStorage.getItem("CConUser")
 
     const history = useHistory()
 
     const ff = () => {
-        if (user)
-            history.push('/home')
+        // if (user)
+        //     history.push('/home')
     }
 
     useEffect(() => {
         // ff()
     }, [])
 
-    const signin = async(e) => {
-      try{
+    const signin = async (e) => {
         e.preventDefault();
-        let res=await auth.signInWithPopup(provider);
-  const token = res.credential.accessToken;
-  // The signed-in user info.
-  const name = res.user.displayName;
-  const email = res.user.email;
-  let resp = await axios.post('/google/login',{name,email,token});
-  console.log(resp.data)
-}catch(err){
-  console.log(err)
-}
-
-
+        auth.signInWithPopup(provider)
+            .then((res) => {
+                const token = res.credential.accessToken;
+                // The signed-in user info.
+                const name = res.user.displayName;
+                const email = res.user.email;
+                axios.post('/google/login', { name, email, token })
+                    .then((res) => {
+                        console.log(res.data)
+                        localStorage.setItem("CConUser", res.data.token)
+                        alert(res.data.message)
+                        history.push('/home')
+                    })
+                    .catch((err) => console.log(err))
+            })
+            .catch((err) => console.log(err))
     }
 
     const signin2 = () => {
@@ -74,8 +77,8 @@ function Login() {
                                 <TextField value={passwordc} type="password" onChange={(e) => setpasswordc(e.target.value)} className="LoginFilters" placeholder="confirm password" variant="outlined" />
                             </div>
                             <Button className="Loginbtn" variant="contained" onClick={signin2}>Sign up</Button>
-                            <Button className="Loginbtn2" variant="contained" onClick={signin}><img style={{height:"15px",padding:"0 5px"}} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt=""/>Login with Google</Button>
-                            <div style={{ display: "flex", alignItems: "center",marginTop:"40px"  }} >Already having an account ? <IconButton onClick={() => setset(0)} ><span style={{ color: "rgb(0, 106, 255)", cursor: "pointer", fontSize: "15px" }} >Login</span></IconButton></div>
+                            <Button className="Loginbtn2" variant="contained" onClick={signin}><img style={{ height: "15px", padding: "0 5px" }} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt="" />Login with Google</Button>
+                            <div style={{ display: "flex", alignItems: "center", marginTop: "40px" }} >Already having an account ? <IconButton onClick={() => setset(0)} ><span style={{ color: "rgb(0, 106, 255)", cursor: "pointer", fontSize: "15px" }} >Login</span></IconButton></div>
                         </>
                         :
                         <>
@@ -89,10 +92,10 @@ function Login() {
                                 <div className="LoginHead">Password</div>
                                 <TextField value={password} type="password" onChange={(e) => setpassword(e.target.value)} className="LoginFilters" placeholder="password" variant="outlined" />
                             </div>
-                            <div className="LoginFormlow"> <span><input type="checkbox"/> Remember me</span>  <span style={{color:"rgb(0, 92, 251)",cursor:"pointer"}}>Forgot Password?</span></div>
+                            <div className="LoginFormlow"> <span><input type="checkbox" /> Remember me</span>  <span style={{ color: "rgb(0, 92, 251)", cursor: "pointer" }}>Forgot Password?</span></div>
                             <Button className="Loginbtn" variant="contained" onClick={signin2}>Login</Button>
-                            <Button className="Loginbtn2" variant="contained" onClick={signin}><img style={{height:"15px",padding:"0 5px"}} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt=""/>Login with Google</Button>
-                            <div style={{ display: "flex", alignItems: "center",marginTop:"80px" }} >Not having an account ? <IconButton onClick={() => setset(1)}><span style={{ color: "rgb(0, 106, 255)", cursor: "pointer", fontSize: "15px" }} >Sign up</span></IconButton></div>
+                            <Button className="Loginbtn2" variant="contained" onClick={signin}><img style={{ height: "15px", padding: "0 5px" }} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt="" />Login with Google</Button>
+                            <div style={{ display: "flex", alignItems: "center", marginTop: "80px" }} >Not having an account ? <IconButton onClick={() => setset(1)}><span style={{ color: "rgb(0, 106, 255)", cursor: "pointer", fontSize: "15px" }} >Sign up</span></IconButton></div>
                         </>
                 }
 
