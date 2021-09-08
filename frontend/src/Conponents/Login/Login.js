@@ -12,12 +12,12 @@ function Login() {
     const history = useHistory()
 
     const ff = () => {
-        // if (user)
-        //     history.push('/home')
+        if (user)
+            history.push('/home')
     }
 
     useEffect(() => {
-        // ff()
+        ff()
     }, [])
 
     const signin = async (e) => {
@@ -40,17 +40,41 @@ function Login() {
             .catch((err) => console.log(err))
     }
 
-    const signin2 = () => {
+    const signin2 = (e) => {
+        e.preventDefault();
+        const name = username
+        const email = mail
+        const password = Password
+        axios.post('/login',{ email, password })
+        .then((res) => {
+            console.log(res.data)
+            localStorage.setItem("CConUser", res.data.token)
+            alert(res.data.message)
+            history.push('/home')
+        })
+        .catch((err) => console.log(err))  
 
     }
 
-    const signup = async () => {
+    const signup = async (e) => {
+        e.preventDefault();
+        const name = username
+        const email = mail
+        const password = Password
+        axios.post('/register',{ name, email, password })
+        .then((res) => {
+            console.log(res.data)
+            localStorage.setItem("CConUser", res.data.token)
+            alert(res.data.message)
+            history.push('/home')
+        })
+        .catch((err) => console.log(err))      
 
     }
     const [mail, setmail] = useState("")
-    const [name, setname] = useState("")
+    const [username, setusername] = useState("")
     const [profilepic, setprofilepic] = useState("")
-    const [password, setpassword] = useState("")
+    const [Password, setPassword] = useState("")
     const [passwordc, setpasswordc] = useState("")
     const [set, setset] = useState(0)
     return (
@@ -68,15 +92,15 @@ function Login() {
                             </div>
                             <div className="LoginForm">
                                 <div className="LoginHead">Name</div>
-                                <TextField value={name} onChange={(e) => setname(e.target.value)} className="LoginFilters" placeholder="name" variant="outlined" />
+                                <TextField value={username} onChange={(e) => setusername(e.target.value)} className="LoginFilters" placeholder="name" variant="outlined" />
                                 <div className="LoginHead">Email</div>
                                 <TextField value={mail} onChange={(e) => setmail(e.target.value)} className="LoginFilters" placeholder="email" variant="outlined" />
                                 <div className="LoginHead">Password</div>
-                                <TextField value={password} type="password" onChange={(e) => setpassword(e.target.value)} className="LoginFilters" placeholder="password" variant="outlined" />
+                                <TextField value={Password} type="password" onChange={(e) => setPassword(e.target.value)} className="LoginFilters" placeholder="password" variant="outlined" />
                                 <div className="LoginHead">Confirm Password</div>
                                 <TextField value={passwordc} type="password" onChange={(e) => setpasswordc(e.target.value)} className="LoginFilters" placeholder="confirm password" variant="outlined" />
                             </div>
-                            <Button className="Loginbtn" variant="contained" onClick={signin2}>Sign up</Button>
+                            <Button className="Loginbtn" variant="contained" onClick={signup}>Sign up</Button>
                             <Button className="Loginbtn2" variant="contained" onClick={signin}><img style={{ height: "15px", padding: "0 5px" }} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt="" />Login with Google</Button>
                             <div style={{ display: "flex", alignItems: "center", marginTop: "40px" }} >Already having an account ? <IconButton onClick={() => setset(0)} ><span style={{ color: "rgb(0, 106, 255)", cursor: "pointer", fontSize: "15px" }} >Login</span></IconButton></div>
                         </>
@@ -90,7 +114,7 @@ function Login() {
                                 <div className="LoginHead">Email</div>
                                 <TextField value={mail} onChange={(e) => setmail(e.target.value)} className="LoginFilters" placeholder="email" variant="outlined" />
                                 <div className="LoginHead">Password</div>
-                                <TextField value={password} type="password" onChange={(e) => setpassword(e.target.value)} className="LoginFilters" placeholder="password" variant="outlined" />
+                                <TextField value={Password} type="password" onChange={(e) => setPassword(e.target.value)} className="LoginFilters" placeholder="password" variant="outlined" />
                             </div>
                             <div className="LoginFormlow"> <span><input type="checkbox" /> Remember me</span>  <span style={{ color: "rgb(0, 92, 251)", cursor: "pointer" }}>Forgot Password?</span></div>
                             <Button className="Loginbtn" variant="contained" onClick={signin2}>Login</Button>
