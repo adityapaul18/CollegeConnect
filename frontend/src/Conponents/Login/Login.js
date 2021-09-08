@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Avatar, Button, IconButton, MenuItem, TextField } from '@material-ui/core'
 import './Login.css'
 import loginLogo from "../../images/loginlogo.png"
+import { auth, provider } from '../../utils/Firebase'
 import { useHistory } from 'react-router-dom'
 
 function Login() {
@@ -17,6 +18,15 @@ function Login() {
     useEffect(() => {
         // ff()
     }, [])
+
+    const signin = (e) => {
+        e.preventDefault();
+        auth.signInWithPopup(provider)
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((err) => alert("error signing up"))
+    }
 
     const signin2 = () => {
 
@@ -55,7 +65,7 @@ function Login() {
                                 <TextField value={passwordc} type="password" onChange={(e) => setpasswordc(e.target.value)} className="LoginFilters" placeholder="confirm password" variant="outlined" />
                             </div>
                             <Button className="Loginbtn" variant="contained" onClick={signin2}>Sign up</Button>
-                            <Button className="Loginbtn2" variant="contained" onClick={signin2}><img style={{height:"15px",padding:"0 5px"}} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt=""/> Or sign in with Google</Button>
+                            <Button className="Loginbtn2" variant="contained" onClick={signin}><img style={{height:"15px",padding:"0 5px"}} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt=""/> Or sign in with Google</Button>
                             <div style={{ display: "flex", alignItems: "center",marginTop:"40px"  }} >Already having an account ? <IconButton onClick={() => setset(0)} ><span style={{ color: "rgb(0, 106, 255)", cursor: "pointer", fontSize: "15px" }} >sign in</span></IconButton></div>
                         </>
                         :
@@ -72,7 +82,7 @@ function Login() {
                             </div>
                             <div className="LoginFormlow"> <span><input type="checkbox"/> Remember me</span>  <span style={{color:"rgb(0, 92, 251)",cursor:"pointer"}}>Forgot Password?</span></div>
                             <Button className="Loginbtn" variant="contained" onClick={signin2}>Sign in</Button>
-                            <Button className="Loginbtn2" variant="contained" onClick={signin2}><img style={{height:"15px",padding:"0 5px"}} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt=""/> Or sign in with Google</Button>
+                            <Button className="Loginbtn2" variant="contained" onClick={signin}><img style={{height:"15px",padding:"0 5px"}} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt=""/> Or sign in with Google</Button>
                             <div style={{ display: "flex", alignItems: "center",marginTop:"80px" }} >Not having an account ? <IconButton onClick={() => setset(1)}><span style={{ color: "rgb(0, 106, 255)", cursor: "pointer", fontSize: "15px" }} >sign up</span></IconButton></div>
                         </>
                 }
