@@ -4,12 +4,7 @@ const ObjectId = Schema.Types.ObjectId;
 const moment=require("moment");
 
 const userSchema=new Schema({
-  firstName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  lastName: {
+  name: {
     type: String,
     required: true,
     trim: true

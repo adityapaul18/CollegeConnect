@@ -8,11 +8,10 @@ if( firebase.apps.length === 0 ){
 
 exports.register=async(req, res)=>{
   try{
-    let { firstName, lastName, email, password } = req.body;
+    let { name, email, password } = req.body;
 
     // validations
-    if(!firstName||firstName=="") return res.status(400).json({error:'First name is required'});
-    if(!lastName||lastName=="") return res.status(400).json({error:'Last name is required'});
+    if(!name||name=="") return res.status(400).json({error:'Name is required'});
     if(!email||email=="") return res.status(400).json({error:'Email is required'});
     if(!isValidEmail(email)) return res.status(400).json({error:'Email is invalid'});
     if(!password||password=="") return res.status(400).json({error:'Password is required'});
@@ -28,7 +27,7 @@ exports.register=async(req, res)=>{
      let token =await data.user.getIdToken();
 
      // save user to db
-     let newUser=await new User({firstName,lastName,email}).save();
+     let newUser=await new User({name,email}).save();
      res.status(200).json({
        message:'Registered user successfully',
        token,
@@ -63,6 +62,26 @@ exports.login=async(req, res) => {
       user
     })
 
+  }catch(error){
+    console.log(error);
+    res.status(403).json({error:"Wrong credential, please try again"})
+  }
+}
+
+exports.googleLogin = async(req, res) => {
+  try{
+    let {name,email,token} =req.body;
+    if(!name||name=="") return res.status(400).json({error:"Name is required"});
+    if(!email||email=="") return res.status(400).json({error:"Email is required"});
+    let existingUser = await User.findOne({email});
+    if(!existingUser){
+      existingUser = await new User(req.body).save();
+    }
+    res.status(200).json({
+      message:'User logged in successfully',
+      token,
+      existingUser
+    })
   }catch(error){
     console.log(error);
     res.status(403).json({error:"Wrong credential, please try again"})

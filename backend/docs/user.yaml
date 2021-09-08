@@ -16,9 +16,7 @@ paths:
           application/json:
             schema:
               properties:
-                firstName:
-                  type: string
-                lastName:
+                name:
                   type: string
                 email:
                   type: string
@@ -47,3 +45,25 @@ paths:
       responses:
         '200':
           description: Returns success of login and user details
+
+  /api/google/login:
+    post:
+      summary: Google login
+      description: Google login
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                token:
+                  type: string
+      responses:
+        '200':
+          description: Returns success of google login
