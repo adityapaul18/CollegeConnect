@@ -1,0 +1,69 @@
+.LoginContainer{
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: space-evenly;
+    background-image: url("../../images/loginbg.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.LoginHead{
+    width: 95%;
+}
+
+.logininfo{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.LoginForm{
+    padding: 30px 0;
+    padding-bottom: 10px;
+}
+
+.LoginFormlow{
+    font-size: smaller;
+    color: rgb(110, 110, 110);
+    display: flex;
+    justify-content: space-between;
+    width: 280px;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.LoginFilters{
+    width: 300px !important;
+    margin: 10px 0 !important;
+}
+
+.LoginFilters >  .MuiOutlinedInput-root {
+    border-radius: 5px !important;
+}
+
+.Logupbtn{
+    background-color: rgb(30, 224, 0) !important;
+    color: white !important;
+    margin: 15px 0 !important;
+}
+
+.Loginbtn{
+    background-color: #6D0047 !important;
+    color: white !important;
+    margin: 10px !important;
+    width: 295px !important;
+    padding: 10px !important;
+}
+
+.Loginbtn2{
+    background-color: #2D3748 !important;
+    color: white !important;
+    width: 295px !important;
+    padding: 10px !important;
+}
+
+.LoginImg{
+    height: 60vh;
+    margin: 30px;
+}

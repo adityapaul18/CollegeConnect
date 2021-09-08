@@ -1,0 +1,17 @@
+.headerContainer{
+    background-color: #6D0047;
+    color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.headerContainerinner{
+    display: flex;
+    align-items: center;
+}
+
+.headerContainerinner > span {
+    padding: 0 20px;
+}
