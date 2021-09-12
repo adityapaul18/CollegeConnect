@@ -1,0 +1,37 @@
+openapi: '3.0.0'
+info:
+  title: Tag APIs
+  version: '1.0.0'
+
+paths:
+  /api/tag/create:
+    post:
+      summary: Create Tag
+      description: Create Tag
+      tags:
+        - Tag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Returns success of tag created
+
+  /api/tag/all:
+    get:
+      summary: Fetch all tags
+      description: Fetch all tags
+      tags:
+        - Tag
+      requestBody:
+        required: true
+        content:
+          application/json:
+      responses:
+        '200':
+          description: Fetched all tags successfully

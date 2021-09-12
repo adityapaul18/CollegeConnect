@@ -7,6 +7,7 @@ const hbs = require("hbs");
 
 const swaggerRoutes = require("./routes/swagger");
 const userRoutes = require("./routes/user");
+const tagRoutes = require("./routes/tag");
 
 require('dotenv').config();
 
@@ -29,6 +30,7 @@ mongoose.connect(process.env.MONGODB_URI,
   //routes middleware
   app.use("/api-docs", swaggerRoutes);
   app.use("/api", userRoutes);
+  app.use("/api", tagRoutes);
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
