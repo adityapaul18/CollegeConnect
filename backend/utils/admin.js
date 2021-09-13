@@ -4,9 +4,10 @@ var serviceAccount = require("./serviceAccountKey.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  storageBucket: process.env.BUCKET_URL
+  storageBucket: "gs://collegeconnect-381a2.appspot.com"
 });
 
 const bucket = admin.storage().bucket();
+const auth = admin.auth();
 
-module.exports={bucket};
+module.exports={auth,bucket};
