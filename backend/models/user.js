@@ -24,6 +24,7 @@ const userSchema=new Schema({
     type: Boolean,
     default: false
   },
+  bio: String,
   college: String,
   branch: String,
   academicYear: String,
