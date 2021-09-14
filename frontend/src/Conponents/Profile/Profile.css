@@ -2,18 +2,30 @@
     display: flex;
     width: 90%;
     margin: 40px auto;
+    margin-bottom: 0;
     justify-content: space-between;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .ProfileLeft{
     width: 70%;
+    height: 84vh;
+    overflow-y: scroll;
 }
-
+.ProfileLeft::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .ProfileLeft {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 .ProfileRight{
     padding: 15px;
     border-left: 1px solid rgb(197, 197, 197);
     border-top: 1px solid rgb(197, 197, 197);
+    height: 76vh;
 }
 
 .ProfileCover{
@@ -26,7 +38,7 @@
     padding: 10px 15px;
     height: 44px;
     background-color: #FBFBFB;
-    margin: 15px 10px;
+    margin: 5px 10px;
 }
 
 .Suggestcollege{
@@ -50,17 +62,56 @@
     margin-bottom: 20px;
 }
 
+.TagSuggest > .MuiSvgIcon-root {
+    height: 20px;
+    margin-left: 5px;
+}
 .TagSuggest{
     display: flex;
     align-items: center;
     width: fit-content;
     background-color: #6D0047;
-    padding: 5px 8px;
+    padding: 3px 12px;
     color: white;
     margin: 3px;
     border-radius: 30px;
+    font-size: 14px;
 }
 
 .SuggestdTagsBox{
     display: flex;
+}
+
+.ProfileInfoTop{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -130px;
+}
+
+.ProfileAvatar{
+    height: 200px !important;
+    width: 200px !important;
+    border: 2px solid white;
+    margin: 10px !important;
+}
+
+.EditProfileButton{
+    margin-top: 80px !important;
+    border: 2px solid #6D0047 !important;
+    color: #6D0047 !important;
+    font-weight: 600 !important;
+    border-radius: 25px !important;
+    padding: 3px 8px !important;
+}
+
+.ProfileInfoBottom >  b {
+    font-weight: 600;
+    font-size: 22px;
+}
+
+.ProfileSubInfo{
+    font-weight: 400;
+    font-size: 14px;
+    color: #777777;   
 }
