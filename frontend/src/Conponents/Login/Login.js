@@ -12,8 +12,8 @@ function Login() {
     const history = useHistory()
 
     const ff = () => {
-        // if (user)
-        //     history.push('/home')
+        if (user)
+            history.push('/home')
     }
 
     useEffect(() => {

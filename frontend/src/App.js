@@ -7,6 +7,7 @@ import {
 import './App.css';
 import Login from './Conponents/Login/Login';
 import Header from './Conponents/Header/Header'
+import Profile from './Conponents/Profile/Profile'
 
 function App() {
   return (
@@ -24,8 +25,9 @@ function App() {
                     <Route exact path="/login">
                         <Login />
                     </Route>
-                    <Route exact path="/Profile">
-                        <Login />
+                    <Route exact path="/profile">
+                        <Header/>
+                        <Profile/>
                     </Route>
                 </Switch>
             </Router>
