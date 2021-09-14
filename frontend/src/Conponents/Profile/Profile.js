@@ -5,6 +5,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 // import 'react-tabs/style/react-tabs.css';
 import './Profile.css'
+import ProfilePost from './ProfilePost';
+import ProfileSuggest from './ProfileSuggest';
 
 function Profile() {
     return (
@@ -19,61 +21,43 @@ function Profile() {
                     <div className="ProfileInfoBottom">
                         <b>Aditya Paul</b>
                         <div className="ProfileSubInfo">@NoobMaster</div>
-                        <div className="ProfileSubInfo">19 | Like Designing and Wrintig blogs</div>
-                        <div className="ProfileSubInfo">2nd year student at Indian Institute of Information Technology, Surat</div>
+                        <div className="ProfileSubInfo">Marvel Blooded</div>
+                        <div className="ProfileSubInfo">21 | Likes WebD and Photography</div>
+                        <div className="ProfileSubInfo">3rd year student at Indian Institute of Information Technology, Surat</div>
                     </div>
                     <Tabs>
-    <TabList>
-      <Tab>Title 1</Tab>
-      <Tab>Title 2</Tab>
-    </TabList>
+                        <TabList>
+                            <Tab>Posts</Tab>
+                            <Tab>Saved</Tab>
+                        </TabList>
 
-    <TabPanel>
-      <h2>Any content 1</h2>
-    </TabPanel>
-    <TabPanel>
-      <h2>Any content 2</h2>
-    </TabPanel>
-  </Tabs>
+                        <TabPanel>
+                        <div className="SavedPosts">
+                            <h2>Your Posts</h2>
+                            <ProfilePost />
+                            <ProfilePost />
+                            <ProfilePost />
+                        </div>
+                        </TabPanel>
+                        <TabPanel>
+                            <div className="SavedPosts">
+                            <h2> Your Saved Posts</h2>
+                            <ProfilePost />
+                            {/* <ProfilePost /> */}
+                            </div>
+                        </TabPanel>
+                    </Tabs>
+
                 </div>
             </div>
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
-                <div className="ProflieSuggest">
-                    <Avatar className="SuggestAvatar"></Avatar>
-                    <div>
-                        <div className="SuggestName">Rahul Goel</div>
-                        <div className="Suggestcollege" >Indian Institute of Technology ,Goa</div>
-                    </div>
-                </div>
-                <div className="ProflieSuggest">
-                    <Avatar className="SuggestAvatar"></Avatar>
-                    <div>
-                        <div className="SuggestName">Rahul Goel</div>
-                        <div className="Suggestcollege" >Indian Institute of Technology ,Goa</div>
-                    </div>
-                </div>
-                <div className="ProflieSuggest">
-                    <Avatar className="SuggestAvatar"></Avatar>
-                    <div>
-                        <div className="SuggestName">Rahul Goel</div>
-                        <div className="Suggestcollege" >Indian Institute of Technology ,Goa</div>
-                    </div>
-                </div>
-                <div className="ProflieSuggest">
-                    <Avatar className="SuggestAvatar"></Avatar>
-                    <div>
-                        <div className="SuggestName">Rahul Goel</div>
-                        <div className="Suggestcollege" >Indian Institute of Technology ,Goa</div>
-                    </div>
-                </div>
-                <div className="ProflieSuggest">
-                    <Avatar className="SuggestAvatar"></Avatar>
-                    <div>
-                        <div className="SuggestName">Rahul Goel</div>
-                        <div className="Suggestcollege" >Indian Institute of Technology ,Goa</div>
-                    </div>
-                </div>
+                <ProfileSuggest/>
+                <ProfileSuggest/>
+                <ProfileSuggest/>
+                <ProfileSuggest/>
+                <ProfileSuggest/>
+                <ProfileSuggest/>
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
                     <div className="SuggestdTagsBox">

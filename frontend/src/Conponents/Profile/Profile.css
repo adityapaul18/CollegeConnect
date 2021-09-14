@@ -9,7 +9,7 @@
 
 .ProfileLeft{
     width: 70%;
-    height: 84vh;
+    height: 83vh;
     overflow-y: scroll;
 }
 .ProfileLeft::-webkit-scrollbar {
@@ -25,7 +25,7 @@
     padding: 15px;
     border-left: 1px solid rgb(197, 197, 197);
     border-top: 1px solid rgb(197, 197, 197);
-    height: 76vh;
+    height: 79vh;
 }
 
 .ProfileCover{
@@ -114,4 +114,63 @@
     font-weight: 400;
     font-size: 14px;
     color: #777777;   
+}
+
+.ProfilePost{
+    background-color: #FBFBFB;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.PostTop{
+    display: flex;
+    align-items: center;
+}
+
+.PostLogo{
+    height: 35px !important;
+    width: 35px !important;
+    margin: 5px !important;
+}
+
+.PostHeadName{
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.PostHeadCollege{
+    font-weight: 400;
+    font-size: 13px;
+    color: #777777;
+    margin: 0 30px;
+}
+
+.PostAnswer{
+    font-size: 14px;
+    width: 98%;
+    margin: 10px auto;
+}
+
+.react-tabs__tab-list{
+    list-style: none;
+    display: flex;
+    width: fit-content;
+    margin: auto;
+    padding-top: 20px;
+    font-weight: 700;
+    font-size: 24px;
+    color: #6D0047 !important;
+}
+
+.react-tabs__tab{
+    margin: 5px 30px;
+    cursor: pointer;
+}
+
+.react-tabs__tab--selected{
+    border-bottom: 6px solid #6D0047;
+}
+
+.SavedPosts{
+    min-height: 30vh;
 }

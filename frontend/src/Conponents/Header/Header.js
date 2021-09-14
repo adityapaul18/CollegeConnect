@@ -8,7 +8,7 @@ function Header() {
         <div className="headerContainer" >
             <div className="headerContainerinner">College Connect</div>
             <div className="headerContainerinner"><span>Home</span><span>Write</span><span>Saved</span></div>
-            <div className="headerContainerinner"><NotificationsNoneIcon/> <span><Avatar/></span></div>
+            <div className="headerContainerinner"><NotificationsNoneIcon/> <span><Avatar src="https://qph.fs.quoracdn.net/main-thumb-282129127-200-wdsefxcvsewcnoifsgtqymhoydgblwha.jpeg"/></span></div>
         </div>
     )
 }
