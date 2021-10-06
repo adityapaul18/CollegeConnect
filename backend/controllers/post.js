@@ -90,3 +90,64 @@ exports.addComment = async(req, res) => {
     res.status(500).json({error:"Something went wrong!"})
   }
 }
+
+exports.getAllPosts = async(req, res) => {
+  try{
+    let posts = await Post.find().populate('question.user question.tags answer.user answer.comments.user');
+    if(!posts) return res.status(400).json({error:'No posts found!'});
+    res.status(200).json({
+      message:'Fetched posts successfully',
+      posts
+    })
+  }catch(error){
+    console.log(error);
+    res.status(500).json({error:"Something went wrong!"})
+  }
+}
+
+exports.getSinglePost = async(req, res) => {
+  try{
+    let { postId } = req.params;
+  let post = await Post.findById(postId).populate('question.user question.tags answer.user answer.comments.user');
+    if(!post) return res.status(400).json({error:'No post found!'});
+    res.status(200).json({
+      message:'Fetched post successfully',
+      post
+    })
+  }
+  catch(error){
+    console.log(error);
+    res.status(500).json({error:"Something went wrong!"})
+  }
+  
+
+}
+
+exports.getUserPosts = async(req, res) => {
+  try{
+  let { userId } = req.params;
+  let posts = await Post.find({question:{user:userId}}).populate('question.user question.tags answer.user answer.comments.user');
+  if(!posts) return res.status(400).json({error:'No posts found of this user'});
+  res.status(200).json({
+    message:'Fetched user posts successfully',
+    posts
+  })
+}catch(error){
+  console.log(error);
+  res.status(500).json({error:"Something went wrong!"})
+}
+}
+
+exports.getFeed = async(req, res) => {
+  try{
+  let posts = await Post.find({question:{tags:{ $in: req.user.tags}}}).populate('question.user question.tags answer.user answer.comments.user');
+  if(!posts) return res.status(400).json({error:'No posts found of this user'});
+  res.status(200).json({
+    message:'Fetched feed successfully',
+    posts
+  })
+}catch(error){
+  console.log(error);
+  res.status(500).json({error:"Something went wrong!"})
+}
+}
