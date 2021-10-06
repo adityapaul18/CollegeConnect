@@ -45,3 +45,78 @@ paths:
       responses:
         "200":
           description: Returns success of created post
+
+  /api/answer/{postId}:
+    put:
+      summary: Add answer to a post
+      description: Add answer to a post
+      tags:
+        - Post
+      securityDefinitions:
+        bearerAuth:
+          type: apiKey
+          in: header
+          name: authorization
+          description: Authorization token of the user
+
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: string
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                description: 
+                  type: string
+                images:
+                  type: file
+                  format: binary
+     
+      responses:
+        '200':
+          description: Returns success of answer added
+
+  /api/comment:
+    put:
+      summary: Comment on an answer
+      description: Comment on an answer
+      tags:
+        - Post
+      securityDefinitions:
+        bearerAuth:
+          type: apiKey
+          in: header
+          name: authorization
+          description: Authorization token of the user
+
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                postId:
+                  type: string
+                answerId:
+                  type: string
+                comment:
+                  type: string
+      responses:
+        '200':
+          description: Returns success of comment added
+
+
