@@ -1,10 +1,5 @@
 import React from 'react'
-import { Avatar, Button } from '@material-ui/core'
-import ProfileCover from "../../images/ProfileCover.png"
 import AddIcon from '@material-ui/icons/Add';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-// import 'react-tabs/style/react-tabs.css';
-// import './Profile.css'
 import ProfilePost from '../Profile/ProfilePost';
 import ProfileSuggest from '../Profile/ProfileSuggest';
 

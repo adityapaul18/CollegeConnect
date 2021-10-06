@@ -11,14 +11,14 @@ function Login() {
 
     const history = useHistory()
 
-    const ff = () => {
-        if (user)
-            history.push('/profile')
-    }
+    // const ff = () => {
+    //     if (user)
+    //         history.push('/profile')
+    // }
 
-    useEffect(() => {
-        ff()
-    }, [])
+    // useEffect(() => {
+    //     ff()
+    // }, [])
 
     const signin = async (e) => {
         e.preventDefault();
@@ -28,10 +28,11 @@ function Login() {
                 const name = res.user.displayName;
                 const email = res.user.email;
                 axios.post('/google/login', { name, email, token })
-                    .then((res) => {
-                        console.log(res.data)
+                .then((res) => {
+                    console.log(res.data)
+                        localStorage.setItem("CConID", res.data.user._id)
                         localStorage.setItem("CConUser", res.data.token)
-                        history.push('/profile')
+                        history.push('/home')
                         // alert(res.data.message)
                     })
                     .catch((err) => alert("something went wrong"))
@@ -49,10 +50,11 @@ function Login() {
         const password = Password
         axios.post('/login',{ email, password })
         .then((res) => {
-            console.log(res.data)
+            console.log(res.data.user._id)
             localStorage.setItem("CConUser", res.data.token)
+            localStorage.setItem("CConID", res.data.user._id)
             // alert(res.data.message)
-            history.push('/profile')
+            history.push('/home')
         })
         .catch((err) => alert("Credentials do not match"))  
 
@@ -75,8 +77,9 @@ function Login() {
         .then((res) => {
             console.log(res.data)
             localStorage.setItem("CConUser", res.data.token)
+            localStorage.setItem("CConID", res.data.user._id)
             alert(res.data.message)
-            history.push('/profile')
+            history.push('/home')
         })
         .catch((err) => console.log(err))      
 

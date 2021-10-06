@@ -16,5 +16,31 @@
 }
 
 .headerContainerinner > span {
-    padding: 0 20px;
+    padding: 5px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+.headerContainerinner > span:hover {
+    background-color: #5d003c;
+    padding: 5px 20px;
+}
+
+.HeaderAvatar{
+    cursor: pointer;
+    border: 2px solid #6D0047;
+    margin: 0 20px;
+}
+.HeaderAvatar:hover{
+    border: 2px solid #42002b;
+}
+
+.headerContainerinner > .MuiSvgIcon-root {
+    padding: 5px;
+    border-radius: 15px;
+}
+
+.headerContainerinner > .MuiSvgIcon-root:hover {
+    background-color: #5d003c;
+    padding: 5px;
+    border-radius: 15px;
 }

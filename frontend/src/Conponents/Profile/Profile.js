@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, Button } from '@material-ui/core'
 import ProfileCover from "../../images/ProfileCover.png"
 import AddIcon from '@material-ui/icons/Add';
@@ -7,23 +7,36 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './Profile.css'
 import ProfilePost from './ProfilePost';
 import ProfileSuggest from './ProfileSuggest';
+import axios from 'axios';
 
 function Profile() {
+    
+    const userID = localStorage.getItem("CConID")
+    const [user, setuser] = useState("")
+    useEffect(() => {
+        axios.get(`/profile/single/${userID}`)
+        .then((res) => {
+            console.log(res.data.user)
+            setuser(res.data.user)
+        })
+    }, [])
+
+
     return (
         <div className="ProfileContainer">
             <div className="ProfileLeft">
                 <img className="ProfileCover" src={ProfileCover} alt="" />
                 <div className="ProfileInfo" >
                     <div className="ProfileInfoTop">
-                        <Avatar className="ProfileAvatar" src="https://qph.fs.quoracdn.net/main-thumb-282129127-200-wdsefxcvsewcnoifsgtqymhoydgblwha.jpeg" ></Avatar>
+                        <Avatar className="ProfileAvatar" src={user.profilePicture} ></Avatar>
                         <Button className="EditProfileButton">Edit Profile</Button>
                     </div>
                     <div className="ProfileInfoBottom">
-                        <b>Aditya Paul</b>
+                        <b>{user.name}</b>
                         <div className="ProfileSubInfo">@NoobMaster</div>
-                        <div className="ProfileSubInfo">Marvel Blooded</div>
-                        <div className="ProfileSubInfo">21 | Likes WebD and Photography</div>
-                        <div className="ProfileSubInfo">3rd year student at Indian Institute of Information Technology, Surat</div>
+                        {/* <div className="ProfileSubInfo">Marvel Blooded</div> */}
+                        <div className="ProfileSubInfo">{user?.bio}</div>
+                        <div className="ProfileSubInfo">{user?.acadwemicYear} {user?.branch} {user?.college}</div>
                     </div>
                     <Tabs>
                         <TabList>
