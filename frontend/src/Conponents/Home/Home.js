@@ -15,6 +15,8 @@ function Home() {
                 <ProfilePost />
                 <ProfilePost />
                 <ProfilePost />
+                <ProfilePost />
+                <ProfilePost />
             </div>
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
