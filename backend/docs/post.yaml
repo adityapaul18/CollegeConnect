@@ -1,0 +1,47 @@
+openapi: '3.0.0'
+info:
+  title: Posts APIs
+  version: '1.0.0'
+
+paths:
+
+  /api/question:
+    post:
+      summary: Create a post
+      description: Create a post
+      tags:
+        - Post
+      securityDefinitions:
+        bearerAuth:
+          type: apiKey
+          in: header
+          name: authorization
+          description: Authorization token of the user
+
+      security:
+        - bearerAuth: []
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title: 
+                  type: string
+                description: 
+                  type: string
+                tags: 
+                  type: array
+                  items:
+                    type: string
+                images:
+                  type: file
+                  format: binary
+      responses:
+        "200":
+          description: Returns success of created post
