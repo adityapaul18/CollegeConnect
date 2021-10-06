@@ -71,8 +71,8 @@ function Profile() {
                         <span className="TagSuggest">Google<AddIcon /></span>
                     </div>
                     <div className="SuggestdTagsBox">
-                        <span className="TagSuggest">Photography<AddIcon /></span>
-                        <span className="TagSuggest">IIIT<AddIcon /></span>
+                        {/* <span className="TagSuggest">Photography<AddIcon /></span>
+                        <span className="TagSuggest">IIIT<AddIcon /></span> */}
                     </div>
                 </div>
             </div>

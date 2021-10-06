@@ -13,7 +13,7 @@ function Login() {
 
     const ff = () => {
         if (user)
-            history.push('/home')
+            history.push('/profile')
     }
 
     useEffect(() => {
@@ -31,7 +31,7 @@ function Login() {
                     .then((res) => {
                         console.log(res.data)
                         localStorage.setItem("CConUser", res.data.token)
-                        history.push('/home')
+                        history.push('/profile')
                         // alert(res.data.message)
                     })
                     .catch((err) => alert("something went wrong"))
@@ -52,7 +52,7 @@ function Login() {
             console.log(res.data)
             localStorage.setItem("CConUser", res.data.token)
             // alert(res.data.message)
-            history.push('/home')
+            history.push('/profile')
         })
         .catch((err) => alert("Credentials do not match"))  
 
@@ -76,7 +76,7 @@ function Login() {
             console.log(res.data)
             localStorage.setItem("CConUser", res.data.token)
             alert(res.data.message)
-            history.push('/home')
+            history.push('/profile')
         })
         .catch((err) => console.log(err))      
 

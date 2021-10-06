@@ -9,8 +9,8 @@
 
 .ProfileLeft{
     width: 70%;
-    height: 83vh;
-    overflow-y: scroll;
+    /* height: 83vh;
+    overflow-y: scroll; */
 }
 .ProfileLeft::-webkit-scrollbar {
     display: none;
@@ -25,7 +25,10 @@
     padding: 15px;
     border-left: 1px solid rgb(197, 197, 197);
     border-top: 1px solid rgb(197, 197, 197);
-    height: 79vh;
+    height: fit-content;
+    box-shadow: -5px -3px 5px 0px rgb(197, 197, 197);
+    position: sticky;
+    top: 110px;
 }
 
 .ProfileCover{
@@ -39,6 +42,7 @@
     height: 44px;
     background-color: #FBFBFB;
     margin: 5px 10px;
+    cursor: pointer;
 }
 
 .Suggestcollege{
@@ -76,6 +80,7 @@
     margin: 3px;
     border-radius: 30px;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .SuggestdTagsBox{

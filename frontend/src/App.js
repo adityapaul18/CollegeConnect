@@ -8,6 +8,7 @@ import './App.css';
 import Login from './Conponents/Login/Login';
 import Header from './Conponents/Header/Header'
 import Profile from './Conponents/Profile/Profile'
+import Home from './Conponents/Home/Home';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
                     <Route exact path="/home">
                         <div>
                             <Header/>
+                            <Home/>
                         </div>
                     </Route>
                     <Route exact path="/login">
