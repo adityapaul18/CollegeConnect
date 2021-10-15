@@ -8,10 +8,12 @@ import './Profile.css'
 import ProfilePost from './ProfilePost';
 import ProfileSuggest from './ProfileSuggest';
 import axios from 'axios';
+import EditModal from './EditModal';
 
 function Profile() {
     
     const userID = localStorage.getItem("CConID")
+    const [open, setopen] = useState(0)
     const [user, setuser] = useState("")
     useEffect(() => {
         axios.get(`/profile/single/${userID}`)
@@ -24,17 +26,16 @@ function Profile() {
 
     return (
         <div className="ProfileContainer">
+            <EditModal open={open} setopen={setopen}/>
             <div className="ProfileLeft">
                 <img className="ProfileCover" src={ProfileCover} alt="" />
                 <div className="ProfileInfo" >
                     <div className="ProfileInfoTop">
-                        <Avatar className="ProfileAvatar" src={user.profilePicture} ></Avatar>
-                        <Button className="EditProfileButton">Edit Profile</Button>
+                        <img className="ProfileAvatar" src={user.profilePicture} alt=""></img>
+                        <Button className="EditProfileButton" onClick={() => setopen(1)} >Edit Profile</Button>
                     </div>
                     <div className="ProfileInfoBottom">
                         <b>{user.name}</b>
-                        <div className="ProfileSubInfo">@NoobMaster</div>
-                        {/* <div className="ProfileSubInfo">Marvel Blooded</div> */}
                         <div className="ProfileSubInfo">{user?.bio}</div>
                         <div className="ProfileSubInfo">{user?.acadwemicYear} {user?.branch} {user?.college}</div>
                     </div>

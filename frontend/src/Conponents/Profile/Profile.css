@@ -33,6 +33,12 @@
 
 .ProfileCover{
     width: 100%;
+    height: 290px;
+}
+
+.ProfileCover2{
+    width: 95%;
+    height: 350px;
 }
 
 .ProflieSuggest{
@@ -99,6 +105,7 @@
     width: 200px !important;
     border: 2px solid white;
     margin: 10px !important;
+    border-radius: 50%;
 }
 
 .EditProfileButton{
@@ -178,4 +185,34 @@
 
 .SavedPosts{
     min-height: 30vh;
+}
+
+.closeicon{
+    position: absolute;
+    right: 30px;
+    cursor: pointer !important ;
+}
+
+.editCover{
+    position: absolute;
+    right: 110px;
+    color: white;
+    top: 40px;
+    cursor: pointer !important ;
+}
+
+.editProfileImg{
+    margin-left: -50px;
+    cursor: pointer !important ;
+    color: rgb(103, 103, 103);
+}
+
+.editProfileTexts{
+    display: flex;
+    flex-direction: column;
+}
+
+.EditFields{
+    margin: 10px !important;
+    width: 30%;
 }
