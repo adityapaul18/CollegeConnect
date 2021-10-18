@@ -1,0 +1,9 @@
+.AnswerTag{
+    color: #6D0047 !important;
+    margin: 15px 0 !important;
+}
+
+.TagsBox{
+    padding-top: 15px;
+    display: flex;
+}

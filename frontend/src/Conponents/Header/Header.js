@@ -9,7 +9,7 @@ function Header() {
     return (
         <div className="headerContainer" >
             <div className="headerContainerinner">College Connect</div>
-            <div className="headerContainerinner"><span onClick={() => history.push('/home')}>Home</span><span>Write</span><span>Saved</span></div>
+            <div className="headerContainerinner"><span onClick={() => history.push('/home')}>Home</span><span onClick={() => history.push('/ask')}>Ask</span><span>Saved</span></div>
             <div className="headerContainerinner"><NotificationsNoneIcon/> <Avatar className="HeaderAvatar" onClick={() => history.push('/profile')} src="https://qph.fs.quoracdn.net/main-thumb-282129127-200-wdsefxcvsewcnoifsgtqymhoydgblwha.jpeg"/></div>
         </div>
     )

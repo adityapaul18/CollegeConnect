@@ -66,12 +66,17 @@ function Profile() {
             </div>
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
+                <div className="SuggestList">
                 <ProfileSuggest/>
                 <ProfileSuggest/>
                 <ProfileSuggest/>
                 <ProfileSuggest/>
                 <ProfileSuggest/>
                 <ProfileSuggest/>
+                <ProfileSuggest/>
+                <ProfileSuggest/>
+                <ProfileSuggest/>
+                </div>
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
                     <div className="SuggestdTagsBox">

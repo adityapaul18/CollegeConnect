@@ -1,19 +1,26 @@
 import React from 'react'
+import './AskPage.css'
+import ProfileSuggest from '../Profile/ProfileSuggest'
 import AddIcon from '@material-ui/icons/Add';
-import ProfilePost from '../Profile/ProfilePost';
-import ProfileSuggest from '../Profile/ProfileSuggest';
-import HomePost from './HomePost';
+import HomePost from '../Home/HomePost';
+import { Button, TextField } from '@material-ui/core';
 
-function Home() {
+function AskPage() {
     return (
-        <div className="ProfileContainer">
+        <div className="AskPageContainer">
             <div className="ProfileLeft">
-                <HomePost />
-                <HomePost />
-                <HomePost />
-                <HomePost />
-                <HomePost />
-                <HomePost />
+                <div className="AskBox" >
+                    <TextField className="AskHeaders" variant="outlined" label="Add A Headeing" />
+                    <TextField className="AskHeaders" variant="outlined" label="Add A Brief Description" multiline rows={15}/>
+                    <div className="AskLowerBox">
+                        <div className="SuggestdTagsBox">
+                            <span className="TagSuggest"><input className="qTags" placeholder="Enter Tag1" /></span> 
+                            <span className="TagSuggest"><input className="qTags" placeholder="Enter Tag2" /></span> 
+                            <span className="TagSuggest"><input className="qTags" placeholder="Enter Tag3" /></span> 
+                        </div>
+                        <Button className="PostQButton" variant="contained">POST</Button>
+                    </div>
+                </div>
             </div>
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
@@ -45,4 +52,4 @@ function Home() {
     )
 }
 
-export default Home
+export default AskPage

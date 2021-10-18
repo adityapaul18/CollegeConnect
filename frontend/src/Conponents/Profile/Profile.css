@@ -46,7 +46,7 @@
     align-items: center;
     padding: 10px 15px;
     height: 44px;
-    background-color: #FBFBFB;
+    background-color: #FBFBFBFB;
     margin: 5px 10px;
     cursor: pointer;
 }
@@ -81,7 +81,7 @@
     align-items: center;
     width: fit-content;
     background-color: #6D0047;
-    padding: 3px 12px;
+    padding: 5px 12px;
     color: white;
     margin: 3px;
     border-radius: 30px;
@@ -134,6 +134,11 @@
     padding: 10px;
 }
 
+.ProfilePost:hover{
+    box-shadow: 0px 0px 5px 0px rgb(197, 197, 197);
+    cursor: pointer;
+}
+
 .PostTop{
     display: flex;
     align-items: center;
@@ -143,6 +148,7 @@
     height: 35px !important;
     width: 35px !important;
     margin: 5px !important;
+    border-radius: 50%;
 }
 
 .PostHeadName{
@@ -215,4 +221,12 @@
 .EditFields{
     margin: 10px !important;
     width: 30%;
+}
+
+.SuggestList{
+    height: 55vh;
+    overflow-y: scroll;
+}
+.hider{
+    display: none;
 }

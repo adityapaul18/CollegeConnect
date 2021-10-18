@@ -9,6 +9,7 @@ import Login from './Conponents/Login/Login';
 import Header from './Conponents/Header/Header'
 import Profile from './Conponents/Profile/Profile'
 import Home from './Conponents/Home/Home';
+import AskPage from './Conponents/AskPage/AskPage';
 
 function App() {
   return (
@@ -26,6 +27,10 @@ function App() {
                     </Route>
                     <Route exact path="/login">
                         <Login />
+                    </Route>
+                    <Route exact path="/Ask">
+                        <Header/>
+                        <AskPage/>
                     </Route>
                     <Route exact path="/profile">
                         <Header/>
