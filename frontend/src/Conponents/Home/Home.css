@@ -7,3 +7,14 @@
     padding-top: 15px;
     display: flex;
 }
+
+.ShowAnswers{
+    margin: 15px; 
+    color: #6D0047;
+    font-weight: 600;
+    text-align: right;
+}
+
+.ShowAnswers > span {
+    margin-right: 40px;
+}

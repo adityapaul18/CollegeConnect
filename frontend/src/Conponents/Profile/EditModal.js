@@ -31,7 +31,7 @@ function EditModal({ open, setopen }) {
             <Modal isOpen={open}>
                 <CloseIcon className="closeicon" onClick={() => setopen(0)} />
                 <EditIcon onClick={() => ref.current.click()} className="editCover" />
-                <img className="ProfileCover2" src={coverimage} alt="" />
+                <img className="ProfileCover2" src={coverimage || ProfileCover} alt="" />
                 <div className="ProfileInfo" >
                     <div className="ProfileInfoTop">
                         <div>

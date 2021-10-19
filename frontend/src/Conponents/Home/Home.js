@@ -3,11 +3,14 @@ import AddIcon from '@material-ui/icons/Add';
 import ProfilePost from '../Profile/ProfilePost';
 import ProfileSuggest from '../Profile/ProfileSuggest';
 import HomePost from './HomePost';
+import { useHistory } from 'react-router';
 
 function Home() {
+    const history = useHistory()
     return (
         <div className="ProfileContainer">
             <div className="ProfileLeft">
+                <HomePost />
                 <HomePost />
                 <HomePost />
                 <HomePost />

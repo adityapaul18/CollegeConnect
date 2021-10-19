@@ -10,6 +10,7 @@ import Header from './Conponents/Header/Header'
 import Profile from './Conponents/Profile/Profile'
 import Home from './Conponents/Home/Home';
 import AskPage from './Conponents/AskPage/AskPage';
+import Answers from './Conponents/Answers/Answers';
 
 function App() {
   return (
@@ -35,6 +36,10 @@ function App() {
                     <Route exact path="/profile">
                         <Header/>
                         <Profile/>
+                    </Route>
+                    <Route exact path="/answers">
+                        <Header/>
+                        <Answers/>
                     </Route>
                 </Switch>
             </Router>

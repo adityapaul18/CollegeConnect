@@ -4,6 +4,7 @@ import ProfileSuggest from '../Profile/ProfileSuggest'
 import AddIcon from '@material-ui/icons/Add';
 import HomePost from '../Home/HomePost';
 import { Button, TextField } from '@material-ui/core';
+import bg1 from '../../images/bg1.png'
 
 function AskPage() {
     return (
