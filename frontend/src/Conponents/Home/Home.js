@@ -1,22 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AddIcon from '@material-ui/icons/Add';
 import ProfilePost from '../Profile/ProfilePost';
 import ProfileSuggest from '../Profile/ProfileSuggest';
 import HomePost from './HomePost';
 import { useHistory } from 'react-router';
+import AnswerModal from './AnswerModal';
 
 function Home() {
     const history = useHistory()
+    const [open, setopen] = useState(0)
     return (
         <div className="ProfileContainer">
+            <AnswerModal open={open} setopen={setopen} />
             <div className="ProfileLeft">
-                <HomePost />
-                <HomePost />
-                <HomePost />
-                <HomePost />
-                <HomePost />
-                <HomePost />
-                <HomePost />
+                <HomePost setopen={setopen}/>
+                <HomePost setopen={setopen}/>
+                <HomePost setopen={setopen}/>
+                <HomePost setopen={setopen}/>
+                <HomePost setopen={setopen}/>
+                <HomePost setopen={setopen}/>
+                <HomePost setopen={setopen}/>
             </div>
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>

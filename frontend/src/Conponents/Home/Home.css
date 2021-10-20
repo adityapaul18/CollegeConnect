@@ -18,3 +18,40 @@
 .ShowAnswers > span {
     margin-right: 40px;
 }
+
+.answermodal > .ReactModal__Overlay >.ReactModal__Content{
+    inset: 30px 400px !important;
+}
+
+.ansContainer{
+    min-height: 100%;
+    background-image: url("../../images/bg1.png");
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+}
+
+.AnswerButton{
+    background-color: #6D0047 !important;
+    color: white !important;
+    padding: 5px !important;
+}
+
+.AddAnswerCont{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 5px;
+}
+
+.AnsImgsCont{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: auto;
+    grid-gap: 1.5rem;
+    width: 100%;
+}
+
+.AnsImgsCont > img {
+    width: 150px;
+}

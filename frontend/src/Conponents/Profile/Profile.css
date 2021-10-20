@@ -38,7 +38,7 @@
 
 .ProfileCover2{
     width: 95%;
-    height: 350px;
+    height: 270px;
 }
 
 .ProflieSuggest{
@@ -100,9 +100,24 @@
     margin-top: -130px;
 }
 
+.ProfileInfoTop2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -100px;
+}
+
 .ProfileAvatar{
     height: 200px !important;
     width: 200px !important;
+    border: 2px solid white;
+    margin: 10px !important;
+    border-radius: 50%;
+}
+
+.ProfileAvatar2{
+    height: 150px !important;
+    width: 150px !important;
     border: 2px solid white;
     margin: 10px !important;
     border-radius: 50%;
@@ -195,7 +210,7 @@
 
 .closeicon{
     position: absolute;
-    right: 30px;
+    right: 15px;
     cursor: pointer !important ;
 }
 
@@ -229,4 +244,8 @@
 }
 .hider{
     display: none;
+}
+
+.editer > .ReactModal__Overlay >.ReactModal__Content{
+    inset: 40px 400px !important;
 }

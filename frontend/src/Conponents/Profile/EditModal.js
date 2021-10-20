@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Modal from 'react-modal';
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
@@ -18,7 +18,7 @@ function EditModal({ open, setopen }) {
     const [coverimage, setcoverimage] = useState("")
     const ref = useRef()
     const ref2 = useRef()
-    useLayoutEffect(() => {
+    useEffect(() => {
         axios.get(`/profile/single/${userID}`)
             .then((res) => {
                 console.log(res.data.user)
@@ -27,18 +27,18 @@ function EditModal({ open, setopen }) {
     }, [])
 
     return (
-        <div>
-            <Modal isOpen={open}>
+        <div className="EditModalcont">
+            <Modal isOpen={open} portalClassName="editer" >
                 <CloseIcon className="closeicon" onClick={() => setopen(0)} />
                 <EditIcon onClick={() => ref.current.click()} className="editCover" />
                 <img className="ProfileCover2" src={coverimage || ProfileCover} alt="" />
                 <div className="ProfileInfo" >
-                    <div className="ProfileInfoTop">
+                    <div className="ProfileInfoTop2">
                         <div>
-                            <img className="ProfileAvatar" src={profileImg || user?.profilePicture} alt=""></img>
+                            <img className="ProfileAvatar2" src={profileImg || user?.profilePicture} alt=""></img>
                             <EditIcon onClick={() => ref2.current.click()} className="editProfileImg" />
                         </div>
-                        <Button style={{marginRight:"70px"}} className="EditProfileButton" >Save Changes</Button>
+                        <Button style={{marginRight:"40px"}} className="EditProfileButton" >Save Changes</Button>
                     </div>
                         <input className="hider" ref={ref} type="file" onChange={(e) => setcoverimage(URL.createObjectURL(e.target.files[0]))} />
                         <input className="hider" ref={ref2} type="file" onChange={(e) => setprofileImg(URL.createObjectURL(e.target.files[0]))} />

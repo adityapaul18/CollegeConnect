@@ -5,7 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import AddCommentIcon from '@material-ui/icons/AddComment';
 import { useHistory } from 'react-router';
 
-function HomePost() {
+function HomePost({setopen}) {
     const history = useHistory()
     return (
         <div className="ProfilePost" >
@@ -18,7 +18,7 @@ function HomePost() {
                         <span className="TagSuggest">DSA</span>
                         <span className="TagSuggest">Google</span>
                 </div>
-                <div className="ShowAnswers" > <span>Write Answer</span> <span onClick={() => history.push('/answers')}> Show Answers </span></div>
+                <div className="ShowAnswers" > <span onClick={() => setopen(1)}>Write Answer</span> <span onClick={() => history.push('/answers')}> Show Answers </span></div>
             </div>
         </div>
     )
