@@ -11,6 +11,7 @@ import Profile from './Conponents/Profile/Profile'
 import Home from './Conponents/Home/Home';
 import AskPage from './Conponents/AskPage/AskPage';
 import Answers from './Conponents/Answers/Answers';
+import Saved from './Conponents/Saved/Saved';
 
 function App() {
   return (
@@ -40,6 +41,10 @@ function App() {
                     <Route exact path="/answers">
                         <Header/>
                         <Answers/>
+                    </Route>
+                    <Route exact path="/saved">
+                        <Header/>
+                        <Saved/>
                     </Route>
                 </Switch>
             </Router>

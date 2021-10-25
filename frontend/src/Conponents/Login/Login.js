@@ -12,7 +12,7 @@ function Login() {
     const history = useHistory()
 
     const ff = () => {
-        if (user)
+        if (user !== "null")
             history.push('/profile')
     }
 
