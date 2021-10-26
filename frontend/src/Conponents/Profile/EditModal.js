@@ -7,7 +7,8 @@ import axios from 'axios';
 import { Button, TextField } from '@material-ui/core';
 
 function EditModal({ open, setopen }) {
-    const userID = localStorage.getItem("CConID")
+    const userID = localStorage.getItem("CConID");
+    const [loading,setLoading]=useState(false)
     const [user, setuser] = useState("")
     const [username, setusername] = useState("")
     const [userbio, setuserbio] = useState("")
@@ -38,7 +39,10 @@ function EditModal({ open, setopen }) {
                             <img className="ProfileAvatar2" src={profileImg || user?.profilePicture} alt=""></img>
                             <EditIcon onClick={() => ref2.current.click()} className="editProfileImg" />
                         </div>
-                        <Button style={{marginRight:"40px"}} className="EditProfileButton" >Save Changes</Button>
+                        <Button style={{marginRight:"40px"}} className="EditProfileButton" onClick={async(e)=>{
+                          setLoading(true);
+                          e.preventDefault();
+                        }}>Save Changes</Button>
                     </div>
                         <input className="hider" ref={ref} type="file" onChange={(e) => setcoverimage(URL.createObjectURL(e.target.files[0]))} />
                         <input className="hider" ref={ref2} type="file" onChange={(e) => setprofileImg(URL.createObjectURL(e.target.files[0]))} />

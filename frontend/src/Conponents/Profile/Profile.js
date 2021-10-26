@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Avatar, Button } from '@material-ui/core'
+import { Avatar, Button, Grid, Typography } from '@material-ui/core'
 import ProfileCover from "../../images/ProfileCover.png"
 import AddIcon from '@material-ui/icons/Add';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -41,6 +41,8 @@ function Profile() {
                         <div className="ProfileSubInfo">{user?.branch}</div>
                         <div className="ProfileSubInfo">{user?.academicYear}</div>
                     </div>
+
+
                     <Tabs>
                         <TabList>
                             <Tab>Posts</Tab>

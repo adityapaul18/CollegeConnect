@@ -9,6 +9,16 @@ exports.editProfile = async(req, res) => {
     if(req.user._id!=req.params.userId) return res.status(400).json({error:'Unauthorized Access'});
     let existingUser = await User.findById(req.params.userId);
     if(!existingUser) return res.status(400).json({error:'User does not exists'});
+    if(req.files.profilePicture.length!=0){
+      const fileName = shortid.generate() + path.extname(req.files.profilePicture[0].originalname);
+      await bucket.file(fileName).createWriteStream().end(req.files.profilePicture[0].buffer);
+      req.body.profilePicture=`https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${fileName}?alt=media`
+    }
+    if(req.files.coverImage.length!=0){
+      const fileName = shortid.generate() + path.extname(req.files.coverImage[0].originalname);
+      await bucket.file(fileName).createWriteStream().end(req.files.coverImage[0].buffer);
+      req.body.coverImage=`https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${fileName}?alt=media`
+    }
     let updatedUser = await User.findByIdAndUpdate(req.params.userId,req.body,{new: true});
     res.status(200).json({
       message:'User profile updated successfully',
