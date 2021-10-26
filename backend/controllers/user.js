@@ -8,7 +8,7 @@ if( firebase.apps.length === 0 ){
 
 exports.register=async(req, res)=>{
   try{
-    let { name, email, password } = req.body;
+    let { name, email, password, confirmPassword } = req.body;
 
     // validations
     if(!name||name=="") return res.status(400).json({error:'Name is required'});
@@ -16,7 +16,8 @@ exports.register=async(req, res)=>{
     if(!isValidEmail(email)) return res.status(400).json({error:'Email is invalid'});
     if(!password||password=="") return res.status(400).json({error:'Password is required'});
     if(!isPasswordStrong(password)) return res.status(400).json({error:'Password is not strong enough'});
-
+    if(!confirmPassword||confirmPassword=="") return res.status(400).json({error:'Confirm Password is required'});
+    if(password!=confirmPassword) return res.status(400).json({error:'Password does not match'})
     // check if user already exists
     let existingUser = await User.findOne({email});
     if(existingUser) return res.status(400).json({error:'This user already exists'});

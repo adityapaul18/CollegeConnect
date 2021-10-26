@@ -33,6 +33,12 @@
 
 .ProfileCover{
     width: 100%;
+    height: 290px;
+}
+
+.ProfileCover2{
+    width: 95%;
+    height: 270px;
 }
 
 .ProflieSuggest{
@@ -40,7 +46,7 @@
     align-items: center;
     padding: 10px 15px;
     height: 44px;
-    background-color: #FBFBFB;
+    background-color: #FBFBFBFB;
     margin: 5px 10px;
     cursor: pointer;
 }
@@ -75,7 +81,7 @@
     align-items: center;
     width: fit-content;
     background-color: #6D0047;
-    padding: 3px 12px;
+    padding: 5px 12px;
     color: white;
     margin: 3px;
     border-radius: 30px;
@@ -94,11 +100,27 @@
     margin-top: -130px;
 }
 
+.ProfileInfoTop2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -100px;
+}
+
 .ProfileAvatar{
     height: 200px !important;
     width: 200px !important;
     border: 2px solid white;
     margin: 10px !important;
+    border-radius: 50%;
+}
+
+.ProfileAvatar2{
+    height: 150px !important;
+    width: 150px !important;
+    border: 2px solid white;
+    margin: 10px !important;
+    border-radius: 50%;
 }
 
 .EditProfileButton{
@@ -127,6 +149,11 @@
     padding: 10px;
 }
 
+.ProfilePost:hover{
+    box-shadow: 0px 0px 5px 0px rgb(197, 197, 197);
+    cursor: pointer;
+}
+
 .PostTop{
     display: flex;
     align-items: center;
@@ -136,6 +163,7 @@
     height: 35px !important;
     width: 35px !important;
     margin: 5px !important;
+    border-radius: 50%;
 }
 
 .PostHeadName{
@@ -178,4 +206,46 @@
 
 .SavedPosts{
     min-height: 30vh;
+}
+
+.closeicon{
+    position: absolute;
+    right: 15px;
+    cursor: pointer !important ;
+}
+
+.editCover{
+    position: absolute;
+    right: 110px;
+    color: white;
+    top: 40px;
+    cursor: pointer !important ;
+}
+
+.editProfileImg{
+    margin-left: -50px;
+    cursor: pointer !important ;
+    color: rgb(103, 103, 103);
+}
+
+.editProfileTexts{
+    display: flex;
+    flex-direction: column;
+}
+
+.EditFields{
+    margin: 10px !important;
+    width: 30%;
+}
+
+.SuggestList{
+    height: 55vh;
+    overflow-y: scroll;
+}
+.hider{
+    display: none;
+}
+
+.editer > .ReactModal__Overlay >.ReactModal__Content{
+    inset: 40px 400px !important;
 }

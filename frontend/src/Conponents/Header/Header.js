@@ -1,16 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import './Header.css';
 import { Avatar } from '@material-ui/core';
 import { useHistory } from 'react-router';
+import axios from 'axios';
 
 function Header() {
     const history = useHistory()
+    const userID = localStorage.getItem("CConID")
+    const [user, setuser] = useState("")
+    useEffect(() => {
+        axios.get(`/profile/single/${userID}`)
+        .then((res) => {
+            console.log(res.data.user)
+            setuser(res.data.user)
+        })
+    }, [])
+
+    const logout = () => {
+        localStorage.setItem("CConID", null)
+        localStorage.setItem("CConUser", null)
+        history.push("/login")
+    }
     return (
         <div className="headerContainer" >
             <div className="headerContainerinner">College Connect</div>
-            <div className="headerContainerinner"><span onClick={() => history.push('/home')}>Home</span><span>Write</span><span>Saved</span></div>
-            <div className="headerContainerinner"><NotificationsNoneIcon/> <Avatar className="HeaderAvatar" onClick={() => history.push('/profile')} src="https://qph.fs.quoracdn.net/main-thumb-282129127-200-wdsefxcvsewcnoifsgtqymhoydgblwha.jpeg"/></div>
+            <div className="headerContainerinner"><span onClick={() => history.push('/home')}>Home</span><span onClick={() => history.push('/ask')}>Ask</span><span onClick={() => history.push('/saved')}>Saved</span></div>
+            <div className="headerContainerinner">
+                Welcome {user?.name}<Avatar className="HeaderAvatar" onClick={() => history.push('/profile')} src={user.profilePicture}/>
+               <PowerSettingsNewIcon onClick={logout}/>
+                </div>
         </div>
     )
 }

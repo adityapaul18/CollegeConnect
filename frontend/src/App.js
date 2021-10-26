@@ -9,6 +9,9 @@ import Login from './Conponents/Login/Login';
 import Header from './Conponents/Header/Header'
 import Profile from './Conponents/Profile/Profile'
 import Home from './Conponents/Home/Home';
+import AskPage from './Conponents/AskPage/AskPage';
+import Answers from './Conponents/Answers/Answers';
+import Saved from './Conponents/Saved/Saved';
 
 function App() {
   return (
@@ -27,9 +30,21 @@ function App() {
                     <Route exact path="/login">
                         <Login />
                     </Route>
+                    <Route exact path="/Ask">
+                        <Header/>
+                        <AskPage/>
+                    </Route>
                     <Route exact path="/profile">
                         <Header/>
                         <Profile/>
+                    </Route>
+                    <Route exact path="/answers">
+                        <Header/>
+                        <Answers/>
+                    </Route>
+                    <Route exact path="/saved">
+                        <Header/>
+                        <Saved/>
                     </Route>
                 </Switch>
             </Router>

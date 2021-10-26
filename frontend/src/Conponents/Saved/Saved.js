@@ -5,11 +5,14 @@ import ProfileSuggest from '../Profile/ProfileSuggest';
 import HomePost from './HomePost';
 import { useHistory } from 'react-router';
 import AnswerModal from './AnswerModal';
+import './Saved.css'
 
-function Home() {
+function Saved() {
     const history = useHistory()
     const [open, setopen] = useState(0)
     return (
+        <>
+        <h2 className="SavedHeader">Your Saved Posts</h2>
         <div className="ProfileContainer">
             <AnswerModal open={open} setopen={setopen} />
             <div className="ProfileLeft">
@@ -48,7 +51,8 @@ function Home() {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 
-export default Home
+export default Saved

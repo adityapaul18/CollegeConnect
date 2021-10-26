@@ -1,0 +1,46 @@
+.AskPageContainer{
+    display: flex;
+    width: 90%;
+    margin: 40px auto;
+    margin-bottom: 0;
+    justify-content: space-between;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.AskBox{
+    background-image: url("../../images/bg1.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 75vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.AskHeaders{
+    background-color: white !important;
+    margin: 15px 0 !important;
+}
+
+.AskLowerBox{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.PostQButton{
+    background-color: #6D0047 !important;
+    color: white !important;
+    padding: 5px !important;
+}
+
+.qTags{
+    border: none;
+    outline: none;
+    background-color: #6D0047;
+    color: white;
+    font-weight: 300;
+    padding: 3px;
+}
