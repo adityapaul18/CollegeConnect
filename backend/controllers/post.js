@@ -28,7 +28,7 @@ exports.createPost = async(req, res) => {
      res.status(200).json({
        message: 'New post created',
        newPost
-     })    
+     })
   }catch(error){
     console.log(error);
     res.status(500).json({error:"Something went wrong!"})
@@ -55,11 +55,11 @@ exports.addAnswer = async(req, res) => {
     req.body.user = req.user._id;
     await existingPost.answer.push(req.body);
     await existingPost.save();
- 
+
      res.status(200).json({
        message: 'Answer added to post successfully',
        existingPost
-     })    
+     })
   }catch(error){
     console.log(error);
     res.status(500).json({error:"Something went wrong!"})
@@ -80,11 +80,11 @@ exports.addComment = async(req, res) => {
       }
     })
     await existingPost.save();
- 
+
      res.status(200).json({
        message: 'Comment added to answer successfully',
        existingPost
-     })    
+     })
   }catch(error){
     console.log(error);
     res.status(500).json({error:"Something went wrong!"})
@@ -93,7 +93,7 @@ exports.addComment = async(req, res) => {
 
 exports.getAllPosts = async(req, res) => {
   try{
-    let posts = await Post.find().populate('question.user question.tags answer.user answer.comments.user');
+    let posts = await Post.find().populate('question.user question.tags');
     if(!posts) return res.status(400).json({error:'No posts found!'});
     res.status(200).json({
       message:'Fetched posts successfully',
@@ -119,14 +119,14 @@ exports.getSinglePost = async(req, res) => {
     console.log(error);
     res.status(500).json({error:"Something went wrong!"})
   }
-  
+
 
 }
 
 exports.getUserPosts = async(req, res) => {
   try{
   let { userId } = req.params;
-  let posts = await Post.find({question:{user:userId}}).populate('question.user question.tags answer.user answer.comments.user');
+  let posts = await Post.find({question:{user:userId}}).populate('question.user question.tags');
   if(!posts) return res.status(400).json({error:'No posts found of this user'});
   res.status(200).json({
     message:'Fetched user posts successfully',
@@ -140,7 +140,7 @@ exports.getUserPosts = async(req, res) => {
 
 exports.getFeed = async(req, res) => {
   try{
-  let posts = await Post.find({question:{tags:{ $in: req.user.tags}}}).populate('question.user question.tags answer.user answer.comments.user');
+  let posts = await Post.find({question:{tags:{ $in: req.user.tags}}}).populate('question.user question.tags');
   if(!posts) return res.status(400).json({error:'No posts found of this user'});
   res.status(200).json({
     message:'Fetched feed successfully',
@@ -150,4 +150,105 @@ exports.getFeed = async(req, res) => {
   console.log(error);
   res.status(500).json({error:"Something went wrong!"})
 }
+}
+
+exports.upvoteAnswer = async(req, res) => {
+  try{
+    let { postId, answerId } = req.body;
+    let userId = req.user._id;
+    let existingPost = await Post.findById(postId);
+    if(!existingPost) return res.status(400).json({error:'Post not found'});
+    await existingPost.answer.map((a)=>{
+      if(a._id==answerId){
+        if(a.upvotes.includes(userId)) return res.status(400).json({error:'Already upvoted this answer'})
+      }
+      a.upvotes.push(userId);
+    });
+    res.status(200).json({
+      message:'Answer upvoted successfully!',
+      existingPost
+    })
+
+  }catch(error){
+    console.log(error);
+    res.status(500).json({error:"Something went wrong!"})
+  }
+}
+
+exports.downvoteAnswer = async(req, res) => {
+  try{
+    let { postId, answerId } = req.body;
+    let userId = req.user._id;
+    let existingPost = await Post.findById(postId);
+    if(!existingPost) return res.status(400).json({error:'Post not found'});
+    await existingPost.answer.map((a)=>{
+      if(a._id==answerId){
+        if(a.downvotes.includes(userId)) return res.status(400).json({error:'Already downvoted this answer'})
+      }
+      a.downvotes.push(userId);
+    });
+    res.status(200).json({
+      message:'Answer downvoted successfully!',
+      existingPost
+    })
+
+  }catch(error){
+    console.log(error);
+    res.status(500).json({error:"Something went wrong!"})
+  }
+}
+
+exports.updateQuestion = async(req, res) => {
+  try{
+   let { postId } = req.params;
+    let { title, description, tags } = req.body;
+   if(!postId||postId=="") return res.status(400).json({error:'PostId is required'});
+   let existingPost = await Post.findById(postId);
+   if(!existingPost) return res.status(400).json({error:'Post does not exists'})
+   if(existingPost.user!==req.user._id) return res.status(400).json({error:'Cannot edit this post!'})
+    if(req.files){
+      var imageArray= req.files.map((f)=>{
+         var fileName =shortid.generate() + path.extname(f.originalname);
+          bucket.file(fileName).createWriteStream().end(f.buffer)
+            const url = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${fileName}?alt=media`;
+            return url;
+        });
+        req.body.images=imageArray;
+    }
+    let updatedPost = await Post.findByIdAndUpdate(postId,req.body,{new: true})
+     res.status(200).json({
+       message: 'Post edited successfully',
+       updatedPost
+     })
+  }catch(error){
+    console.log(error);
+    res.status(500).json({error:"Something went wrong!"})
+  }
+}
+
+exports.updateAnswer = async(req, res) => {
+  try{
+   let { postId, answerId } = req.params;
+   if(!postId||postId=="") return res.status(400).json({error:'PostId is required'});
+   if(!answerId||answerId=="") return res.status(400).json({error:'AnswerId is required'});
+   let existingPost = await Post.findById(postId);
+    if(!existingPost) return res.status(400).json({error:'Post does not exists'})
+    if(req.files){
+      var imageArray= req.files.map((f)=>{
+         var fileName =shortid.generate() + path.extname(f.originalname);
+          bucket.file(fileName).createWriteStream().end(f.buffer)
+            const url = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${fileName}?alt=media`;
+            return url;
+        });
+        req.body.images=imageArray;
+    }
+    existingPost = await Post.findOneAndUpdate({'answer._id':answerId},{'answer.$':req.body},{new: true});
+    console.log(existingPost)
+     res.status(200).json({
+       message: 'Post edited successfully'
+     })
+  }catch(error){
+    console.log(error);
+    res.status(500).json({error:"Something went wrong!"})
+  }
 }

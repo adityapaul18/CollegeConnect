@@ -14,11 +14,15 @@ const answerSchema=new Schema({
 description: String,
 images: [],
 user:{
-    type: ObjectId, 
+    type: ObjectId,
     ref:'User'
 },
 upvotes:[{
-    type: ObjectId, 
+    type: ObjectId,
+    ref:'User'
+}],
+downvotes:[{
+    type: ObjectId,
     ref:'User'
 }],
 comments:[commentSchema]

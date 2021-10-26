@@ -31,11 +31,11 @@ paths:
             schema:
               type: object
               properties:
-                title: 
+                title:
                   type: string
-                description: 
+                description:
                   type: string
-                tags: 
+                tags:
                   type: array
                   items:
                     type: string
@@ -78,12 +78,12 @@ paths:
             schema:
               type: object
               properties:
-                description: 
+                description:
                   type: string
                 images:
                   type: file
                   format: binary
-     
+
       responses:
         '200':
           description: Returns success of answer added
@@ -194,4 +194,115 @@ paths:
         '200':
           description: Returns user feed
 
+  /api/post/upvote:
+    put:
+      summary: Upvote an answer
+      description: Upvote an answer
+      tags:
+        - Post
+      securityDefinitions:
+        bearerAuth:
+          type: apiKey
+          in: header
+          name: authorization
+          description: Authorization token of the user
 
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                postId:
+                  type: string
+                answerId:
+                  type: string
+      responses:
+        '200':
+          description: Returns success of upvoted answer
+
+  /api/post/downvote:
+    put:
+      summary: Downvote an answer
+      description: Downvote an answer
+      tags:
+        - Post
+      securityDefinitions:
+        bearerAuth:
+          type: apiKey
+          in: header
+          name: authorization
+          description: Authorization token of the user
+
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                postId:
+                  type: string
+                answerId:
+                  type: string
+      responses:
+        '200':
+          description: Returns success of downvoted answer
+
+  /api/delete/question/{postId}:
+    delete:
+      summary: Delete question
+      description: Delete question
+      tags:
+        - Post
+      securityDefinitions:
+        bearerAuth:
+          type: apiKey
+          in: header
+          name: authorization
+          description: Authorization token of the user
+
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns success of deleted post
+
+  /api/delete/answer/{postId}/{answerId}:
+    delete:
+      summary: Delete answer of a post
+      description: Delete answer of a post
+      tags:
+        - Post
+      securityDefinitions:
+        bearerAuth:
+          type: apiKey
+          in: header
+          name: authorization
+          description: Authorization token of the user
+
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: answerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns success of answer deleted
