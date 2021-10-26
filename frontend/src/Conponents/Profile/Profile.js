@@ -18,11 +18,19 @@ function Profile() {
     const [user, setuser] = useState("");
     const [posts, setPosts] = useState([]);
     const [profiles,setProfiles] = useState([]);
+    const [tags,setTags] = useState([]);
 
     const fetchUserPosts = async() => {
       let resp = await axios.get(`/post/user/${userID}`);
       if(resp.data.message){
         setPosts(resp.data.posts);
+      }
+    }
+
+    const fetchTags = async() => {
+      let resp = await axios.get('/tag/all');
+      if(resp.data.message){
+        setTags(resp.data.tags);
       }
     }
 
@@ -47,6 +55,7 @@ function Profile() {
         })
         fetchUserPosts();
         fetchProfiles();
+        fetchTags();
     }, [open])
 
 
@@ -102,20 +111,13 @@ function Profile() {
               }</div>
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
-                    <div className="SuggestdTagsBox">
-                        <span className="TagSuggest">CP <AddIcon /></span>
-                        <span className="TagSuggest">Flutter<AddIcon /></span>
-                        <span className="TagSuggest">PayTm<AddIcon /></span>
-                    </div>
-                    <div className="SuggestdTagsBox">
-                        <span className="TagSuggest">Web D <AddIcon /></span>
-                        <span className="TagSuggest">DSA<AddIcon /></span>
-                        <span className="TagSuggest">Google<AddIcon /></span>
-                    </div>
-                    <div className="SuggestdTagsBox">
-                        {/* <span className="TagSuggest">Photography<AddIcon /></span>
-                        <span className="TagSuggest">IIIT<AddIcon /></span> */}
-                    </div>
+                    {tags&&tags.map((t)=>
+                      <div className="SuggestdTagsBox">
+                      <span className="TagSuggest">{t.name} <AddIcon /></span>
+                      </div>
+                    )}
+
+
                 </div>
             </div>
         </div>
