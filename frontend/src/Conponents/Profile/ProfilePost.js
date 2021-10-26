@@ -1,13 +1,13 @@
 import { Avatar } from '@material-ui/core'
 import React from 'react'
 
-function ProfilePost() {
+function ProfilePost({post}) {
     return (
         <div className="ProfilePost" >
-        <div className="PostTop"><img alt="" className="PostLogo" src="https://qph.fs.quoracdn.net/main-thumb-282129127-200-wdsefxcvsewcnoifsgtqymhoydgblwha.jpeg"/><div><span className="PostHeadName">Aditya Paul</span><span className="PostHeadCollege">3rd year student at Indian Institute of Information Technology, Surat</span></div></div>
+        <div className="PostTop"><img alt="" className="PostLogo" src={post.question.user.profilePicture}/><div><span className="PostHeadName">{post.question.user.name}</span><span className="PostHeadCollege">{post.question.user.college}</span></div></div>
         <div className="PostAnswer">
-        <h2>Question main heading here </h2>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        <h2>{post.question.title}</h2>
+      {post.question.description&&post.question.description.substring(0,400)}
         </div>
     </div>
     )

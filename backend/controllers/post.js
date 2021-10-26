@@ -126,7 +126,7 @@ exports.getSinglePost = async(req, res) => {
 exports.getUserPosts = async(req, res) => {
   try{
   let { userId } = req.params;
-  let posts = await Post.find({question:{user:userId}}).populate('question.user question.tags');
+  let posts = await Post.find({'question.user':userId}).populate('question.user question.tags');
   if(!posts) return res.status(400).json({error:'No posts found of this user'});
   res.status(200).json({
     message:'Fetched user posts successfully',

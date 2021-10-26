@@ -12,14 +12,41 @@ import EditModal from './EditModal';
 
 function Profile() {
 
-    const userID = localStorage.getItem("CConID")
+    const userID = localStorage.getItem("CConID");
+    const token = localStorage.getItem("CConUser")
     const [open, setopen] = useState(0)
-    const [user, setuser] = useState("")
+    const [user, setuser] = useState("");
+    const [posts, setPosts] = useState([]);
+    const [profiles,setProfiles] = useState([]);
+
+    const fetchUserPosts = async() => {
+      let resp = await axios.get(`/post/user/${userID}`);
+      if(resp.data.message){
+        setPosts(resp.data.posts);
+      }
+    }
+
+    const fetchProfiles = async() => {
+      if(token){
+        let resp = await axios.get('/profile/custom',{ headers: { "Authorization" : `Bearer ${token}`} });
+        if(resp.data.message){
+          console.log(resp.data)
+          setProfiles(resp.data.users)
+        }
+      }else{
+        let resp = axios.get('/profile/all');
+        if(resp.data.message){
+          setProfiles(resp.data.users)
+        }
+      }
+    }
     useEffect(() => {
         axios.get(`/profile/single/${userID}`)
         .then((res) => {
             setuser(res.data.user)
         })
+        fetchUserPosts();
+        fetchProfiles();
     }, [open])
 
 
@@ -51,15 +78,14 @@ function Profile() {
                         <TabPanel>
                         <div className="SavedPosts">
                             <h2>Your Posts</h2>
-                            <ProfilePost />
-                            <ProfilePost />
-                            <ProfilePost />
+                            {posts?posts.length==0?<h3>No posts yet!</h3>: posts.map((post)=><ProfilePost post={post}/>) :<h6>Loading...</h6>}
+
                         </div>
                         </TabPanel>
                         <TabPanel>
                             <div className="SavedPosts">
                             <h2> Your Saved Posts</h2>
-                            <ProfilePost />
+
                             {/* <ProfilePost /> */}
                             </div>
                         </TabPanel>
@@ -70,16 +96,10 @@ function Profile() {
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
                 <div className="SuggestList">
-                <ProfileSuggest/>
-                <ProfileSuggest/>
-                <ProfileSuggest/>
-                <ProfileSuggest/>
-                <ProfileSuggest/>
-                <ProfileSuggest/>
-                <ProfileSuggest/>
-                <ProfileSuggest/>
-                <ProfileSuggest/>
-                </div>
+                {profiles?profiles.length==0?<h3>No suggested profile found</h3>:profiles.map((p)=>
+                  <ProfileSuggest profile={p}/>
+                ):<h3>Loading...</h3>
+              }</div>
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
                     <div className="SuggestdTagsBox">

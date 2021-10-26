@@ -23,12 +23,12 @@ function Home() {
             </div>
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
+                {/*}<ProfileSuggest />
                 <ProfileSuggest />
                 <ProfileSuggest />
                 <ProfileSuggest />
                 <ProfileSuggest />
-                <ProfileSuggest />
-                <ProfileSuggest />
+                <ProfileSuggest />*/}
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
                     <div className="SuggestdTagsBox">

@@ -1,13 +1,13 @@
 import { Avatar } from '@material-ui/core'
 import React from 'react'
 
-function ProfileSuggest() {
+function ProfileSuggest({profile}) {
     return (
         <div className="ProflieSuggest">
-            <Avatar className="SuggestAvatar"></Avatar>
+            <Avatar  className="SuggestAvatar"><img src={profile.profilePicture}/></Avatar>
             <div>
-                <div className="SuggestName">Rahul Goel</div>
-                <div className="Suggestcollege" >Indian Institute of Technology ,Goa</div>
+                <div className="SuggestName">{profile.name}</div>
+                <div className="Suggestcollege" >{profile.college}</div>
             </div>
         </div>
     )
