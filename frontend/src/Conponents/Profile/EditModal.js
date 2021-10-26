@@ -46,7 +46,7 @@ function EditModal({ open, setopen }) {
                         <TextField className="EditFields" variant="outlined" defaultValue={user?.name} label="User Name" onChange={(e) => setusername(e.target.value)} />
                         <TextField className="EditFields" variant="outlined" defaultValue={user?.bio} label="Your Bio" onChange={(e) => setuserbio(e.target.value)} />
                         <div>
-                            <TextField className="EditFields" variant="outlined" defaultValue={user?.acadwemicYear} label="Accademic Year" onChange={(e) => setacadYear(e.target.value)} />
+                            <TextField className="EditFields" variant="outlined" defaultValue={user?.academicYear} label="Academic Year" onChange={(e) => setacadYear(e.target.value)} />
                             <TextField className="EditFields" variant="outlined" defaultValue={user?.branch} label="Branch" onChange={(e) => setBranch(e.target.value)} />
                             <TextField className="EditFields" variant="outlined" defaultValue={user?.college} label="College" onChange={(e) => setCollege(e.target.value)} />
                         </div>

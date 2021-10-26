@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import LoginIcon from '@material-ui/icons/ExitToApp';
 import './Header.css';
 import { Avatar } from '@material-ui/core';
 import { useHistory } from 'react-router';
@@ -28,8 +29,10 @@ function Header() {
             <div className="headerContainerinner">College Connect</div>
             <div className="headerContainerinner"><span onClick={() => history.push('/home')}>Home</span><span onClick={() => history.push('/ask')}>Ask</span><span onClick={() => history.push('/saved')}>Saved</span></div>
             <div className="headerContainerinner">
-                Welcome {user?.name}<Avatar className="HeaderAvatar" onClick={() => history.push('/profile')} src={user.profilePicture}/>
-               <PowerSettingsNewIcon onClick={logout}/>
+              {user&&<> Welcome {user?.name.substring(0,user.name.indexOf(' '))}<Avatar className="HeaderAvatar" onClick={() => history.push('/profile')} src={user.profilePicture}/></>}
+               {user?<PowerSettingsNewIcon onClick={logout}/>:<LoginIcon onClick={()=>{
+                 history.push("/")
+               }}/>}
                 </div>
         </div>
     )

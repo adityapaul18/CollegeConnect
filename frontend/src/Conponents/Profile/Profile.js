@@ -11,7 +11,7 @@ import axios from 'axios';
 import EditModal from './EditModal';
 
 function Profile() {
-    
+
     const userID = localStorage.getItem("CConID")
     const [open, setopen] = useState(0)
     const [user, setuser] = useState("")
@@ -36,8 +36,10 @@ function Profile() {
                     </div>
                     <div className="ProfileInfoBottom">
                         <b>{user.name}</b>
-                        <div className="ProfileSubInfo">{user?.bio}</div>
-                        <div className="ProfileSubInfo">{user?.acadwemicYear} {user?.branch} {user?.college}</div>
+                        <div className="ProfileSubInfo"><b>{user?.bio}</b></div>
+                        <div className="ProfileSubInfo">{user?.college}</div>
+                        <div className="ProfileSubInfo">{user?.branch}</div>
+                        <div className="ProfileSubInfo">{user?.academicYear}</div>
                     </div>
                     <Tabs>
                         <TabList>
