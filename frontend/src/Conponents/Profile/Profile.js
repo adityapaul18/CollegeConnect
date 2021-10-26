@@ -18,17 +18,16 @@ function Profile() {
     useEffect(() => {
         axios.get(`/profile/single/${userID}`)
         .then((res) => {
-            console.log(res.data.user)
             setuser(res.data.user)
         })
-    }, [])
+    }, [open])
 
 
     return (
         <div className="ProfileContainer">
-            <EditModal open={open} setopen={setopen}/>
+            <EditModal open={open} setopen={setopen} user={user}/>
             <div className="ProfileLeft">
-                <img className="ProfileCover" src={ProfileCover} alt="" />
+                <img className="ProfileCover" src={user.coverImage?user.coverImage:ProfileCover} alt="" />
                 <div className="ProfileInfo" >
                     <div className="ProfileInfoTop">
                         <img className="ProfileAvatar" src={user.profilePicture} alt=""></img>

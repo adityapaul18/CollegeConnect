@@ -14,7 +14,7 @@ function Login() {
 
     const ff = () => {
         if (user !== "null")
-            history.push('/profile')
+            history.push('/')
     }
 
     useEffect(() => {
@@ -24,10 +24,11 @@ function Login() {
     const signin = async (e) => {
         e.preventDefault();
         auth.signInWithPopup(provider)
-            .then((res) => {
-                const token = res.credential.accessToken;
-                const name = res.user.displayName;
-                const email = res.user.email;
+            .then(async(resp) => {
+                const token = await resp.user.getIdToken();
+                console.log(token)
+                const name = resp.user.displayName;
+                const email = resp.user.email;
                 axios.post('/google/login', { name, email, token })
                 .then((res) => {
                     console.log(res.data)
