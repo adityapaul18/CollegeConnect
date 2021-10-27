@@ -57,10 +57,10 @@ function AnswerModal({open,setopen,modal,setModal}) {
                     }}
                     >Post</Button>
                     </div>
-                    {/*}<div className="AnsImgsCont" >
+                    <div className="AnsImgsCont" >
                         <img src="https://media.istockphoto.com/photos/wizard-falls-on-the-metolius-river-autumn-in-oregon-picture-id1282389397?b=1&k=20&m=1282389397&s=170667a&w=0&h=stKW8obWC5j7xyeFHikgDHsqoZQ0B4WJN_9MBGCxVQw=" alt="" />
                         <img src="https://media.istockphoto.com/photos/wizard-falls-on-the-metolius-river-autumn-in-oregon-picture-id1282389397?b=1&k=20&m=1282389397&s=170667a&w=0&h=stKW8obWC5j7xyeFHikgDHsqoZQ0B4WJN_9MBGCxVQw=" alt="" />
-                    </div>*/}
+                    </div>
                 </div>
             </Modal>
         </div>

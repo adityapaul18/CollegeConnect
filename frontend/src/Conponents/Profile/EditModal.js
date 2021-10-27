@@ -32,7 +32,7 @@ function EditModal({ open, setopen, user }) {
             <Modal isOpen={open} portalClassName="editer" >
                 <CloseIcon className="closeicon" onClick={() => setopen(0)} />
                 <EditIcon onClick={() => ref.current.click()} className="editCover" />
-                <img className="ProfileCover2" src={user?.coverImage || coverimage || ProfileCover} alt="" />
+                <img className="ProfileCover2" src={coverimage || user?.coverImage ||  ProfileCover} alt="" />
                 <div className="ProfileInfo" >
                     <div className="ProfileInfoTop2">
                         <div>
@@ -65,7 +65,7 @@ function EditModal({ open, setopen, user }) {
                             <TextField className="EditFields" variant="outlined" defaultValue={user?.branch} label="Branch" onChange={(e) => {setBranch(e.target.value); form.set('branch',e.target.value)}} />
                             <TextField className="EditFields" variant="outlined" defaultValue={user?.college} label="College" onChange={(e) => {setCollege(e.target.value); form.set('college',e.target.value)}} />
                         </div>
-                        <TextField className="longfield" variant="outlined" defaultValue={user?.bio} label="Followed Tags" onChange={(e) => {setuserbio(e.target.value); form.set('bio',e.target.value)}} />
+                        <TextField className="longfield" variant="outlined" defaultValue="competitive programing , college life" label="Followed Tags" onChange={(e) => {}} />
                     </div>
                 </div>
             </Modal>
