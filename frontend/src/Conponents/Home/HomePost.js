@@ -17,7 +17,7 @@ function HomePost({setopen,post}) {
                 <div className="TagsBox">
                 {post.question.tags&&post.question.tags.map((t)=><span className="TagSuggest">{t.name}</span>)}
                 </div>
-                <div className="ShowAnswers" > <span onClick={() => setopen(1)}>Write Answer</span> <span onClick={() => history.push('/answers')}> Show Answers </span></div>
+                <div className="ShowAnswers" > <span onClick={() => setopen(1)}>Write Answer</span> <span onClick={() => history.push({pathname:'/answers',state:post._id})}> Show Answers </span></div>
             </div>
         </div>
     )

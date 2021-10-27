@@ -5,6 +5,7 @@ import './Answers.css'
 import HomePost from '../Home/HomePost';
 import PostAnswer from './PostAnswer';
 import axios from 'axios';
+import Header from "../Header/Header";
 
 function Answers() {
     const [profiles,setProfiles] = useState([]);
@@ -35,10 +36,12 @@ function Answers() {
 
       useEffect(()=>{
         fetchTags();
-        // fetchPosts();
+        //fetchSinglePost();
         fetchProfiles();
       },[]);
     return (
+      <>
+      <Header/>
         <div className="ProfileContainer">
             <div className="ProfileLeft">
                 <div className="ProfilePost" >
@@ -66,23 +69,15 @@ function Answers() {
               }
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
-                    <div className="SuggestdTagsBox">
-                        <span className="TagSuggest">CP <AddIcon /></span>
-                        <span className="TagSuggest">Flutter<AddIcon /></span>
-                        <span className="TagSuggest">PayTm<AddIcon /></span>
-                    </div>
-                    <div className="SuggestdTagsBox">
-                        <span className="TagSuggest">Web D <AddIcon /></span>
-                        <span className="TagSuggest">DSA<AddIcon /></span>
-                        <span className="TagSuggest">Google<AddIcon /></span>
-                    </div>
-                    <div className="SuggestdTagsBox">
-                        {/* <span className="TagSuggest">Photography<AddIcon /></span>
-                        <span className="TagSuggest">IIIT<AddIcon /></span> */}
-                    </div>
+                {tags&&tags.sort(() => Math.random() - Math.random()).slice(0, 5).map((t)=>
+                  <div className="SuggestdTagsBox">
+                  <span className="TagSuggest">{t.name} <AddIcon /></span>
+                  </div>
+                )}
                 </div>
             </div>
         </div>
+        </>
     )
 }
 
