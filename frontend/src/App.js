@@ -35,9 +35,7 @@ function App() {
                         <AskPage/>
                     </Route>
                     <Route path="/profile" component={Profile}/>
-                    <Route exact path="/answers">
-                        <Header/>
-                        <Answers/>
+                    <Route exact path="/answers" component={Answers}>
                     </Route>
                     <Route exact path="/saved">
                         <Header/>

@@ -9,14 +9,15 @@ import axios from 'axios';
 
 function Header() {
     const history = useHistory()
-    const userID = localStorage.getItem("CConID")
+    const userID = localStorage.getItem("CConID");
+    const token = localStorage.getItem("CConUser");
     const [user, setuser] = useState("")
     useEffect(() => {
       if(userID){
         axios.get(`/profile/single/${userID}`)
         .then((res) => {
             setuser(res.data.user)
-        })  
+        })
       }
 
     }, [])
@@ -29,7 +30,7 @@ function Header() {
     return (
         <div className="headerContainer" >
             <div className="headerContainerinner">College Connect</div>
-            <div className="headerContainerinner"><span onClick={() => history.push('/home')}>Home</span><span onClick={() => history.push('/ask')}>Ask</span><span onClick={() => history.push('/saved')}>Saved</span></div>
+            <div className="headerContainerinner"><span onClick={() => history.push('/home')}>Home</span>{token&&<span onClick={() => history.push('/ask')}>Ask</span>}<span onClick={() => history.push('/saved')}>Saved</span></div>
             <div className="headerContainerinner">
               {user&&<> Welcome {user?.name.substring(0,user.name.indexOf(' '))}<Avatar className="HeaderAvatar" onClick={() => history.push({
                                   pathname: '/profile',
