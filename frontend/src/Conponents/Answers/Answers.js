@@ -1,11 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AddIcon from '@material-ui/icons/Add';
 import ProfileSuggest from '../Profile/ProfileSuggest';
 import './Answers.css'
 import HomePost from '../Home/HomePost';
 import PostAnswer from './PostAnswer';
+import axios from 'axios';
 
 function Answers() {
+    const [profiles,setProfiles] = useState([]);
+    const userID = localStorage.getItem("CConID");
+    const token = localStorage.getItem("CConUser");
+    const [tags,setTags] = useState([]);
+
+    const fetchProfiles = async() => {
+        if(token){
+          let resp = await axios.get('/profile/custom',{ headers: { "Authorization" : `Bearer ${token}`} });
+          if(resp.data.message){
+            setProfiles(resp.data.users)
+          }
+        }else{
+          let resp = await axios.get('/profile/all');
+          if(resp.data.message){
+            setProfiles(resp.data.users.filter((u)=>u._id!=userID))
+          }
+        }
+      }
+
+      const fetchTags = async() => {
+        let resp = await axios.get('/tag/all');
+        if(resp.data.message){
+          setTags(resp.data.tags);
+        }
+      }
+
+      useEffect(()=>{
+        fetchTags();
+        // fetchPosts();
+        fetchProfiles();
+      },[]);
     return (
         <div className="ProfileContainer">
             <div className="ProfileLeft">
@@ -28,12 +60,10 @@ function Answers() {
             </div>
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
-                <ProfileSuggest />
-                <ProfileSuggest />
-                <ProfileSuggest />
-                <ProfileSuggest />
-                <ProfileSuggest />
-                <ProfileSuggest />
+                {profiles?profiles.length==0?<h3>No suggested profile found</h3>:profiles.sort(() => Math.random() - Math.random()).slice(0, 5).map((p)=>
+                  <ProfileSuggest profile={p}/>
+                ):<h3>Loading...</h3>
+              }
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
                     <div className="SuggestdTagsBox">
