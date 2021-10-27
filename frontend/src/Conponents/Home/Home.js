@@ -14,6 +14,7 @@ function Home() {
     const [open, setopen] = useState(0);
     const [posts, setPosts] = useState([]);
     const [profiles,setProfiles] = useState([]);
+    const [modal,setModal]=useState("");
     const [tags,setTags] = useState([]);
 
     const fetchPosts = async() => {
@@ -61,10 +62,10 @@ function Home() {
     },[open]);
     return (
         <div className="ProfileContainer">
-            <AnswerModal open={open} setopen={setopen} />
+          <AnswerModal open={open} setopen={setopen} modal={modal} setModal={setModal}/>
             <div className="ProfileLeft">
                 {posts?posts.length==0?<h3>No posts found!</h3>:posts.map((p)=>{
-                  return(<HomePost setopen={setopen} post={p}/>)
+                  return(<><HomePost setopen={setopen} post={p} setModal={setModal}/></>)
                 }):<h3>Loading...</h3>}
 
             </div>

@@ -6,8 +6,11 @@ import HomePost from '../Home/HomePost';
 import PostAnswer from './PostAnswer';
 import axios from 'axios';
 import Header from "../Header/Header";
+import {Link} from "react-router-dom";
 
-function Answers() {
+function Answers(props) {
+    let postId = props&&props.location.state;
+    const [post,setPost]=useState("");
     const [profiles,setProfiles] = useState([]);
     const userID = localStorage.getItem("CConID");
     const token = localStorage.getItem("CConUser");
@@ -34,33 +37,41 @@ function Answers() {
         }
       }
 
+      const fetchSinglePost = async() => {
+        let resp = await axios.get(`/post/single/${postId}`);
+        if(resp.data.message){
+          setPost(resp.data.post);
+        }
+      }
+
       useEffect(()=>{
         fetchTags();
-        //fetchSinglePost();
+        fetchSinglePost();
         fetchProfiles();
-      },[]);
+      },[props&&props.location]);
     return (
       <>
       <Header/>
         <div className="ProfileContainer">
-            <div className="ProfileLeft">
+            {post&&<div className="ProfileLeft">
                 <div className="ProfilePost" >
-                    <div className="PostTop"><img alt="" className="PostLogo" src="https://qph.fs.quoracdn.net/main-thumb-282129127-200-wdsefxcvsewcnoifsgtqymhoydgblwha.jpeg" /><div><span className="PostHeadName">Aditya Paul</span><span className="PostHeadCollege">3rd year student at Indian Institute of Information Technology, Surat</span></div></div>
+                <div className="PostTop"><img alt="" className="PostLogo" src={post.question.user.profilePicture} /><div><span className="PostHeadName"><Link to={{pathname:'/profile',state:post.question.user._id}} style={{textDecoration:"none"}}>{post.question.user.name}</Link></span><span className="PostHeadCollege">{post.question.user.college}</span></div></div>
                     <div className="PostAnswer">
-                        <h2>Question main heading here </h2>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                        <h2>{post.question.title}</h2>
+                      {post.question.description}
                         <div className="TagsBox">
-                            <span className="TagSuggest">Web D </span>
-                            <span className="TagSuggest">DSA</span>
-                            <span className="TagSuggest">Google</span>
+                            {post.question.tags.map((t)=><span className="TagSuggest">{t.name}</span>)}
                         </div>
+                        {post.question.images&&post.question.images.map((i)=>
+                          <div style={{marginTop:20,textAlign:'center'}}>
+                          <img src={i} width='500px'/>
+                          </div>
+                        )}
                     </div>
                 </div>
                 <h3>Answers</h3>
-                <PostAnswer />
-                <PostAnswer />
-                <PostAnswer />
-            </div>
+                {post.answer?post.answer.length==0?<h3>No answers found!</h3>:post.answer.map((a)=><PostAnswer answer={a}/>):<h3>Loading...</h3>}
+            </div>}
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
                 {profiles?profiles.length==0?<h3>No suggested profile found</h3>:profiles.sort(() => Math.random() - Math.random()).slice(0, 5).map((p)=>

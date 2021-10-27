@@ -1,13 +1,18 @@
 import React from 'react'
+import {Link} from "react-router-dom";
 
-function PostAnswer() {
+function PostAnswer({answer}) {
     return (
         <div className="ProfilePost" >
-            <div className="PostTop"><img alt="" className="PostLogo" src="https://qph.fs.quoracdn.net/main-thumb-282129127-200-wdsefxcvsewcnoifsgtqymhoydgblwha.jpeg" /><div><span className="PostHeadName">Aditya Paul</span><span className="PostHeadCollege">3rd year student at Indian Institute of Information Technology, Surat</span></div></div>
-            <div className="PostAnswer">               
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            <div className="PostTop"><img alt="" className="PostLogo" src={answer.user.profilePicture} /><div><span className="PostHeadName"><Link to={{pathname:'/profile',state:answer.user._id}} style={{textDecoration:"none"}}>{answer.user.name}</Link></span><span className="PostHeadCollege">{answer.user.college}</span></div></div>
+            <div className="PostAnswer">
+              {answer.description}
             </div>
+            {answer.images&&answer.images.map((i)=>
+              <div style={{marginTop:20,textAlign:'center'}}>
+              <img src={i} height='500px' width='500px'/>
+              </div>
+            )}
         </div>
     )
 }
