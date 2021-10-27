@@ -9,9 +9,10 @@ import ProfilePost from './ProfilePost';
 import ProfileSuggest from './ProfileSuggest';
 import axios from 'axios';
 import EditModal from './EditModal';
+import Header from "../Header/Header";
 
-function Profile() {
-
+function Profile(props) {
+    const id = props&&props.location.state;
     const userID = localStorage.getItem("CConID");
     const token = localStorage.getItem("CConUser")
     const [open, setopen] = useState(0)
@@ -21,7 +22,7 @@ function Profile() {
     const [tags,setTags] = useState([]);
 
     const fetchUserPosts = async() => {
-      let resp = await axios.get(`/post/user/${userID}`);
+      let resp = await axios.get(`/post/user/${id}`);
       if(resp.data.message){
         setPosts(resp.data.posts);
       }
@@ -35,31 +36,34 @@ function Profile() {
     }
 
     const fetchProfiles = async() => {
-      if(token){
+      if(token&&userID==id){
         let resp = await axios.get('/profile/custom',{ headers: { "Authorization" : `Bearer ${token}`} });
         if(resp.data.message){
-          console.log(resp.data)
           setProfiles(resp.data.users)
         }
       }else{
-        let resp = axios.get('/profile/all');
+        let resp = await axios.get('/profile/all');
         if(resp.data.message){
           setProfiles(resp.data.users)
         }
       }
     }
+    const fetchProfile = async() => {
+      let resp = await axios.get(`/profile/single/${id}`);
+      if(resp.data.message){
+        setuser(resp.data.user)
+      }
+    }
     useEffect(() => {
-        axios.get(`/profile/single/${userID}`)
-        .then((res) => {
-            setuser(res.data.user)
-        })
+        fetchProfile();
         fetchUserPosts();
         fetchProfiles();
-        fetchTags();
-    }, [open])
+      fetchTags();
+    }, [props&&props.location,open])
 
 
-    return (
+    return (<>
+      <Header/>
         <div className="ProfileContainer">
             <EditModal open={open} setopen={setopen} user={user}/>
             <div className="ProfileLeft">
@@ -81,7 +85,7 @@ function Profile() {
                     <Tabs>
                         <TabList>
                             <Tab>Posts</Tab>
-                            <Tab>Saved</Tab>
+                            {userID==id&&<Tab>Saved</Tab>}
                         </TabList>
 
                         <TabPanel>
@@ -91,13 +95,13 @@ function Profile() {
 
                         </div>
                         </TabPanel>
-                        <TabPanel>
+                        {userID==id&&<TabPanel>
                             <div className="SavedPosts">
                             <h2> Your Saved Posts</h2>
 
                             {/* <ProfilePost /> */}
                             </div>
-                        </TabPanel>
+                        </TabPanel>}
                     </Tabs>
 
                 </div>
@@ -121,6 +125,7 @@ function Profile() {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 

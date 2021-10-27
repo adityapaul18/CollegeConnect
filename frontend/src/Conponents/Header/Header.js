@@ -14,7 +14,6 @@ function Header() {
     useEffect(() => {
         axios.get(`/profile/single/${userID}`)
         .then((res) => {
-            console.log(res.data.user)
             setuser(res.data.user)
         })
     }, [])
@@ -29,7 +28,10 @@ function Header() {
             <div className="headerContainerinner">College Connect</div>
             <div className="headerContainerinner"><span onClick={() => history.push('/home')}>Home</span><span onClick={() => history.push('/ask')}>Ask</span><span onClick={() => history.push('/saved')}>Saved</span></div>
             <div className="headerContainerinner">
-              {user&&<> Welcome {user?.name.substring(0,user.name.indexOf(' '))}<Avatar className="HeaderAvatar" onClick={() => history.push('/profile')} src={user.profilePicture}/></>}
+              {user&&<> Welcome {user?.name.substring(0,user.name.indexOf(' '))}<Avatar className="HeaderAvatar" onClick={() => history.push({
+                                  pathname: '/profile',
+                                state: userID
+                      })} src={user.profilePicture}/></>}
                {user?<PowerSettingsNewIcon onClick={logout}/>:<LoginIcon onClick={()=>{
                  history.push("/")
                }}/>}
