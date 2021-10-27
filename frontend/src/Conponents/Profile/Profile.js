@@ -44,7 +44,7 @@ function Profile(props) {
       }else{
         let resp = await axios.get('/profile/all');
         if(resp.data.message){
-          setProfiles(resp.data.users)
+          setProfiles(resp.data.users.filter((u)=>u._id!=id))
         }
       }
     }
@@ -71,7 +71,7 @@ function Profile(props) {
                 <div className="ProfileInfo" >
                     <div className="ProfileInfoTop">
                         <img className="ProfileAvatar" src={user.profilePicture} alt=""></img>
-                        <Button className="EditProfileButton" onClick={() => setopen(1)} >Edit Profile</Button>
+                        {userID==id&&<Button className="EditProfileButton" onClick={() => setopen(1)} >Edit Profile</Button>}
                     </div>
                     <div className="ProfileInfoBottom">
                         <b>{user.name}</b>
