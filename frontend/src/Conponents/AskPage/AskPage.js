@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState, useEffect} from 'react'
 import './AskPage.css'
 import ProfileSuggest from '../Profile/ProfileSuggest'
 import AddIcon from '@material-ui/icons/Add';
@@ -7,6 +7,11 @@ import { Button, TextField } from '@material-ui/core';
 import bg1 from '../../images/bg1.png'
 
 function AskPage() {
+  const userID = localStorage.getItem("CConID");
+  const token = localStorage.getItem("CConUser");
+  const [posts, setPosts] = useState([]);
+  const [profiles,setProfiles] = useState([]);
+  const [tags,setTags] = useState([]);
     return (
         <div className="AskPageContainer">
             <div className="ProfileLeft">
@@ -15,9 +20,9 @@ function AskPage() {
                     <TextField className="AskHeaders" variant="outlined" label="Add A Brief Description" multiline rows={15}/>
                     <div className="AskLowerBox">
                         <div className="SuggestdTagsBox">
-                            <span className="TagSuggest"><input className="qTags" placeholder="Enter Tag1" /></span> 
-                            <span className="TagSuggest"><input className="qTags" placeholder="Enter Tag2" /></span> 
-                            <span className="TagSuggest"><input className="qTags" placeholder="Enter Tag3" /></span> 
+                            <span className="TagSuggest"><input className="qTags" placeholder="Enter Tag1" /></span>
+                            <span className="TagSuggest"><input className="qTags" placeholder="Enter Tag2" /></span>
+                            <span className="TagSuggest"><input className="qTags" placeholder="Enter Tag3" /></span>
                         </div>
                         <Button className="PostQButton" variant="contained">POST</Button>
                     </div>
@@ -25,12 +30,12 @@ function AskPage() {
             </div>
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
+                {/*}<ProfileSuggest />
                 <ProfileSuggest />
                 <ProfileSuggest />
                 <ProfileSuggest />
                 <ProfileSuggest />
-                <ProfileSuggest />
-                <ProfileSuggest />
+                <ProfileSuggest />*/}
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
                     <div className="SuggestdTagsBox">
