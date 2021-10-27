@@ -1,50 +1,87 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import AddIcon from '@material-ui/icons/Add';
 import ProfilePost from '../Profile/ProfilePost';
 import ProfileSuggest from '../Profile/ProfileSuggest';
 import HomePost from './HomePost';
 import { useHistory } from 'react-router';
 import AnswerModal from './AnswerModal';
+import axios from "axios";
 
 function Home() {
-    const history = useHistory()
-    const [open, setopen] = useState(0)
+    const history = useHistory();
+    const userID = localStorage.getItem("CConID");
+    const token = localStorage.getItem("CConUser");
+    const [open, setopen] = useState(0);
+    const [posts, setPosts] = useState([]);
+    const [profiles,setProfiles] = useState([]);
+    const [tags,setTags] = useState([]);
+
+    const fetchPosts = async() => {
+      if(token){
+        let resp = await axios.get('/feed',{ headers: { "Authorization" : `Bearer ${token}`} });
+        if(resp.data.message){
+          setPosts(resp.data.posts)
+        }
+
+
+      }else{
+        let resp = await axios.get(`/post/all`);
+        if(resp.data.message){
+          setPosts(resp.data.posts);
+        }
+      }
+
+    }
+
+    const fetchTags = async() => {
+      let resp = await axios.get('/tag/all');
+      if(resp.data.message){
+        setTags(resp.data.tags);
+      }
+    }
+
+    const fetchProfiles = async() => {
+      if(token){
+        let resp = await axios.get('/profile/custom',{ headers: { "Authorization" : `Bearer ${token}`} });
+        if(resp.data.message){
+          setProfiles(resp.data.users)
+        }
+      }else{
+        let resp = await axios.get('/profile/all');
+        if(resp.data.message){
+          setProfiles(resp.data.users.filter((u)=>u._id!=userID))
+        }
+      }
+    }
+
+    useEffect(()=>{
+      fetchTags();
+      fetchPosts();
+      fetchProfiles();
+    },[open]);
     return (
         <div className="ProfileContainer">
             <AnswerModal open={open} setopen={setopen} />
             <div className="ProfileLeft">
-                <HomePost setopen={setopen}/>
-                <HomePost setopen={setopen}/>
-                <HomePost setopen={setopen}/>
-                <HomePost setopen={setopen}/>
-                <HomePost setopen={setopen}/>
-                <HomePost setopen={setopen}/>
-                <HomePost setopen={setopen}/>
+                {posts?posts.length==0?<h3>No posts found!</h3>:posts.map((p)=>{
+                  return(<HomePost setopen={setopen} post={p}/>)
+                }):<h3>Loading...</h3>}
+
             </div>
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
-                {/*}<ProfileSuggest />
-                <ProfileSuggest />
-                <ProfileSuggest />
-                <ProfileSuggest />
-                <ProfileSuggest />
-                <ProfileSuggest />*/}
+                {profiles?profiles.length==0?<h3>No suggested profile found</h3>:profiles.sort(() => Math.random() - Math.random()).slice(0, 5).map((p)=>
+                  <ProfileSuggest profile={p}/>
+                ):<h3>Loading...</h3>
+              }
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
-                    <div className="SuggestdTagsBox">
-                        <span className="TagSuggest">CP <AddIcon /></span>
-                        <span className="TagSuggest">Flutter<AddIcon /></span>
-                        <span className="TagSuggest">PayTm<AddIcon /></span>
-                    </div>
-                    <div className="SuggestdTagsBox">
-                        <span className="TagSuggest">Web D <AddIcon /></span>
-                        <span className="TagSuggest">DSA<AddIcon /></span>
-                        <span className="TagSuggest">Google<AddIcon /></span>
-                    </div>
-                    <div className="SuggestdTagsBox">
-                        {/* <span className="TagSuggest">Photography<AddIcon /></span>
-                        <span className="TagSuggest">IIIT<AddIcon /></span> */}
-                    </div>
+                    {tags&&tags.sort(() => Math.random() - Math.random()).slice(0, 5).map((t)=>
+                      <div className="SuggestdTagsBox">
+                          <span className="TagSuggest">{t.name} <AddIcon /></span>
+                      </div>
+                    )}
+
                 </div>
             </div>
         </div>

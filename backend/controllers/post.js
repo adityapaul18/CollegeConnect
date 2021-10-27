@@ -93,7 +93,7 @@ exports.addComment = async(req, res) => {
 
 exports.getAllPosts = async(req, res) => {
   try{
-    let posts = await Post.find().populate('question.user question.tags');
+    let posts = await Post.find().populate('question.user question.tags').sort({createdAt:-1});
     if(!posts) return res.status(400).json({error:'No posts found!'});
     res.status(200).json({
       message:'Fetched posts successfully',
@@ -126,7 +126,7 @@ exports.getSinglePost = async(req, res) => {
 exports.getUserPosts = async(req, res) => {
   try{
   let { userId } = req.params;
-  let posts = await Post.find({'question.user':userId}).populate('question.user question.tags');
+  let posts = await Post.find({'question.user':userId}).populate('question.user question.tags').sort({createdAt:-1});
   if(!posts) return res.status(400).json({error:'No posts found of this user'});
   res.status(200).json({
     message:'Fetched user posts successfully',
@@ -140,7 +140,10 @@ exports.getUserPosts = async(req, res) => {
 
 exports.getFeed = async(req, res) => {
   try{
-  let posts = await Post.find({question:{tags:{ $in: req.user.tags}}}).populate('question.user question.tags');
+  let posts = await Post.find({'question.tags':{ $in: req.user.tags}}).populate('question.user question.tags').sort({createdAt:-1});
+  if(posts.length==0){
+    posts = await Post.find().populate('question.user question.tags').sort({createdAt:-1});
+  }
   if(!posts) return res.status(400).json({error:'No posts found of this user'});
   res.status(200).json({
     message:'Fetched feed successfully',

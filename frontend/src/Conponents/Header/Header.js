@@ -12,15 +12,18 @@ function Header() {
     const userID = localStorage.getItem("CConID")
     const [user, setuser] = useState("")
     useEffect(() => {
+      if(userID){
         axios.get(`/profile/single/${userID}`)
         .then((res) => {
             setuser(res.data.user)
-        })
+        })  
+      }
+
     }, [])
 
     const logout = () => {
-        localStorage.setItem("CConID", null)
-        localStorage.setItem("CConUser", null)
+        localStorage.removeItem("CConID")
+        localStorage.removeItem("CConUser")
         history.push("/login")
     }
     return (

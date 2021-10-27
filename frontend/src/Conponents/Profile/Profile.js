@@ -109,13 +109,13 @@ function Profile(props) {
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
                 <div className="SuggestList">
-                {profiles?profiles.length==0?<h3>No suggested profile found</h3>:profiles.map((p)=>
+                {profiles?profiles.length==0?<h3>No suggested profile found</h3>:profiles.sort(() => Math.random() - Math.random()).slice(0, 5).map((p)=>
                   <ProfileSuggest profile={p}/>
                 ):<h3>Loading...</h3>
               }</div>
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
-                    {tags&&tags.map((t)=>
+                    {tags&&tags.sort(() => Math.random() - Math.random()).slice(0, 5).map((t)=>
                       <div className="SuggestdTagsBox">
                       <span className="TagSuggest">{t.name} <AddIcon /></span>
                       </div>
