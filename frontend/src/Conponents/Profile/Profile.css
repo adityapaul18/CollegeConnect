@@ -25,10 +25,12 @@
     padding: 15px;
     border-left: 1px solid rgb(197, 197, 197);
     border-top: 1px solid rgb(197, 197, 197);
-    height: fit-content;
+    height: 80vh;
+    overflow: hidden;
     box-shadow: -5px -3px 5px 0px rgb(197, 197, 197);
     position: sticky;
     top: 115px;
+    width: 20%;
 }
 
 .ProfileCover{
@@ -238,8 +240,13 @@
     width: 30%;
 }
 
+.longfield{
+    margin: 10px !important;
+    width: 96% !important;
+}
+
 .SuggestList{
-    height: 55vh;
+    height: 44vh;
     overflow-y: scroll;
 }
 .hider{

@@ -32,7 +32,7 @@ function EditModal({ open, setopen, user }) {
             <Modal isOpen={open} portalClassName="editer" >
                 <CloseIcon className="closeicon" onClick={() => setopen(0)} />
                 <EditIcon onClick={() => ref.current.click()} className="editCover" />
-                <img className="ProfileCover2" src={coverimage || ProfileCover} alt="" />
+                <img className="ProfileCover2" src={user?.coverImage || coverimage || ProfileCover} alt="" />
                 <div className="ProfileInfo" >
                     <div className="ProfileInfoTop2">
                         <div>
@@ -59,13 +59,13 @@ function EditModal({ open, setopen, user }) {
                         <input className="hider" ref={ref2} type="file" onChange={(e) => {setprofileImg(URL.createObjectURL(e.target.files[0])); setProfile(e.target.files[0])}} />
                     <div className="editProfileTexts">
                         <TextField className="EditFields" variant="outlined" defaultValue={user?.name} label="User Name" onChange={(e) => {setusername(e.target.value); form.set('name',e.target.value)}} />
-                        <TextField className="EditFields" variant="outlined" defaultValue={user?.bio} label="Your Bio" onChange={(e) => {setuserbio(e.target.value); form.set('bio',e.target.value)}} />
+                        <TextField className="longfield" variant="outlined" defaultValue={user?.bio} label="Your Bio" onChange={(e) => {setuserbio(e.target.value); form.set('bio',e.target.value)}} />
                         <div>
                             <TextField className="EditFields" variant="outlined" defaultValue={user?.academicYear} label="Academic Year" onChange={(e) => {setacadYear(e.target.value); form.set('academicYear',e.target.value)}} />
                             <TextField className="EditFields" variant="outlined" defaultValue={user?.branch} label="Branch" onChange={(e) => {setBranch(e.target.value); form.set('branch',e.target.value)}} />
                             <TextField className="EditFields" variant="outlined" defaultValue={user?.college} label="College" onChange={(e) => {setCollege(e.target.value); form.set('college',e.target.value)}} />
                         </div>
-
+                        <TextField className="longfield" variant="outlined" defaultValue={user?.bio} label="Followed Tags" onChange={(e) => {setuserbio(e.target.value); form.set('bio',e.target.value)}} />
                     </div>
                 </div>
             </Modal>
