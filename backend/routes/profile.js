@@ -11,8 +11,8 @@ const {
 }= require('../controllers/profile');
 const multer = require('multer');
 const upload=multer({storage: multer.memoryStorage()})
-
-router.put('/profile/:userId',authToken,editProfile);
+const fieldUploads=upload.fields([{ name: 'profilePicture', maxCount: 1 }, { name: 'coverImage', maxCount: 1 }])
+router.put('/profile/:userId',authToken,fieldUploads,editProfile);
 router.get('/profile/all',getAllProfiles);
 router.get('/profile/single/:userId',getSingleProfile);
 router.get('/profile/custom',authToken,getCustomisedProfiles);

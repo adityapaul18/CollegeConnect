@@ -34,10 +34,7 @@ function App() {
                         <Header/>
                         <AskPage/>
                     </Route>
-                    <Route exact path="/profile">
-                        <Header/>
-                        <Profile/>
-                    </Route>
+                    <Route path="/profile" component={Profile}/>
                     <Route exact path="/answers">
                         <Header/>
                         <Answers/>
