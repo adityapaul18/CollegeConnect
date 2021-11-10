@@ -16,7 +16,7 @@ function ProfilePost({setopen,post,setModal}) {
               <div className="TagsBox">
               {post.question.tags&&post.question.tags.map((t)=><span className="TagSuggest">{t.name}</span>)}
               </div>
-              <div className="ShowAnswers" > <span onClick={() => history.push({pathname:'/answers',state:post._id})}> Show Answers </span></div>
+              <div className="ShowAnswers" > {token&&<span onClick={() => {setopen(1); setModal(post)}}>Write Answer</span>} <span onClick={() => history.push({pathname:'/answers',state:post._id})}> Show Answers </span></div>
           </div>
       </div>
   )

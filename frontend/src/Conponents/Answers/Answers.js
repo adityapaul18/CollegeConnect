@@ -53,7 +53,9 @@ function Answers(props) {
       },[props&&props.location]);
     return (
       <>
-      <Header/>
+      <div className="moveBottom">
+          <Header/>
+      </div>
       <CommentModal open={open} setopen={setopen}/>
         <div className="ProfileContainer">
             {post&&<div className="ProfileLeft">

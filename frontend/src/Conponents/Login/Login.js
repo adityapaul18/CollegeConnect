@@ -6,6 +6,7 @@ import { auth, provider } from '../../utils/Firebase'
 import { useHistory } from 'react-router-dom';
 import axios from "axios";
 import Swal from "sweetalert2";
+import HomeIcon from '@material-ui/icons/Home';
 
 function Login() {
     var user = localStorage.getItem("CConUser")
@@ -107,7 +108,7 @@ function Login() {
                         <>
                             <div className="LoginHead">
                                 Welcome To College Connect
-                                <div style={{ fontSize: "26px", fontWeight: "700" }} >Create your account</div>
+                                <div style={{ fontWeight: "700" }} >Create your account</div>
                             </div>
                             <div className="LoginForm">
                                 <div className="LoginHead">Name</div>
@@ -121,13 +122,13 @@ function Login() {
                             </div>
                             <Button className="Loginbtn" variant="contained" onClick={signup}>{loading?"Loading...":"Sign up"}</Button>
                             <Button className="Loginbtn2" variant="contained" onClick={signin}><img style={{ height: "15px", padding: "0 5px" }} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt="" />Login with Google</Button>
-                            <div style={{ display: "flex", alignItems: "center", marginTop: "40px" }} >Already having an account ? <IconButton onClick={() => setset(0)} ><span style={{ color: "rgb(0, 106, 255)", cursor: "pointer", fontSize: "15px" }} >Login</span></IconButton></div>
+                            <div className="switcher" >Already having an account ? <IconButton onClick={() => setset(0)} ><span style={{ color: "rgb(0, 106, 255)", cursor: "pointer", fontSize: "15px" }} >Login</span></IconButton></div>
                         </>
                         :
                         <>
                             <div className="LoginHead">
                                 Welcome Back
-                                <div style={{ fontSize: "26px", fontWeight: "700" }} >Login to your account</div>
+                                <div style={{ fontWeight: "700" }} >Login to your account</div>
                             </div>
                             <div className="LoginForm">
                                 <div className="LoginHead">Email</div>
@@ -135,11 +136,11 @@ function Login() {
                                 <div className="LoginHead">Password</div>
                                 <TextField value={Password} type="password" onChange={(e) => setPassword(e.target.value)} className="LoginFilters" placeholder="password" variant="outlined" />
                             </div>
-                            <div className="LoginFormlow"> <span><input type="checkbox" /> Remember me</span>  <span style={{ color: "rgb(0, 92, 251)", cursor: "pointer" }}>Forgot Password?</span></div>
+                            {/* <div className="LoginFormlow"> <span><input type="checkbox" /> Remember me</span>  <span style={{ color: "rgb(0, 92, 251)", cursor: "pointer" }}>Forgot Password?</span></div> */}
                             <Button className="Loginbtn" variant="contained" onClick={signin2}>{loading?"Loading...":"Login"}</Button>
                             <Button className="Loginbtn2" variant="contained" onClick={signin}><img style={{ height: "15px", padding: "0 5px" }} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt="" />Login with Google</Button>
-                            <Button className="Loginbtn2" onClick={() => history.push('/home')}>Continue Anonymously</Button>
-                            <div style={{ display: "flex", alignItems: "center", marginTop: "80px" }} >Not having an account ? <IconButton onClick={() => setset(1)}><span style={{ color: "rgb(0, 106, 255)", cursor: "pointer", fontSize: "15px" }} >Sign up</span></IconButton></div>
+                            <Button className="Loginbtn3" onClick={() => history.push('/home')}>Home<HomeIcon className="homebtn"/></Button>
+                            <div className="switcher" >Not having an account ? <IconButton onClick={() => setset(1)}><span style={{ color: "rgb(0, 106, 255)", cursor: "pointer", fontSize: "15px" }} >Sign up</span></IconButton></div>
                         </>
                 }
 

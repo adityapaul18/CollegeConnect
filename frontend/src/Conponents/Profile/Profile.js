@@ -63,7 +63,9 @@ function Profile(props) {
 
 
     return (<>
-      <Header/>
+      <div className="moveBottom">
+          <Header/>
+      </div>
         <div className="ProfileContainer">
             <EditModal open={open} setopen={setopen} user={user}/>
             <div className="ProfileLeft">

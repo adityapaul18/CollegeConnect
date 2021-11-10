@@ -10,6 +10,18 @@
     /* z-index: 2; */
 }
 
+.headerContainer2{
+    display: none;
+    background-color: #6D0047;
+    color: white;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-evenly;
+    position: sticky;
+    top: 0;
+    /* z-index: 2; */
+}
+
 .headerContainerinner{
     display: flex;
     align-items: center;
@@ -45,4 +57,24 @@
     padding: 5px;
     border-radius: 15px;
     cursor: pointer;
+}
+
+@media (max-width:650px) {
+    .headerContainer{
+        display: none;
+    }
+    
+    .headerContainer2{
+        display: flex;
+        padding: 5px;
+    }
+    .HeaderAvatar{
+        height: 25px !important;
+        width: 25px !important;
+    }
+    .headerContainerinner > span {
+        padding: 5px 10px;
+        border-radius: 15px;
+        cursor: pointer;
+    }
 }

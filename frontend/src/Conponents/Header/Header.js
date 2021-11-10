@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import LoginIcon from '@material-ui/icons/ExitToApp';
+import HomeIcon from '@material-ui/icons/Home';
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
+import TurnedInIcon from '@material-ui/icons/TurnedIn';
 import './Header.css';
 import { Avatar } from '@material-ui/core';
 import { useHistory } from 'react-router';
@@ -27,7 +30,7 @@ function Header() {
         localStorage.removeItem("CConUser")
         history.push("/login")
     }
-    return (
+    return (<>
         <div className="headerContainer" >
             <div className="headerContainerinner">College Connect</div>
             <div className="headerContainerinner"><span onClick={() => history.push('/home')}>Home</span>{token&&<span onClick={() => history.push('/ask')}>Ask</span>}<span onClick={() => history.push('/saved')}>Saved</span></div>
@@ -41,6 +44,24 @@ function Header() {
                }}/>}
                 </div>
         </div>
+        <div className="headerContainer2" >
+            <div className="headerContainerinner"><span onClick={() => history.push('/home')}><HomeIcon/></span></div>
+            <div className="headerContainerinner">{token&&<span onClick={() => history.push('/ask')}><EmojiPeopleIcon/></span>}</div>
+            <div className="headerContainerinner"><span onClick={() => history.push('/saved')}><TurnedInIcon/></span></div>
+            <div className="headerContainerinner">
+
+               {user?<PowerSettingsNewIcon onClick={logout}/>:<LoginIcon onClick={()=>{
+                 history.push("/")
+                }}/>}
+                </div>
+                <div className="headerContainerinner">
+                {user&&<><Avatar className="HeaderAvatar" onClick={() => history.push({
+                                    pathname: '/profile',
+                                  state: userID
+                        })} src={user.profilePicture}/></>}
+                </div>
+        </div>
+        </>
     )
 }
 

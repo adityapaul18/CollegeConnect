@@ -22,23 +22,27 @@ function App() {
                         <Login />
                     </Route>
                     <Route exact path="/home">
-                        <div>
+                        <div className="moveBottom">
                             <Header/>
-                            <Home/>
                         </div>
+                            <Home/>
                     </Route>
                     <Route exact path="/login">
                         <Login />
                     </Route>
                     <Route exact path="/Ask">
-                        <Header/>
+                        <div className="moveBottom">
+                            <Header/>
+                        </div>
                         <AskPage/>
                     </Route>
                     <Route path="/profile" component={Profile}/>
                     <Route exact path="/answers" component={Answers}>
                     </Route>
                     <Route exact path="/saved">
-                        <Header/>
+                        <div className="moveBottom">
+                            <Header/>
+                        </div>
                         <Saved/>
                     </Route>
                 </Switch>
