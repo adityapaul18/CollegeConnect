@@ -10,7 +10,7 @@ function PostAnswer({answer}) {
             </div>
             {answer.images&&answer.images.map((i)=>
               <div style={{marginTop:20,textAlign:'center'}}>
-              <img src={i} height='500px' width='500px'/>
+              <img src={i} width='500px'/>
               </div>
             )}
         </div>
