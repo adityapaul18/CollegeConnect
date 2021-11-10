@@ -7,6 +7,7 @@ import PostAnswer from './PostAnswer';
 import axios from 'axios';
 import Header from "../Header/Header";
 import {Link} from "react-router-dom";
+import CommentModal from './CommentModal';
 
 function Answers(props) {
     let postId = props&&props.location.state;
@@ -15,6 +16,7 @@ function Answers(props) {
     const userID = localStorage.getItem("CConID");
     const token = localStorage.getItem("CConUser");
     const [tags,setTags] = useState([]);
+    const [open, setopen] = useState(0)
 
     const fetchProfiles = async() => {
         if(token){
@@ -52,6 +54,7 @@ function Answers(props) {
     return (
       <>
       <Header/>
+      <CommentModal open={open} setopen={setopen}/>
         <div className="ProfileContainer">
             {post&&<div className="ProfileLeft">
                 <div className="ProfilePost" >
@@ -70,7 +73,7 @@ function Answers(props) {
                     </div>
                 </div>
                 <h3>Answers</h3>
-                {post.answer?post.answer.length==0?<h3>No answers found!</h3>:post.answer.map((a)=><PostAnswer answer={a}/>):<h3>Loading...</h3>}
+                {post.answer?post.answer.length==0?<h3>No answers found!</h3>:post.answer.map((a)=><PostAnswer answer={a} setopen={setopen} />):<h3>Loading...</h3>}
             </div>}
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
