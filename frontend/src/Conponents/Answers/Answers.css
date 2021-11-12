@@ -34,7 +34,7 @@
 .comment{
     background-color: #f8f8f8;
     border-radius: 15px;
-    display: flex;
+    /*display: flex;*/
     align-items: center;
     padding: 10px;
     margin: 10px 0;
@@ -43,7 +43,7 @@
 
 .comment > .MuiAvatar-root {
     margin: 10px 15px !important;
-} 
+}
 .commentContainer > div > .MuiFormControl-root{
     width: 87% !important;
 }

@@ -163,10 +163,16 @@ exports.upvoteAnswer = async(req, res) => {
     if(!existingPost) return res.status(400).json({error:'Post not found'});
     await existingPost.answer.map((a)=>{
       if(a._id==answerId){
-        if(a.upvotes.includes(userId)) return res.status(400).json({error:'Already upvoted this answer'})
+        if(a.upvotes.includes(userId)) return res.status(400).json({error:'Already upvoted this answer'});
+        if(a.downvotes.includes(userId)){
+          let index = a.downvotes.indexOf(userId);
+          a.downvotes.splice(index,1);
+        }
+        a.upvotes.push(userId);
       }
-      a.upvotes.push(userId);
+
     });
+    await existingPost.save();
     res.status(200).json({
       message:'Answer upvoted successfully!',
       existingPost
@@ -186,10 +192,16 @@ exports.downvoteAnswer = async(req, res) => {
     if(!existingPost) return res.status(400).json({error:'Post not found'});
     await existingPost.answer.map((a)=>{
       if(a._id==answerId){
-        if(a.downvotes.includes(userId)) return res.status(400).json({error:'Already downvoted this answer'})
+        if(a.downvotes.includes(userId)) return res.status(400).json({error:'Already downvoted this answer'});
+        if(a.upvotes.includes(userId)){
+          let index= a.upvotes.indexOf(userId);
+          a.upvotes.splice(index,1);
+        }
+              a.downvotes.push(userId);
       }
-      a.downvotes.push(userId);
+
     });
+    await existingPost.save();
     res.status(200).json({
       message:'Answer downvoted successfully!',
       existingPost

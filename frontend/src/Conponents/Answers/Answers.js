@@ -8,6 +8,7 @@ import axios from 'axios';
 import Header from "../Header/Header";
 import {Link} from "react-router-dom";
 import CommentModal from './CommentModal';
+import moment from "moment";
 
 function Answers(props) {
     let postId = props&&props.location.state;
@@ -16,7 +17,8 @@ function Answers(props) {
     const userID = localStorage.getItem("CConID");
     const token = localStorage.getItem("CConUser");
     const [tags,setTags] = useState([]);
-    const [open, setopen] = useState(0)
+    const [open, setopen] = useState(0);
+    const [answerId,setAnswerId]=useState("");
 
     const fetchProfiles = async() => {
         if(token){
@@ -56,13 +58,14 @@ function Answers(props) {
       <div className="moveBottom">
           <Header/>
       </div>
-      <CommentModal open={open} setopen={setopen}/>
+      <CommentModal open={open} setopen={setopen} postId={post._id} answerId={answerId}/>
         <div className="ProfileContainer">
             {post&&<div className="ProfileLeft">
                 <div className="ProfilePost" >
                 <div className="PostTop"><img alt="" className="PostLogo" src={post.question.user.profilePicture} /><div><span className="PostHeadName"><Link to={{pathname:'/profile',state:post.question.user._id}} style={{textDecoration:"none"}}>{post.question.user.name}</Link></span><span className="PostHeadCollege">{post.question.user.college}</span></div></div>
                     <div className="PostAnswer">
                         <h2>{post.question.title}</h2>
+                        <h4>Asked {moment(post.createdAt).fromNow()}</h4>
                       {post.question.description}
                         <div className="TagsBox">
                             {post.question.tags.map((t)=><span className="TagSuggest">{t.name}</span>)}
@@ -75,7 +78,11 @@ function Answers(props) {
                     </div>
                 </div>
                 <h3>Answers</h3>
-                {post.answer?post.answer.length==0?<h3>No answers found!</h3>:post.answer.map((a)=><PostAnswer answer={a} setopen={setopen} />):<h3>Loading...</h3>}
+                {post.answer?post.answer.length==0?<h3>No answers found!</h3>:post.answer.sort(function( a , b){
+    if(a.upvotes.length > b.upvotes.length) return -1;
+    if(a.upvotes.length < b.upvotes.length) return 1;
+    return 0;
+}).map((a)=><PostAnswer postId={post._id} answer={a} setopen={setopen} setAnswerId={setAnswerId} fetchSinglePost={fetchSinglePost}/>):<h3>Loading...</h3>}
             </div>}
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
