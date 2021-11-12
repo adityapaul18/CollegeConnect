@@ -8,6 +8,7 @@ import axios from 'axios';
 import Header from "../Header/Header";
 import {Link} from "react-router-dom";
 import CommentModal from './CommentModal';
+import moment from "moment";
 
 function Answers(props) {
     let postId = props&&props.location.state;
@@ -64,6 +65,7 @@ function Answers(props) {
                 <div className="PostTop"><img alt="" className="PostLogo" src={post.question.user.profilePicture} /><div><span className="PostHeadName"><Link to={{pathname:'/profile',state:post.question.user._id}} style={{textDecoration:"none"}}>{post.question.user.name}</Link></span><span className="PostHeadCollege">{post.question.user.college}</span></div></div>
                     <div className="PostAnswer">
                         <h2>{post.question.title}</h2>
+                        <h4>Asked {moment(post.createdAt).fromNow()}</h4>
                       {post.question.description}
                         <div className="TagsBox">
                             {post.question.tags.map((t)=><span className="TagSuggest">{t.name}</span>)}

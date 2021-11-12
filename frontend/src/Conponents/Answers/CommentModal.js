@@ -34,16 +34,16 @@ function CommentModal({open,setopen,postId,answerId}) {
                 <CloseIcon className="close" onClick={() => setopen(0)} />
                 <div className="commentContainer">
                     <div>
-                        {comments&&comments.map((c)=>
+                        {comments?comments.length==0?(<h2>No comments found on this answer</h2>):comments.map((c)=>
                           <div className="comment">
                           <div className="PostTop"><img alt="" className="PostLogo" src={c.user.profilePicture} /><div><span className="PostHeadName"><Link to={{pathname:'/profile',state:c.user._id}} style={{textDecoration:"none"}}>{c.user.name}</Link></span></div></div>
                               <div style={{marginLeft:40}}>
                                 {c.comment}
                               </div>
                           </div>
-                        )}
+                        ):(null)}
                           </div>
-                    <div className="commentMaker" >
+                    {token&&<div className="commentMaker" >
                         <TextField variant="outlined" placeholder="Add Comment" value={comment} onChange={(e)=>setComment(e.target.value)}/>
                         <Button className="CommentButton"
                         onClick={async(e)=>{
@@ -66,7 +66,7 @@ function CommentModal({open,setopen,postId,answerId}) {
 
                         }}
                         ><SendIcon/></Button>
-                    </div>
+                    </div>}
                 </div>
             </ReactModal>
         </div>
