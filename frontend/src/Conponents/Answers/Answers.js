@@ -78,7 +78,11 @@ function Answers(props) {
                     </div>
                 </div>
                 <h3>Answers</h3>
-                {post.answer?post.answer.length==0?<h3>No answers found!</h3>:post.answer.map((a)=><PostAnswer answer={a} setopen={setopen} setAnswerId={setAnswerId}/>):<h3>Loading...</h3>}
+                {post.answer?post.answer.length==0?<h3>No answers found!</h3>:post.answer.sort(function( a , b){
+    if(a.upvotes.length > b.upvotes.length) return -1;
+    if(a.upvotes.length < b.upvotes.length) return 1;
+    return 0;
+}).map((a)=><PostAnswer postId={post._id} answer={a} setopen={setopen} setAnswerId={setAnswerId} fetchSinglePost={fetchSinglePost}/>):<h3>Loading...</h3>}
             </div>}
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
