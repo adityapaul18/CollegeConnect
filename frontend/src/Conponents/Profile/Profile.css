@@ -259,3 +259,12 @@
 .editer > .ReactModal__Overlay >.ReactModal__Content{
     inset: 40px 400px !important;
 }
+
+@media (max-width:1100px) {
+    .ProfileRight{
+        display: none;
+    }
+    .ProfileLeft {
+        width: 100%;
+    }
+}

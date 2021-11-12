@@ -4,7 +4,7 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import './Answers.css'
-function PostAnswer({answer,setopen}) {
+function PostAnswer({answer,setopen,setAnswerId}) {
     return (
         <div className="ProfilePost" >
             <div className="PostTop"><img alt="" className="PostLogo" src={answer.user.profilePicture} /><div><span className="PostHeadName"><Link to={{pathname:'/profile',state:answer.user._id}} style={{textDecoration:"none"}}>{answer.user.name}</Link></span><span className="PostHeadCollege">{answer.user.college}</span></div></div>
@@ -21,7 +21,7 @@ function PostAnswer({answer,setopen}) {
                 :<div><ThumbUpIcon/>Like</div>
                 }
                 <div><ThumbDownAltIcon/>Dislike</div>
-                <div onClick={() =>setopen(1)}><ChatBubbleIcon/>Comment</div>
+                <div onClick={() =>{setopen(1); setAnswerId(answer._id)}}><ChatBubbleIcon/>Comment</div>
             </div>
         </div>
     )

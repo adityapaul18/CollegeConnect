@@ -16,7 +16,8 @@ function Answers(props) {
     const userID = localStorage.getItem("CConID");
     const token = localStorage.getItem("CConUser");
     const [tags,setTags] = useState([]);
-    const [open, setopen] = useState(0)
+    const [open, setopen] = useState(0);
+    const [answerId,setAnswerId]=useState("");
 
     const fetchProfiles = async() => {
         if(token){
@@ -53,8 +54,10 @@ function Answers(props) {
       },[props&&props.location]);
     return (
       <>
-      <Header/>
-      <CommentModal open={open} setopen={setopen}/>
+      <div className="moveBottom">
+          <Header/>
+      </div>
+      <CommentModal open={open} setopen={setopen} postId={post._id} answerId={answerId}/>
         <div className="ProfileContainer">
             {post&&<div className="ProfileLeft">
                 <div className="ProfilePost" >
@@ -73,7 +76,7 @@ function Answers(props) {
                     </div>
                 </div>
                 <h3>Answers</h3>
-                {post.answer?post.answer.length==0?<h3>No answers found!</h3>:post.answer.map((a)=><PostAnswer answer={a} setopen={setopen} />):<h3>Loading...</h3>}
+                {post.answer?post.answer.length==0?<h3>No answers found!</h3>:post.answer.map((a)=><PostAnswer answer={a} setopen={setopen} setAnswerId={setAnswerId}/>):<h3>Loading...</h3>}
             </div>}
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>

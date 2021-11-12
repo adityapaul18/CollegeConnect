@@ -1,0 +1,9 @@
+.moveBottom{
+    width: 100%;
+}
+@media (max-width:650px) {
+    .moveBottom{
+        position: fixed;
+        bottom: 0;
+    }
+}
