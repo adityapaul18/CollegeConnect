@@ -13,6 +13,9 @@
     color: #6D0047;
     font-weight: 600;
     text-align: right;
+    display: flex;
+    justify-content: right;
+    align-items: center;
 }
 
 .ShowAnswers > span {

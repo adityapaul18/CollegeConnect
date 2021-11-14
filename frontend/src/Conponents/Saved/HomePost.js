@@ -3,6 +3,8 @@ import React from 'react'
 import AddIcon from '@material-ui/icons/Add';
 import AddCommentIcon from '@material-ui/icons/AddComment';
 import { useHistory } from 'react-router';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+
 
 function HomePost({setopen}) {
     const history = useHistory()
