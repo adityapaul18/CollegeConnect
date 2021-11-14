@@ -51,7 +51,19 @@
     grid-gap: 1.5rem;
     width: 100%;
 }
-
+.optionMenu{
+    width: 25px !important;
+    overflow: hidden;
+}
+.MuiSelect-select:focus{
+    background-color: white !important;
+}
+.MuiInput-underline::after{
+    display: none !important;
+}
+.MuiInput-underline::before{
+    border-bottom:  none !important;
+}
 .AnsImgsCont > img {
     width: 150px;
 }

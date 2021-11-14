@@ -1,4 +1,4 @@
-import { Avatar } from '@material-ui/core'
+import { Avatar, MenuItem, TextField } from '@material-ui/core'
 import React from 'react'
 import { Link } from "react-router-dom";
 import { useHistory } from 'react-router';
@@ -10,7 +10,16 @@ function ProfilePost({ setopen2, post, setModal }) {
     const token = localStorage.getItem("CConUser");
     return (
         <div className="ProfilePost" >
-            <div className="PostTop"><img alt="" className="PostLogo" src={post.question.user.profilePicture} /><div><span className="PostHeadName"><Link to={{ pathname: '/profile', state: post.question.user._id }} style={{ textDecoration: "none" }}>{post.question.user.name}</Link></span><span className="PostHeadCollege">{post.question.user.college}</span></div></div>
+            {/* <div className="PostTop"><img alt="" className="PostLogo" src={post.question.user.profilePicture} /><div><span className="PostHeadName"><Link to={{ pathname: '/profile', state: post.question.user._id }} style={{ textDecoration: "none" }}>{post.question.user.name}</Link></span><span className="PostHeadCollege">{post.question.user.college}</span></div></div> */}
+            <div className="PostTop">
+                <div className="PostTop">
+                    <img alt="" className="PostLogo" src={post.question.user.profilePicture} /><div><span className="PostHeadName"><Link to={{ pathname: '/profile', state: post.question.user._id }} style={{ textDecoration: "none" }}>{post.question.user.name}</Link></span><span className="PostHeadCollege">{post.question.user.college}</span></div>
+                </div>
+                <TextField value=":" className="optionMenu" select>
+                    <MenuItem value="Edit" onClick={() => { setopen2(1); setModal(post) }}>Edit</MenuItem>
+                    <MenuItem value="Delete">Delete</MenuItem>
+                </TextField>
+            </div>
             <div className="PostAnswer">
                 <h2>{post.question.title}</h2>
                 <h4>Asked {moment(post.createdAt).fromNow()}</h4>
