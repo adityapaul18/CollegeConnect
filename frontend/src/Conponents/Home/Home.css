@@ -55,3 +55,18 @@
 .AnsImgsCont > img {
     width: 150px;
 }
+
+@media (max-width:1050px){
+    .ShowAnswers{
+        margin: 15px; 
+        color: #6D0047;
+        font-weight: 600;
+        display: flex;
+        /* justify-content: space-evenly; */
+    }
+    
+    .ShowAnswers > span {
+        margin-right: 0px;
+        margin-left: 15px;
+    }
+}

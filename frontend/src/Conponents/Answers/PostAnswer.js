@@ -55,7 +55,7 @@ function PostAnswer({postId,answer,setopen,setAnswerId,fetchSinglePost}) {
                 />{answer.downvotes.length}</div></>)
                   :(<><div><ArrowDropUpIcon style={{fontSize:50}}/>{answer.upvotes.length}</div>
                   <div><ArrowDropDownIcon style={{fontSize:50}}/>{answer.downvotes.length}</div></>)}
-                <div onClick={() =>{setopen(1); setAnswerId(answer._id)}}><ChatBubbleIcon/>Comment</div>
+                <div onClick={() =>{setopen(1); setAnswerId(answer._id)}}><ChatBubbleIcon style={{marginRight:"10px"}}/>Comment</div>
             </div>
         </div>
     )

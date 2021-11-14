@@ -58,3 +58,9 @@
     width: fit-content !important;
     margin-left: 5px !important;
 }
+
+.ShowAnswers2{
+    margin: 15px; 
+    color: #6D0047;
+    font-weight: 600;
+}
