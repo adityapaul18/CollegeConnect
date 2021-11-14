@@ -10,70 +10,74 @@ import ProfileSuggest from './ProfileSuggest';
 import axios from 'axios';
 import EditModal from './EditModal';
 import Header from "../Header/Header";
+import AnswerModal from '../Home/AnswerModal';
 
 function Profile(props) {
-    const id = props&&props.location.state;
+    const id = props && props.location.state;
     const userID = localStorage.getItem("CConID");
     const token = localStorage.getItem("CConUser")
     const [open, setopen] = useState(0)
+    const [open2, setopen2] = useState(0)
     const [user, setuser] = useState("");
     const [posts, setPosts] = useState([]);
-    const [profiles,setProfiles] = useState([]);
-    const [tags,setTags] = useState([]);
+    const [profiles, setProfiles] = useState([]);
+    const [tags, setTags] = useState([]);
+    const [modal, setModal] = useState("")
 
-    const fetchUserPosts = async() => {
-      let resp = await axios.get(`/post/user/${id}`);
-      if(resp.data.message){
-        setPosts(resp.data.posts);
-      }
-    }
-
-    const fetchTags = async() => {
-      let resp = await axios.get('/tag/all');
-      if(resp.data.message){
-        setTags(resp.data.tags);
-      }
-    }
-
-    const fetchProfiles = async() => {
-      if(token&&userID==id){
-        let resp = await axios.get('/profile/custom',{ headers: { "Authorization" : `Bearer ${token}`} });
-        if(resp.data.message){
-          setProfiles(resp.data.users)
+    const fetchUserPosts = async () => {
+        let resp = await axios.get(`/post/user/${id}`);
+        if (resp.data.message) {
+            setPosts(resp.data.posts);
         }
-      }else{
-        let resp = await axios.get('/profile/all');
-        if(resp.data.message){
-          setProfiles(resp.data.users.filter((u)=>u._id!=id))
-        }
-      }
     }
-    const fetchProfile = async() => {
-      let resp = await axios.get(`/profile/single/${id}`);
-      if(resp.data.message){
-        setuser(resp.data.user)
-      }
+
+    const fetchTags = async () => {
+        let resp = await axios.get('/tag/all');
+        if (resp.data.message) {
+            setTags(resp.data.tags);
+        }
+    }
+
+    const fetchProfiles = async () => {
+        if (token && userID == id) {
+            let resp = await axios.get('/profile/custom', { headers: { "Authorization": `Bearer ${token}` } });
+            if (resp.data.message) {
+                setProfiles(resp.data.users)
+            }
+        } else {
+            let resp = await axios.get('/profile/all');
+            if (resp.data.message) {
+                setProfiles(resp.data.users.filter((u) => u._id != id))
+            }
+        }
+    }
+    const fetchProfile = async () => {
+        let resp = await axios.get(`/profile/single/${id}`);
+        if (resp.data.message) {
+            setuser(resp.data.user)
+        }
     }
     useEffect(() => {
         fetchProfile();
         fetchUserPosts();
         fetchProfiles();
-      fetchTags();
-    }, [props&&props.location,open])
+        fetchTags();
+    }, [props && props.location, open])
 
 
     return (<>
-      <div className="moveBottom">
-          <Header/>
-      </div>
+        <div className="moveBottom">
+            <Header />
+        </div>
         <div className="ProfileContainer">
-            <EditModal open={open} setopen={setopen} user={user}/>
+            <EditModal open={open} setopen={setopen} user={user} />
+            <AnswerModal open={open2} setopen={setopen2} modal={modal} setModal={setModal} />
             <div className="ProfileLeft">
-                <img className="ProfileCover" src={user.coverImage?user.coverImage:ProfileCover} alt="" />
+                <img className="ProfileCover" src={user.coverImage ? user.coverImage : ProfileCover} alt="" />
                 <div className="ProfileInfo" >
                     <div className="ProfileInfoTop">
                         <img className="ProfileAvatar" src={user.profilePicture} alt=""></img>
-                        {userID==id&&<Button className="EditProfileButton" onClick={() => setopen(1)} >Edit Profile</Button>}
+                        {userID == id && <Button className="EditProfileButton" onClick={() => setopen(1)} >Edit Profile</Button>}
                     </div>
                     <div className="ProfileInfoBottom">
                         <b>{user.name}</b>
@@ -87,21 +91,21 @@ function Profile(props) {
                     <Tabs>
                         <TabList>
                             <Tab>Posts</Tab>
-                            {userID==id&&<Tab>Saved</Tab>}
+                            {userID == id && <Tab>Saved</Tab>}
                         </TabList>
 
                         <TabPanel>
-                        <div className="SavedPosts">
-                            <h2>Your Posts</h2>
-                            {posts?posts.length==0?<h3>No posts yet!</h3>: posts.map((post)=><ProfilePost post={post}/>) :<h6>Loading...</h6>}
-
-                        </div>
-                        </TabPanel>
-                        {userID==id&&<TabPanel>
                             <div className="SavedPosts">
-                            <h2> Your Saved Posts</h2>
+                                <h2>Your Posts</h2>
+                                {posts ? posts.length == 0 ? <h3>No posts yet!</h3> : posts.map((post) => <ProfilePost setopen2={setopen2} post={post} setModal={setModal} />) : <h6>Loading...</h6>}
 
-                            {/* <ProfilePost /> */}
+                            </div>
+                        </TabPanel>
+                        {userID == id && <TabPanel>
+                            <div className="SavedPosts">
+                                <h2> Your Saved Posts</h2>
+
+                                {/* <ProfilePost /> */}
                             </div>
                         </TabPanel>}
                     </Tabs>
@@ -111,23 +115,23 @@ function Profile(props) {
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
                 <div className="SuggestList">
-                {profiles?profiles.length==0?<h3>No suggested profile found</h3>:profiles.sort(() => Math.random() - Math.random()).slice(0, 5).map((p)=>
-                  <ProfileSuggest profile={p}/>
-                ):<h3>Loading...</h3>
-              }</div>
+                    {profiles ? profiles.length == 0 ? <h3>No suggested profile found</h3> : profiles.sort(() => Math.random() - Math.random()).slice(0, 5).map((p) =>
+                        <ProfileSuggest profile={p} />
+                    ) : <h3>Loading...</h3>
+                    }</div>
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
-                    {tags&&tags.sort(() => Math.random() - Math.random()).slice(0, 5).map((t)=>
-                      <div className="SuggestdTagsBox">
-                      <span className="TagSuggest">{t.name} <AddIcon /></span>
-                      </div>
+                    {tags && tags.sort(() => Math.random() - Math.random()).slice(0, 5).map((t) =>
+                        <div className="SuggestdTagsBox">
+                            <span className="TagSuggest">{t.name} <AddIcon /></span>
+                        </div>
                     )}
 
 
                 </div>
             </div>
         </div>
-        </>
+    </>
     )
 }
 

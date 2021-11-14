@@ -13,9 +13,11 @@ function AnswerModal({open,setopen,modal,setModal}) {
   const [images,setImages]=useState([]);
   const [loading,setLoading]=useState(false);
   const [form,setForm]=useState("");
+  const ref = useRef()
   useEffect(()=>{
     setForm(new FormData())
   },[])
+
     return (
         <div>
             <Modal isOpen={open} portalClassName="answermodal">
@@ -28,8 +30,10 @@ function AnswerModal({open,setopen,modal,setModal}) {
                       form.set('description',e.target.value)
                     }}
                     />
-                      <TextField className="AskHeaders" variant="outlined" type="file" onChange={(e)=>setImages(e.target.files)}/>
-                    <div className="AddAnswerCont" >
+                    <div  >
+                    <div>
+                    <Button onClick={() => ref.current.click()} className="PostQButton" >add image</Button>
+                    <input ref={ref} className="AskHeaders hider" variant="outlined" type="file" onChange={(e)=>setImages(e.target.files)}/>
                     {/*}<Button className="AnswerButton" variant="contained">Add Image</Button>*/}
                     <Button className="AnswerButton" variant="contained"
                     onClick={async(e)=>{
@@ -38,12 +42,12 @@ function AnswerModal({open,setopen,modal,setModal}) {
                        if (images) {
                          for (const key of Object.keys(images)) {
                            form.set("images", images[key]);
-                         }
-                       }
-                      try{
-                        let resp = await axios.put(`/answer/${modal._id}`,form,{ headers: { "Authorization" : `Bearer ${token}`} });
-                        if(resp.data.message){
-                          setLoading(false);
+                          }
+                        }
+                        try{
+                          let resp = await axios.put(`/answer/${modal._id}`,form,{ headers: { "Authorization" : `Bearer ${token}`} });
+                          if(resp.data.message){
+                            setLoading(false);
                           setopen(0)
                         }
                       }catch(err){
@@ -53,9 +57,10 @@ function AnswerModal({open,setopen,modal,setModal}) {
                           text: err.response.data.error
                         })
                       }
-
+                      
                     }}
                     >Post</Button>
+                    </div>
                     </div>
                     <div className="AnsImgsCont" >
                         <img src="https://media.istockphoto.com/photos/wizard-falls-on-the-metolius-river-autumn-in-oregon-picture-id1282389397?b=1&k=20&m=1282389397&s=170667a&w=0&h=stKW8obWC5j7xyeFHikgDHsqoZQ0B4WJN_9MBGCxVQw=" alt="" />
