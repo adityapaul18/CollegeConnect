@@ -31,7 +31,11 @@ const userSchema=new Schema({
   tags: [{
     type: ObjectId,
     ref:'Tag'
-  }]
+  }],
+  savedPosts: [{
+    type: ObjectId,
+    ref:'Post'
+  }],
 
 },{timestamps: true});
 

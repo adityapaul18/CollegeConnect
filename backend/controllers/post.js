@@ -267,3 +267,53 @@ exports.updateAnswer = async(req, res) => {
     res.status(500).json({error:"Something went wrong!"})
   }
 }
+
+exports.savePost = async(req, res) => {
+  try{
+    let {postId} = req.params;
+    if(!postId) return res.status(400).json({error:'Post ID is required'});
+    let existingUser = await User.findById(req.user._id);
+    if(existingUser.savedPosts.includes(postId)){
+      let index = existingUser.savedPosts.indexOf(postId);
+      existingUser.savedPosts.splice(index,1);
+      await existingUser.save();
+      return res.status(200).json({
+        message:'Unsaved post successfully'
+      });
+    }
+    existingUser.savedPosts.push(postId);
+    await existingUser.save();
+    res.status(200).json({
+      message:'Saved post successfully'
+    })
+  }catch(error){
+    console.log(error);
+    res.status(500).json({error:"Something went wrong!"})
+  }
+}
+
+exports.getSavedPost = async(req, res) => {
+  try{
+    let existingUser = await User.findById(req.user._id).populate(
+      {
+            path: 'savedPosts',
+            model: 'Post',
+            populate: [{
+                path: 'question.user',
+                model: 'User'
+            },{
+                path: 'question.tags',
+                model: 'Tag'
+            }]
+        }
+    );
+    res.status(200).json({
+      message:'Fetch saved post successfully',
+      posts: existingUser.savedPosts
+    })
+
+  }catch(error){
+    console.log(error);
+    res.status(500).json({error:"Something went wrong!"})
+  }
+}
