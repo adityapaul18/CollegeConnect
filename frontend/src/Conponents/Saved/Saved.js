@@ -33,10 +33,20 @@ function Saved() {
       }
 
       const fetchTags = async() => {
-        let resp = await axios.get('/tag/all');
-        if(resp.data.message){
-          setTags(resp.data.tags);
-        }
+          let resp = await axios.get('/tag/all');
+          if(resp.data.message){
+
+              if(token){
+                let response = await axios.get('/tag/follow',{ headers: { "Authorization" : `Bearer ${token}`} });
+                if(response.data.message){
+
+                setTags(resp.data.tags.filter((v)=>response.data.tags.filter((s)=>s._id==v._id).length==0))
+                }
+              }else{
+                setTags(resp.data.tags);
+              }
+          }
+
       }
 
       const fetchSavedPosts = async() => {
@@ -72,20 +82,12 @@ function Saved() {
               }
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
-                    <div className="SuggestdTagsBox">
-                        <span className="TagSuggest">CP <AddIcon /></span>
-                        <span className="TagSuggest">Flutter<AddIcon /></span>
-                        <span className="TagSuggest">PayTm<AddIcon /></span>
-                    </div>
-                    <div className="SuggestdTagsBox">
-                        <span className="TagSuggest">Web D <AddIcon /></span>
-                        <span className="TagSuggest">DSA<AddIcon /></span>
-                        <span className="TagSuggest">Google<AddIcon /></span>
-                    </div>
-                    <div className="SuggestdTagsBox">
-                        {/* <span className="TagSuggest">Photography<AddIcon /></span>
-                        <span className="TagSuggest">IIIT<AddIcon /></span> */}
-                    </div>
+                    {tags && tags.sort(() => Math.random() - Math.random()).slice(0, 5).map((t)=>
+                      <div className="SuggestdTagsBox">
+                          <span className="TagSuggest">{t.name} <AddIcon /></span>
+                      </div>
+                    )}
+
                 </div>
             </div>
         </div>

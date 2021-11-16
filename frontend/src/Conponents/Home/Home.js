@@ -36,10 +36,20 @@ function Home() {
     }
 
     const fetchTags = async() => {
-      let resp = await axios.get('/tag/all');
-      if(resp.data.message){
-        setTags(resp.data.tags);
-      }
+        let resp = await axios.get('/tag/all');
+        if(resp.data.message){
+
+            if(token){
+              let response = await axios.get('/tag/follow',{ headers: { "Authorization" : `Bearer ${token}`} });
+              if(response.data.message){
+
+              setTags(resp.data.tags.filter((v)=>response.data.tags.filter((s)=>s._id==v._id).length==0))
+              }
+            }else{
+              setTags(resp.data.tags);
+            }
+        }
+
     }
 
     const fetchProfiles = async() => {
