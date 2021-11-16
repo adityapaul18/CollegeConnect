@@ -13,10 +13,14 @@ function HomePost({setopen}) {
             {/* <div className="PostTop"><img alt="" className="PostLogo" src="https://qph.fs.quoracdn.net/main-thumb-282129127-200-wdsefxcvsewcnoifsgtqymhoydgblwha.jpeg" /><div><span className="PostHeadName">Aditya Paul</span><span className="PostHeadCollege">3rd year student at Indian Institute of Information Technology, Surat</span></div></div> */}
             <div className="PostTop">
                 <div className="PostTop">
-                    <img alt="" className="PostLogo" src="https://qph.fs.quoracdn.net/main-thumb-282129127-200-wdsefxcvsewcnoifsgtqymhoydgblwha.jpeg" /><div><span className="PostHeadName"></span><span className="PostHeadCollege"></span></div>
+                    <img alt="" className="PostLogo" src="{post.question.user.profilePicture}" /><div><span className="PostHeadName">post.question.user.name
+                        {/* <Link to={{ pathname: '/profile', state: post.question.user._id }} style={{ textDecoration: "none" }}>post.question.user.name</Link> */}
+                        </span><span className="PostHeadCollege">post.question.user.college</span></div>
                 </div>
                 <TextField value=":" className="optionMenu" select>
-                    <MenuItem value="Edit">Edit</MenuItem>
+                    <MenuItem value="Edit" 
+                    // onClick={() => { setopen2(1); setModal(post) }}
+                    >Edit</MenuItem>
                     <MenuItem value="Delete">Delete</MenuItem>
                 </TextField>
             </div>
