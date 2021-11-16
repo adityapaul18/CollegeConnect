@@ -12,6 +12,7 @@ import EditModal from './EditModal';
 import Header from "../Header/Header";
 import AnswerModal from '../Home/AnswerModal';
 import Swal from "sweetalert2";
+import EditQuestion from "../EditModals/EditQuestion";
 
 function Profile(props) {
     const id = props && props.location.state;
@@ -24,7 +25,9 @@ function Profile(props) {
     const [savedPosts,setSavedPosts]=useState([]);
     const [profiles, setProfiles] = useState([]);
     const [tags, setTags] = useState([]);
-    const [modal, setModal] = useState("")
+    const [modal, setModal] = useState("");
+    const [editData,setEditData]=useState("");
+    const [editModal,setEditModal]=useState(0);
 
     const fetchUserPosts = async () => {
         let resp = await axios.get(`/post/user/${id}`);
@@ -93,6 +96,7 @@ function Profile(props) {
         </div>
         <div className="ProfileContainer">
             <EditModal open={open} setopen={setopen} user={user} />
+            <EditQuestion editModal={editModal} setEditModal={setEditModal} post={editData} fetchPosts={fetchUserPosts}/>
             <AnswerModal open={open2} setopen={setopen2} modal={modal} setModal={setModal} />
             <div className="ProfileLeft">
                 <img className="ProfileCover" src={user.coverImage ? user.coverImage : ProfileCover} alt="" />
@@ -119,7 +123,7 @@ function Profile(props) {
                         <TabPanel>
                             <div className="SavedPosts">
                                 <h2>Your Posts</h2>
-                                {posts ? posts.length == 0 ? <h3>No posts yet!</h3> : posts.map((post) => <ProfilePost setopen2={setopen2} post={post} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/>) : <h6>Loading...</h6>}
+                                {posts ? posts.length == 0 ? <h3>No posts yet!</h3> : posts.map((post) => <ProfilePost editModal={editModal} setEditModal={setEditModal} editData={editData} setEditData={setEditData} setopen2={setopen2} post={post} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/>) : <h6>Loading...</h6>}
 
                             </div>
                         </TabPanel>

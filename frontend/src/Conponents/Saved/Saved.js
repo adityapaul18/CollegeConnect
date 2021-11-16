@@ -8,6 +8,7 @@ import AnswerModal from './AnswerModal';
 import './Saved.css'
 import axios from 'axios';
 import Swal from "sweetalert2";
+import EditQuestion from "../EditModals/EditQuestion";
 
 function Saved() {
     const history = useHistory()
@@ -18,6 +19,8 @@ function Saved() {
     const [open, setopen] = useState(0);
     const [modal,setModal]=useState("");
     const [savedPosts,setSavedPosts]=useState([]);
+    const [editModal,setEditModal]=useState(0);
+    const [editData,setEditData]=useState("");
 
     const fetchProfiles = async() => {
         if(token){
@@ -69,9 +72,10 @@ function Saved() {
         <h2 className="SavedHeader">Your Saved Posts</h2>
         <div className="ProfileContainer">
         <AnswerModal open={open} setopen={setopen} modal={modal} setModal={setModal}/>
+          <EditQuestion editModal={editModal} setEditModal={setEditModal} post={editData} fetchPosts={fetchSavedPosts}/>
           <div className="ProfileLeft">
               {savedPosts?savedPosts.length==0?<h3>No posts found!</h3>:savedPosts.map((p)=>{
-                return(<><HomePost setopen={setopen} post={p} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
+                return(<><HomePost editModal={editModal} setEditModal={setEditModal} editData={editData} setEditData={setEditData}setopen={setopen} post={p} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
               }):<h3>Loading...</h3>}
 
           </div>

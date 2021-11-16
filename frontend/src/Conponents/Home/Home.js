@@ -7,6 +7,7 @@ import { useHistory } from 'react-router';
 import AnswerModal from './AnswerModal';
 import axios from "axios";
 import Swal from "sweetalert2";
+import EditQuestion from "../EditModals/EditQuestion";
 
 function Home() {
     const history = useHistory();
@@ -17,7 +18,9 @@ function Home() {
     const [savedPosts,setSavedPosts]=useState([]);
     const [profiles,setProfiles] = useState([]);
     const [modal,setModal]=useState("");
+    const [editModal,setEditModal]=useState(0);
     const [tags,setTags] = useState([]);
+    const [editData,setEditData]=useState("");
 
     const fetchPosts = async() => {
       if(token){
@@ -85,9 +88,10 @@ function Home() {
     return (
         <div className="ProfileContainer">
           <AnswerModal open={open} setopen={setopen} modal={modal} setModal={setModal}/>
+          <EditQuestion editModal={editModal} setEditModal={setEditModal} post={editData} fetchPosts={fetchPosts}/>
             <div className="ProfileLeft">
                 {posts?posts.length==0?<h3>No posts found!</h3>:posts.map((p)=>{
-                  return(<><HomePost setopen={setopen} post={p} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
+                  return(<><HomePost setopen={setopen} editData={editData} setEditData={setEditData} post={p} setModal={setModal} editModal={editModal} setEditModal={setEditModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
                 }):<h3>Loading...</h3>}
 
             </div>

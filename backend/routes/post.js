@@ -31,6 +31,6 @@ router.put('/post/downvote',authToken,downvoteAnswer);
 router.get('/post/save/:postId',authToken,savePost);
 router.get('/savedPost/all',authToken,getSavedPost);
 router.put('/question/:postId',authToken,updateQuestion);
-router.put('/answer/:postId/:answerId',authToken,upload.array('images'),updateAnswer);
+router.put('/answer/:postId/:answerId',authToken,updateAnswer);
 
 module.exports = router;

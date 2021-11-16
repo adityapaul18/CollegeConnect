@@ -11,7 +11,7 @@ import moment from "moment";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-function HomePost({ setopen2, post, setModal,savedPosts, setSavedPosts,fetchSavedPosts }) {
+function HomePost({ setopen2, post, setModal,savedPosts, setSavedPosts,fetchSavedPosts,editModal,setEditModal,editData,setEditData}) {
     const history = useHistory();
     const userID = localStorage.getItem("CConID");
     const token = localStorage.getItem("CConUser");
@@ -23,10 +23,10 @@ function HomePost({ setopen2, post, setModal,savedPosts, setSavedPosts,fetchSave
                 <div className="PostTop">
                     <img alt="" className="PostLogo" src={post.question.user.profilePicture} /><div><span className="PostHeadName"><Link to={{ pathname: '/profile', state: post.question.user._id }} style={{ textDecoration: "none" }}>{post.question.user.name}</Link></span><span className="PostHeadCollege">{post.question.user.college}</span></div>
                 </div>
-                <TextField value=":" className="optionMenu" select>
-                    <MenuItem value="Edit" onClick={() => { setopen2(1); setModal(post) }}>Edit</MenuItem>
+                {userID==post.question.user._id&&<TextField value=":" className="optionMenu" select>
+                    <MenuItem value="Edit" onClick={() => { setEditModal(1);setEditData(post)}}>Edit</MenuItem>
                     <MenuItem value="Delete">Delete</MenuItem>
-                </TextField>
+                </TextField>}
             </div>
             <div className="PostAnswer">
                 <h2>{post.question.title}</h2>
