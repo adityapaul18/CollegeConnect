@@ -13,6 +13,7 @@ function Home() {
     const token = localStorage.getItem("CConUser");
     const [open, setopen] = useState(0);
     const [posts, setPosts] = useState([]);
+    const [savedPosts,setSavedPosts]=useState([]);
     const [profiles,setProfiles] = useState([]);
     const [modal,setModal]=useState("");
     const [tags,setTags] = useState([]);
@@ -55,17 +56,27 @@ function Home() {
       }
     }
 
+    const fetchSavedPosts = async() => {
+      if(token){
+        let resp = await axios.get('/save/all',{ headers: { "Authorization" : `Bearer ${token}`} });
+        if(resp.data.message){
+          setSavedPosts(resp.data.posts)
+        }
+      }
+    }
+
     useEffect(()=>{
       fetchTags();
       fetchPosts();
       fetchProfiles();
+      fetchSavedPosts();
     },[open]);
     return (
         <div className="ProfileContainer">
           <AnswerModal open={open} setopen={setopen} modal={modal} setModal={setModal}/>
             <div className="ProfileLeft">
                 {posts?posts.length==0?<h3>No posts found!</h3>:posts.map((p)=>{
-                  return(<><HomePost setopen={setopen} post={p} setModal={setModal}/></>)
+                  return(<><HomePost setopen={setopen} post={p} setModal={setModal} savedPosts={savedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
                 }):<h3>Loading...</h3>}
 
             </div>

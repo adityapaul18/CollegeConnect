@@ -8,12 +8,13 @@ import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import { useHistory } from 'react-router';
 import { Link } from "react-router-dom";
 import moment from "moment";
+import axios from "axios";
 
-function HomePost({ setopen, post, setModal }) {
+function HomePost({ setopen, post, setModal,savedPosts,fetchSavedPosts }) {
     const history = useHistory();
     const userID = localStorage.getItem("CConID");
     const token = localStorage.getItem("CConUser");
-    const [option, setoption] = useState("")
+    const [option, setoption] = useState("");
     return (
         <div className="ProfilePost" >
             <div className="PostTop">
