@@ -6,7 +6,7 @@ import HomePost from '../Home/HomePost';
 import PostAnswer from './PostAnswer';
 import axios from 'axios';
 import Header from "../Header/Header";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import CommentModal from './CommentModal';
 import moment from "moment";
 import AnswerModal from '../Home/AnswerModal';
@@ -14,8 +14,8 @@ import { MenuItem, TextField } from '@material-ui/core';
 import Swal from "sweetalert2";
 import EditQuestion from "../EditModals/EditQuestion";
 
-
 function Answers(props) {
+  const history = useHistory();
   let postId = props && props.location.state;
   const [post, setPost] = useState("");
   const [profiles, setProfiles] = useState([]);
@@ -77,7 +77,7 @@ function Answers(props) {
       <div className="moveBottom">
         <Header />
       </div>
-      <CommentModal open={open} setopen={setopen} postId={post._id} answerId={answerId} />
+      <CommentModal open={open} setopen={setopen} postId={post._id} answerId={answerId} fetchSinglePost={fetchSinglePost} />
       <AnswerModal open={open2} setopen={setopen2} modal={modal} setModal={setModal} />
       <EditQuestion editModal={editModal} setEditModal={setEditModal} post={post} fetchPosts={fetchSinglePost}/>
       <div className="ProfileContainer">
@@ -90,7 +90,23 @@ function Answers(props) {
                 </div>
                 {userID==post.question.user._id&&<TextField value=":" className="optionMenu" select>
                     <MenuItem value="Edit" onClick={() => { setEditModal(1); }}>Edit</MenuItem>
-                    <MenuItem value="Delete">Delete</MenuItem>
+                    <MenuItem value="Delete"
+                    onClick={async(e)=>{
+                      e.preventDefault();
+                      Swal.fire({
+                        title: 'Do you want to delete this post?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Delete'
+                      }).then(async(result) => {
+                        if (result.isConfirmed) {
+                          let resp = await axios.delete(`/question/${post._id}`,{ headers: { "Authorization" : `Bearer ${token}`} });
+                          if(resp.data.message){
+                            history.push("/home")
+                          }
+                        }
+                        })
+                    }}
+                    >Delete</MenuItem>
                 </TextField>}
             </div>
             <div className="PostAnswer">

@@ -35,6 +35,6 @@ router.get('/savedPost/all',authToken,getSavedPost);
 router.put('/question/:postId',authToken,updateQuestion);
 router.put('/answer/:postId/:answerId',authToken,updateAnswer);
 router.delete('/question/:postId',authToken,deleteQuestion);
-router.delete('/answer/:postId/:answerId',authToken,deleteAnswer);
+router.delete('/delete/answer/:postId/:answerId',authToken,deleteAnswer);
 
 module.exports = router;

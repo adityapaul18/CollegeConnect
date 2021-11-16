@@ -123,7 +123,7 @@ function Profile(props) {
                         <TabPanel>
                             <div className="SavedPosts">
                                 <h2>Your Posts</h2>
-                                {posts ? posts.length == 0 ? <h3>No posts yet!</h3> : posts.map((post) => <ProfilePost editModal={editModal} setEditModal={setEditModal} editData={editData} setEditData={setEditData} setopen2={setopen2} post={post} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/>) : <h6>Loading...</h6>}
+                                {posts ? posts.length == 0 ? <h3>No posts yet!</h3> : posts.map((post) => <ProfilePost fetchPosts={fetchUserPosts}editModal={editModal} setEditModal={setEditModal} editData={editData} setEditData={setEditData} setopen2={setopen2} post={post} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/>) : <h6>Loading...</h6>}
 
                             </div>
                         </TabPanel>
@@ -131,7 +131,7 @@ function Profile(props) {
                             <div className="SavedPosts">
                                 <h2> Your Saved Posts</h2>
                                 {savedPosts?savedPosts.length==0?<h3>No posts found!</h3>:savedPosts.map((p)=>{
-                                  return(<><ProfilePost setopen2={setopen2} post={p} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
+                                  return(<><ProfilePost fetchPosts={fetchSavedPosts} setopen2={setopen2} post={p} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
                                 }):<h3>Loading...</h3>}
 
                                 {/* <ProfilePost /> */}

@@ -23,7 +23,23 @@ function PostAnswer({ postId, answer, setopen, setAnswerId, fetchSinglePost }) {
                 </div>
                 {userID==answer.user._id&&<TextField value=":" className="optionMenu" select>
                     <MenuItem value="Edit" onClick={(e)=>setEditAnswerModal(1)}>Edit</MenuItem>
-                    <MenuItem value="Delete">Delete</MenuItem>
+                    <MenuItem value="Delete"
+                    onClick={async(e)=>{
+                      e.preventDefault();
+                      Swal.fire({
+                        title: 'Do you want to delete this answer?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Delete'
+                      }).then(async(result) => {
+                        if (result.isConfirmed) {
+                          let resp = await axios.delete(`/delete/answer/${postId}/${answer._id}`,{ headers: { "Authorization" : `Bearer ${token}`} });
+                          if(resp.data.message){
+                            await fetchSinglePost();
+                          }
+                        }
+                        })
+                    }}
+                    >Delete</MenuItem>
                 </TextField>}
             </div>
             <div className="PostAnswer">

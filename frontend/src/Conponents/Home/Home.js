@@ -91,7 +91,7 @@ function Home() {
           <EditQuestion editModal={editModal} setEditModal={setEditModal} post={editData} fetchPosts={fetchPosts}/>
             <div className="ProfileLeft">
                 {posts?posts.length==0?<h3>No posts found!</h3>:posts.map((p)=>{
-                  return(<><HomePost setopen={setopen} editData={editData} setEditData={setEditData} post={p} setModal={setModal} editModal={editModal} setEditModal={setEditModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
+                  return(<><HomePost setopen={setopen} fetchPosts={fetchPosts}editData={editData} setEditData={setEditData} post={p} setModal={setModal} editModal={editModal} setEditModal={setEditModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
                 }):<h3>Loading...</h3>}
 
             </div>

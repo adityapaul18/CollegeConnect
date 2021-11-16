@@ -75,7 +75,7 @@ function Saved() {
           <EditQuestion editModal={editModal} setEditModal={setEditModal} post={editData} fetchPosts={fetchSavedPosts}/>
           <div className="ProfileLeft">
               {savedPosts?savedPosts.length==0?<h3>No posts found!</h3>:savedPosts.map((p)=>{
-                return(<><HomePost editModal={editModal} setEditModal={setEditModal} editData={editData} setEditData={setEditData}setopen={setopen} post={p} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
+                return(<><HomePost fetchPosts={fetchSavedPosts} editModal={editModal} setEditModal={setEditModal} editData={editData} setEditData={setEditData}setopen={setopen} post={p} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
               }):<h3>Loading...</h3>}
 
           </div>

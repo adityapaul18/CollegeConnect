@@ -11,7 +11,7 @@ import moment from "moment";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-function HomePost({ setopen, post, setModal,savedPosts, setSavedPosts,fetchSavedPosts,editModal,setEditModal,editData,setEditData}) {
+function HomePost({ setopen, fetchPosts,post, setModal,savedPosts, setSavedPosts,fetchSavedPosts,editModal,setEditModal,editData,setEditData}) {
     const history = useHistory();
     const userID = localStorage.getItem("CConID");
     const token = localStorage.getItem("CConUser");
@@ -25,7 +25,23 @@ function HomePost({ setopen, post, setModal,savedPosts, setSavedPosts,fetchSaved
                 </div>
                 {userID==post.question.user._id&&<TextField value=":" className="optionMenu" select>
                     <MenuItem value="Edit" onClick={() => { setEditModal(1);setEditData(post)}}>Edit</MenuItem>
-                    <MenuItem value="Delete">Delete</MenuItem>
+                    <MenuItem value="Delete"
+                    onClick={async(e)=>{
+                      e.preventDefault();
+                      Swal.fire({
+                        title: 'Do you want to delete this post?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Delete'
+                      }).then(async(result) => {
+                        if (result.isConfirmed) {
+                          let resp = await axios.delete(`/question/${post._id}`,{ headers: { "Authorization" : `Bearer ${token}`} });
+                          if(resp.data.message){
+                            await fetchPosts()
+                          }
+                        }
+                        })
+                    }}
+                    >Delete</MenuItem>
                 </TextField>}
             </div>
             <div className="PostAnswer">

@@ -274,20 +274,17 @@ exports.deleteQuestion = async(req, res) => {
   }
 }
 
-exports.updateAnswer = async(req, res) => {
+exports.deleteAnswer = async(req, res) => {
   try{
    let { postId, answerId } = req.params;
    if(!postId||postId=="") return res.status(400).json({error:'PostId is required'});
    if(!answerId||answerId=="") return res.status(400).json({error:'AnswerId is required'});
    let existingPost = await Post.findById(postId);
     if(!existingPost) return res.status(400).json({error:'Post does not exists'})
-    let index=await existingPost.answer.filter((a,i)=>{
-      if(a._id==answerId){
-        return i
-      }
-    })[0];
-    await existingPost.splice(index,1);
-    await existingPost.save();
+    await Post.findOneAndUpdate(
+     { _id: postId },
+     { $pull: { answer: { _id: answerId } } }
+   );
      res.status(200).json({
        message: 'Answer deleted successfully'
      })

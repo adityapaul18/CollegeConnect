@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import {Link} from "react-router-dom";
 
-function CommentModal({open,setopen,postId,answerId}) {
+function CommentModal({open,setopen,postId,answerId,fetchSinglePost}) {
   const userID = localStorage.getItem("CConID");
   const token = localStorage.getItem("CConUser");
   const [loading,setLoading]=useState(false);
@@ -56,6 +56,7 @@ function CommentModal({open,setopen,postId,answerId}) {
                               setLoading(false);
                               setComment("");
                               getComments();
+                              await fetchSinglePost();
                             }
                           }catch(err){
                             setLoading(false);
