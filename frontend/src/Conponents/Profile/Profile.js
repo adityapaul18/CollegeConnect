@@ -11,6 +11,7 @@ import axios from 'axios';
 import EditModal from './EditModal';
 import Header from "../Header/Header";
 import AnswerModal from '../Home/AnswerModal';
+import Swal from "sweetalert2";
 
 function Profile(props) {
     const id = props && props.location.state;
@@ -146,9 +147,21 @@ function Profile(props) {
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
                     {tags && tags.sort(() => Math.random() - Math.random()).slice(0, 5).map((t) =>
-                        <div className="SuggestdTagsBox">
-                            <span className="TagSuggest">{t.name} <AddIcon /></span>
-                        </div>
+                      <div className="SuggestdTagsBox">
+                          <span className="TagSuggest">{t.name} {token&&<AddIcon
+                            onClick={async(e)=>{
+                              e.preventDefault();
+                              let resp = await axios.get(`/tag/${t._id}`,{ headers: { "Authorization" : `Bearer ${token}`} });
+                              if(resp.data.message){
+                                Swal.fire({
+                                  icon: 'success',
+                                  text: resp.data.message
+                                });
+                               await fetchTags();
+                               await fetchProfiles();
+                              }
+                            }} />}</span>
+                      </div>
                     )}
 
 

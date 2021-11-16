@@ -6,6 +6,7 @@ import HomePost from './HomePost';
 import { useHistory } from 'react-router';
 import AnswerModal from './AnswerModal';
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function Home() {
     const history = useHistory();
@@ -100,7 +101,20 @@ function Home() {
                 <div>
                     {tags&&tags.sort(() => Math.random() - Math.random()).slice(0, 5).map((t)=>
                       <div className="SuggestdTagsBox">
-                          <span className="TagSuggest">{t.name} <AddIcon /></span>
+                          <span className="TagSuggest">{t.name} {token&&<AddIcon
+                            onClick={async(e)=>{
+                              e.preventDefault();
+                              let resp = await axios.get(`/tag/${t._id}`,{ headers: { "Authorization" : `Bearer ${token}`} });
+                              if(resp.data.message){
+                                Swal.fire({
+                                  icon: 'success',
+                                  text: resp.data.message
+                                });
+                               await fetchTags();
+                               await fetchPosts();
+                               await fetchProfiles();
+                              }
+                            }} />}</span>
                       </div>
                     )}
 
