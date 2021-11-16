@@ -33,21 +33,21 @@ function Header() {
     return (<>
         <div className="headerContainer" >
             <div className="headerContainerinner">College Connect</div>
-            <div className="headerContainerinner"><span onClick={() => history.push('/home')}>Home</span>{token&&<span onClick={() => history.push('/ask')}>Ask</span>}<span onClick={() => history.push('/saved')}>Saved</span></div>
+            <div className="headerContainerinner"><span onClick={() => history.push('/home')}>Home</span>{token&&<span onClick={() => history.push('/ask')}>Ask</span>}{token&&<span onClick={() => history.push('/saved')}>Saved</span>}</div>
             <div className="headerContainerinner">
               {user&&<> Welcome {user?.name.substring(0,user.name.indexOf(' '))}<Avatar className="HeaderAvatar" onClick={() => history.push({
                                   pathname: '/profile',
                                 state: userID
                       })} src={user.profilePicture}/></>}
                {user?<PowerSettingsNewIcon onClick={logout}/>:<LoginIcon onClick={()=>{
-                 history.push("/")
+                 history.push("/login")
                }}/>}
                 </div>
         </div>
         <div className="headerContainer2" >
             <div className="headerContainerinner"><span onClick={() => history.push('/home')}><HomeIcon/></span></div>
             <div className="headerContainerinner">{token&&<span onClick={() => history.push('/ask')}><EmojiPeopleIcon/></span>}</div>
-            <div className="headerContainerinner"><span onClick={() => history.push('/saved')}><TurnedInIcon/></span></div>
+            <div className="headerContainerinner">{token&&<span onClick={() => history.push('/saved')}><TurnedInIcon/></span>}</div>
             <div className="headerContainerinner">
 
                {user?<PowerSettingsNewIcon onClick={logout}/>:<LoginIcon onClick={()=>{
