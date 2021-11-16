@@ -36,8 +36,9 @@ function CommentModal({open,setopen,postId,answerId}) {
                     <div>
                         {comments?comments.length==0?(<h2>No comments found on this answer</h2>):comments.map((c)=>
                           <div className="comment">
+                            <div className="PostTop">
                           <div className="PostTop"><img alt="" className="PostLogo" src={c.user.profilePicture} /><div><span className="PostHeadName"><Link to={{pathname:'/profile',state:c.user._id}} style={{textDecoration:"none"}}>{c.user.name}</Link></span></div></div>
-                              <div style={{marginLeft:40}}>
+                              </div><div style={{marginLeft:40}}>
                                 {c.comment}
                               </div>
                           </div>

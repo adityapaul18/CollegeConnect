@@ -15,10 +15,13 @@ function EditAnswer({postId,answer,editAnswerModal,setEditAnswerModal,fetchSingl
 
   const {description}=editPost;
   useEffect(()=>{
-    setEditPost({
-      description:answer.description
-    })
-  },[])
+    if(answer){
+      setEditPost({
+        description:answer.description
+      })
+    }
+
+  },[answer])
 
     return (
         <div>

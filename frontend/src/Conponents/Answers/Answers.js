@@ -12,6 +12,8 @@ import moment from "moment";
 import AnswerModal from '../Home/AnswerModal';
 import { MenuItem, TextField } from '@material-ui/core';
 import Swal from "sweetalert2";
+import EditQuestion from "../EditModals/EditQuestion";
+
 
 function Answers(props) {
   let postId = props && props.location.state;
@@ -23,7 +25,9 @@ function Answers(props) {
   const [open, setopen] = useState(0);
   const [open2, setopen2] = useState(0);
   const [answerId, setAnswerId] = useState("");
-  const [modal, setModal] = useState("")
+  const [modal, setModal] = useState("");
+  const [editModal,setEditModal]=useState(0);
+
 
   const fetchProfiles = async () => {
     if (token) {
@@ -75,6 +79,7 @@ function Answers(props) {
       </div>
       <CommentModal open={open} setopen={setopen} postId={post._id} answerId={answerId} />
       <AnswerModal open={open2} setopen={setopen2} modal={modal} setModal={setModal} />
+      <EditQuestion editModal={editModal} setEditModal={setEditModal} post={post} fetchPosts={fetchSinglePost}/>
       <div className="ProfileContainer">
         {post && <div className="ProfileLeft">
           <div className="ProfilePost" >
@@ -83,10 +88,10 @@ function Answers(props) {
                 <div className="PostTop">
                     <img alt="" className="PostLogo" src={post.question.user.profilePicture} /><div><span className="PostHeadName"><Link to={{ pathname: '/profile', state: post.question.user._id }} style={{ textDecoration: "none" }}>{post.question.user.name}</Link></span><span className="PostHeadCollege">{post.question.user.college}</span></div>
                 </div>
-                <TextField value=":" className="optionMenu" select>
-                    <MenuItem value="Edit" onClick={() => { setopen2(1); setModal(post) }}>Edit</MenuItem>
+                {userID==post.question.user._id&&<TextField value=":" className="optionMenu" select>
+                    <MenuItem value="Edit" onClick={() => { setEditModal(1); }}>Edit</MenuItem>
                     <MenuItem value="Delete">Delete</MenuItem>
-                </TextField>
+                </TextField>}
             </div>
             <div className="PostAnswer">
               <h2>{post.question.title}</h2>
