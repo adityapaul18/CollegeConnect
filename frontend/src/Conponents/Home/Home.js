@@ -58,7 +58,7 @@ function Home() {
 
     const fetchSavedPosts = async() => {
       if(token){
-        let resp = await axios.get('/save/all',{ headers: { "Authorization" : `Bearer ${token}`} });
+        let resp = await axios.get('/savedPost/all',{ headers: { "Authorization" : `Bearer ${token}`} });
         if(resp.data.message){
           setSavedPosts(resp.data.posts)
         }
@@ -76,7 +76,7 @@ function Home() {
           <AnswerModal open={open} setopen={setopen} modal={modal} setModal={setModal}/>
             <div className="ProfileLeft">
                 {posts?posts.length==0?<h3>No posts found!</h3>:posts.map((p)=>{
-                  return(<><HomePost setopen={setopen} post={p} setModal={setModal} savedPosts={savedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
+                  return(<><HomePost setopen={setopen} post={p} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
                 }):<h3>Loading...</h3>}
 
             </div>

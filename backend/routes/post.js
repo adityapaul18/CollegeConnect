@@ -28,8 +28,8 @@ router.get('/post/user/:userId',getUserPosts);
 router.get('/feed',authToken,getFeed);
 router.put('/post/upvote',authToken,upvoteAnswer);
 router.put('/post/downvote',authToken,downvoteAnswer);
-router.put('/save/:postId',authToken,savePost);
-router.get('/save/all',authToken,getSavedPost);
+router.get('/post/save/:postId',authToken,savePost);
+router.get('/savedPost/all',authToken,getSavedPost);
 router.put('/question/:postId',authToken,upload.array('images'),updateQuestion);
 router.put('/answer/:postId/:answerId',authToken,upload.array('images'),updateAnswer);
 

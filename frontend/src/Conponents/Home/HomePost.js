@@ -9,8 +9,9 @@ import { useHistory } from 'react-router';
 import { Link } from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
+import Swal from "sweetalert2";
 
-function HomePost({ setopen, post, setModal,savedPosts,fetchSavedPosts }) {
+function HomePost({ setopen, post, setModal,savedPosts, setSavedPosts,fetchSavedPosts }) {
     const history = useHistory();
     const userID = localStorage.getItem("CConID");
     const token = localStorage.getItem("CConUser");
@@ -33,7 +34,31 @@ function HomePost({ setopen, post, setModal,savedPosts,fetchSavedPosts }) {
                 <div className="TagsBox">
                     {post.question.tags && post.question.tags.map((t) => <span className="TagSuggest">{t.name}</span>)}
                 </div>
-                <div className="ShowAnswers" > {token && <span onClick={() => { setopen(1); setModal(post) }}>Write Answer</span>} <span onClick={() => history.push({ pathname: '/answers', state: post._id })}> Show Answers </span><BookmarkIcon/> <BookmarkBorderIcon/></div>
+                <div className="ShowAnswers" > {token && <span onClick={() => { setopen(1); setModal(post) }}>Write Answer</span>} <span onClick={() => history.push({ pathname: '/answers', state: post._id })}> Show Answers </span>{token?savedPosts.includes(post)?<BookmarkIcon
+                  onClick={async(e)=>{
+                    e.preventDefault();
+                    let resp = await axios.get(`/post/save/${post._id}`,{ headers: { "Authorization" : `Bearer ${token}`} });
+                    if(resp.data.message){
+                      await fetchSavedPosts();
+                      Swal.fire({
+                        icon: 'success',
+                        text: resp.data.message
+                      })
+                    }
+                  }}
+                  />:<BookmarkBorderIcon
+                  onClick={async(e)=>{
+                    e.preventDefault();
+                    let resp = await axios.get(`/post/save/${post._id}`,{ headers: { "Authorization" : `Bearer ${token}`} });
+                    if(resp.data.message){
+                      await fetchSavedPosts();
+                      Swal.fire({
+                        icon: 'success',
+                        text: resp.data.message
+                      })
+                    }
+                  }}
+                  />:(null) }</div>
             </div>
         </div>
     )
