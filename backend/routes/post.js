@@ -13,6 +13,8 @@ const {
   downvoteAnswer,
   updateQuestion,
   updateAnswer,
+  deleteQuestion,
+  deleteAnswer,
   savePost,
   getSavedPost
 }= require('../controllers/post');
@@ -32,5 +34,7 @@ router.get('/post/save/:postId',authToken,savePost);
 router.get('/savedPost/all',authToken,getSavedPost);
 router.put('/question/:postId',authToken,updateQuestion);
 router.put('/answer/:postId/:answerId',authToken,updateAnswer);
+router.delete('/question/:postId',authToken,deleteQuestion);
+router.delete('/answer/:postId/:answerId',authToken,deleteAnswer);
 
 module.exports = router;
