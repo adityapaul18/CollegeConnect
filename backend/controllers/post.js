@@ -220,20 +220,12 @@ exports.updateQuestion = async(req, res) => {
    if(!postId||postId=="") return res.status(400).json({error:'PostId is required'});
    let existingPost = await Post.findById(postId);
    if(!existingPost) return res.status(400).json({error:'Post does not exists'})
-   if(existingPost.user!==req.user._id) return res.status(400).json({error:'Cannot edit this post!'})
-    if(req.files){
-      var imageArray= req.files.map((f)=>{
-         var fileName =shortid.generate() + path.extname(f.originalname);
-          bucket.file(fileName).createWriteStream().end(f.buffer)
-            const url = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${fileName}?alt=media`;
-            return url;
-        });
-        req.body.images=imageArray;
-    }
-    let updatedPost = await Post.findByIdAndUpdate(postId,req.body,{new: true})
+   existingPost.question={...existingPost.question,...req.body};
+   await existingPost.save();
+    //let updatedPost = await Post.findByIdAndUpdate(postId,req.body,{new: true})
      res.status(200).json({
        message: 'Post edited successfully',
-       updatedPost
+       existingPost
      })
   }catch(error){
     console.log(error);

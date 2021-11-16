@@ -30,7 +30,7 @@ router.put('/post/upvote',authToken,upvoteAnswer);
 router.put('/post/downvote',authToken,downvoteAnswer);
 router.get('/post/save/:postId',authToken,savePost);
 router.get('/savedPost/all',authToken,getSavedPost);
-router.put('/question/:postId',authToken,upload.array('images'),updateQuestion);
+router.put('/question/:postId',authToken,updateQuestion);
 router.put('/answer/:postId/:answerId',authToken,upload.array('images'),updateAnswer);
 
 module.exports = router;
