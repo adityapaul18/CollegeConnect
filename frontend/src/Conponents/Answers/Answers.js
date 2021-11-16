@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import CommentModal from './CommentModal';
 import moment from "moment";
 import AnswerModal from '../Home/AnswerModal';
+import { MenuItem, TextField } from '@material-ui/core';
 
 function Answers(props) {
   let postId = props && props.location.state;
@@ -66,7 +67,16 @@ function Answers(props) {
       <div className="ProfileContainer">
         {post && <div className="ProfileLeft">
           <div className="ProfilePost" >
-            <div className="PostTop"><img alt="" className="PostLogo" src={post.question.user.profilePicture} /><div><span className="PostHeadName"><Link to={{ pathname: '/profile', state: post.question.user._id }} style={{ textDecoration: "none" }}>{post.question.user.name}</Link></span><span className="PostHeadCollege">{post.question.user.college}</span></div></div>
+            {/* <div className="PostTop"><img alt="" className="PostLogo" src={post.question.user.profilePicture} /><div><span className="PostHeadName"><Link to={{ pathname: '/profile', state: post.question.user._id }} style={{ textDecoration: "none" }}>{post.question.user.name}</Link></span><span className="PostHeadCollege">{post.question.user.college}</span></div></div> */}
+            <div className="PostTop">
+                <div className="PostTop">
+                    <img alt="" className="PostLogo" src={post.question.user.profilePicture} /><div><span className="PostHeadName"><Link to={{ pathname: '/profile', state: post.question.user._id }} style={{ textDecoration: "none" }}>{post.question.user.name}</Link></span><span className="PostHeadCollege">{post.question.user.college}</span></div>
+                </div>
+                <TextField value=":" className="optionMenu" select>
+                    <MenuItem value="Edit" onClick={() => { setopen2(1); setModal(post) }}>Edit</MenuItem>
+                    <MenuItem value="Delete">Delete</MenuItem>
+                </TextField>
+            </div>
             <div className="PostAnswer">
               <h2>{post.question.title}</h2>
               <h4>Asked {moment(post.createdAt).fromNow()}</h4>

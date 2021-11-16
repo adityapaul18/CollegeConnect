@@ -16,6 +16,7 @@ function HomePost({ setopen, post, setModal,savedPosts, setSavedPosts,fetchSaved
     const userID = localStorage.getItem("CConID");
     const token = localStorage.getItem("CConUser");
     const [option, setoption] = useState("");
+
     return (
         <div className="ProfilePost" >
             <div className="PostTop">
@@ -34,7 +35,7 @@ function HomePost({ setopen, post, setModal,savedPosts, setSavedPosts,fetchSaved
                 <div className="TagsBox">
                     {post.question.tags && post.question.tags.map((t) => <span className="TagSuggest">{t.name}</span>)}
                 </div>
-                <div className="ShowAnswers" > {token && <span onClick={() => { setopen(1); setModal(post) }}>Write Answer</span>} <span onClick={() => history.push({ pathname: '/answers', state: post._id })}> Show Answers </span>{token?savedPosts.includes(post)?<BookmarkIcon
+                <div className="ShowAnswers" > {token && <span onClick={() => { setopen(1); setModal(post) }}>Write Answer</span>} <span onClick={() => history.push({ pathname: '/answers', state: post._id })}> Show Answers </span>{token?savedPosts.filter((s)=>s._id==post._id)[0]?<BookmarkIcon
                   onClick={async(e)=>{
                     e.preventDefault();
                     let resp = await axios.get(`/post/save/${post._id}`,{ headers: { "Authorization" : `Bearer ${token}`} });

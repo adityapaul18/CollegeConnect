@@ -20,6 +20,7 @@ function Profile(props) {
     const [open2, setopen2] = useState(0)
     const [user, setuser] = useState("");
     const [posts, setPosts] = useState([]);
+    const [savedPosts,setSavedPosts]=useState([]);
     const [profiles, setProfiles] = useState([]);
     const [tags, setTags] = useState([]);
     const [modal, setModal] = useState("")
@@ -57,11 +58,21 @@ function Profile(props) {
             setuser(resp.data.user)
         }
     }
+
+    const fetchSavedPosts =async() => {
+      if(userID==user._id&&token){
+        let resp = await axios.get('/savedPost/all',{ headers: { "Authorization" : `Bearer ${token}`} });
+        if(resp.data.message){
+          setSavedPosts(resp.data.posts)
+        }
+      }
+    }
     useEffect(() => {
         fetchProfile();
         fetchUserPosts();
         fetchProfiles();
         fetchTags();
+        fetchSavedPosts();
     }, [props && props.location, open])
 
 
@@ -97,13 +108,16 @@ function Profile(props) {
                         <TabPanel>
                             <div className="SavedPosts">
                                 <h2>Your Posts</h2>
-                                {posts ? posts.length == 0 ? <h3>No posts yet!</h3> : posts.map((post) => <ProfilePost setopen2={setopen2} post={post} setModal={setModal} />) : <h6>Loading...</h6>}
+                                {posts ? posts.length == 0 ? <h3>No posts yet!</h3> : posts.map((post) => <ProfilePost setopen2={setopen2} post={post} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/>) : <h6>Loading...</h6>}
 
                             </div>
                         </TabPanel>
                         {userID == id && <TabPanel>
                             <div className="SavedPosts">
                                 <h2> Your Saved Posts</h2>
+                                {savedPosts?savedPosts.length==0?<h3>No posts found!</h3>:savedPosts.map((p)=>{
+                                  return(<><ProfilePost setopen2={setopen2} post={p} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
+                                }):<h3>Loading...</h3>}
 
                                 {/* <ProfilePost /> */}
                             </div>
