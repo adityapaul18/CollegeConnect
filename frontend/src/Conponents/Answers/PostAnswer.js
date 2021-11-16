@@ -16,14 +16,10 @@ function PostAnswer({ postId, answer, setopen, setAnswerId, fetchSinglePost }) {
             {/* <div className="PostTop"><img alt="" className="PostLogo" src={answer.user.profilePicture} /><div><span className="PostHeadName"><Link to={{pathname:'/profile',state:answer.user._id}} style={{textDecoration:"none"}}>{answer.user.name}</Link></span><span className="PostHeadCollege">{answer.user.college}</span></div></div> */}
             <div className="PostTop">
                 <div className="PostTop">
-                    <img alt="" className="PostLogo" src="{post.question.user.profilePicture}" /><div><span className="PostHeadName">post.question.user.name
-                        {/* <Link to={{ pathname: '/profile', state: post.question.user._id }} style={{ textDecoration: "none" }}>post.question.user.name</Link> */}
-                        </span><span className="PostHeadCollege">post.question.user.college</span></div>
+                    <img alt="" className="PostLogo" src={answer.user.profilePicture} /><div><span className="PostHeadName"><Link to={{ pathname: '/profile', state: answer.user._id }} style={{ textDecoration: "none" }}>{answer.user.name}</Link></span><span className="PostHeadCollege">{answer.user.college}</span></div>
                 </div>
                 <TextField value=":" className="optionMenu" select>
-                    <MenuItem value="Edit" 
-                    // onClick={() => { setopen2(1); setModal(post) }}
-                    >Edit</MenuItem>
+                    <MenuItem value="Edit" >Edit</MenuItem>
                     <MenuItem value="Delete">Delete</MenuItem>
                 </TextField>
             </div>
