@@ -3,7 +3,7 @@ const Tag = require("../models/tag");
 const Post = require("../models/post");
 const shortid = require("shortid");
 const path = require('path');
-const {bucket} =require("../utils/admin");
+const {bucket,messaging} =require("../utils/admin");
 const firebaseConfig = require("../utils/firebaseConfig");
 
 exports.createPost = async(req, res) => {
@@ -55,7 +55,21 @@ exports.addAnswer = async(req, res) => {
     req.body.user = req.user._id;
     await existingPost.answer.push(req.body);
     await existingPost.save();
+    let existingUser = await User.findById(existingPost.question.user);
+    //console.log(existingUser)
+    if(existingUser.fcmToken){
+      var message = {
+           notification: {
+             title: 'Answer added on your post!',
+             body: `${req.user.name} added an answer to your post: ${existingPost.question.title.substring(0,100)}`
+           },
+           token:existingUser.fcmToken
 
+         };
+
+        let response = await messaging.send(message);
+        console.log(response)
+    }
      res.status(200).json({
        message: 'Answer added to post successfully',
        existingPost
@@ -76,9 +90,24 @@ exports.addComment = async(req, res) => {
     if(!existingPost) return res.status(400).json({error:'Post not found!'});
     await existingPost.answer.map((a,i)=>{
       if(a._id==answerId){
-        a.comments.push({comment,user:req.user._id})
+        a.comments.push({comment,user:req.user._id});
       }
-    })
+    });
+    let answer = existingPost.answer.filter((a)=>a._id==answerId)[0];
+
+    let existingUser =await User.findById(answer.user);
+    if(existingUser.fcmToken){
+      var message = {
+           notification: {
+             title: 'Comment added on your answer!',
+             body: `${req.user.name} added comment to your answer on the post: ${existingPost.question.title.substring(0,100)}`
+           },
+           token:existingUser.fcmToken
+
+         };
+        let response =await messaging.send(message);
+        console.log("response",response)
+    }
     await existingPost.save();
 
      res.status(200).json({
@@ -170,8 +199,23 @@ exports.upvoteAnswer = async(req, res) => {
         }
         a.upvotes.push(userId);
       }
-
     });
+
+    let answer = existingPost.answer.filter((a)=>a._id==answerId)[0];
+
+    let existingUser =await User.findById(answer.user);
+    if(existingUser.fcmToken){
+      var message = {
+           notification: {
+             title: 'Your answer is upvoted!',
+             body: `${req.user.name} upvoted your answer on the post: ${existingPost.question.title.substring(0,100)}`
+           },
+           token:existingUser.fcmToken
+
+         };
+        let response =await messaging.send(message);
+        console.log("response",response)
+  }
     await existingPost.save();
     res.status(200).json({
       message:'Answer upvoted successfully!',

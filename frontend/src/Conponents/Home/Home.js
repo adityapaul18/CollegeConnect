@@ -8,6 +8,8 @@ import AnswerModal from './AnswerModal';
 import axios from "axios";
 import Swal from "sweetalert2";
 import EditQuestion from "../EditModals/EditQuestion";
+import {vapidKey} from "../../utils/vapidKey";
+import {messaging} from "../../utils/Firebase";
 
 function Home() {
     const history = useHistory();
@@ -79,12 +81,46 @@ function Home() {
       }
     }
 
+    const postFCM =async(data)=> {
+      let resp = await axios.put(`/fcm`,{fcm:data},{ headers: { "Authorization" : `Bearer ${token}`} });
+      if(resp.data.message){
+        console.log("saved fcm")
+      }
+    }
+
+    const fetchFCM = async() => {
+      await messaging.requestPermission();
+      let data = await messaging.getToken({vapidKey});
+
+      if(localStorage.getItem("fcm")){
+      if(JSON.parse(localStorage.getItem("fcm"))===data)
+      console.log("Already in db")
+      else {
+        localStorage.removeItem("fcm");
+        localStorage.setItem("fcm",JSON.stringify(data))
+        await postFCM(data)
+      }
+    }else{
+        localStorage.setItem("fcm",JSON.stringify(data))
+        await postFCM(data)
+    }
+    }
+
     useEffect(()=>{
       fetchTags();
       fetchPosts();
       fetchProfiles();
       fetchSavedPosts();
-    },[open]);
+      if(token){
+        fetchFCM();
+      }
+    },[]);
+
+    messaging.onMessage((payload) => {
+  console.log('Message received. ', payload);
+  // ...
+});
+
     return (
         <div className="ProfileContainer">
           <AnswerModal open={open} setopen={setopen} modal={modal} setModal={setModal}/>

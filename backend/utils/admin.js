@@ -9,5 +9,6 @@ admin.initializeApp({
 
 const bucket = admin.storage().bucket();
 const auth = admin.auth();
+const messaging = admin.messaging();
 
-module.exports={auth,bucket};
+module.exports={auth,bucket,messaging};
