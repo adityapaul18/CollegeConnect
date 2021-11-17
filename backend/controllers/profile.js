@@ -72,7 +72,6 @@ exports.getCustomisedProfiles = async(req, res) => {
       data = { _id:{$ne: req.user._id},tags: { $in: user.tags} }
     }
     let users = await User.find(data).populate('tags');
-    if(!users) return res.status(400).json({error:'No users found'});
     res.status(200).json({
       message:'Fetched customised profiles successfully',
       users
