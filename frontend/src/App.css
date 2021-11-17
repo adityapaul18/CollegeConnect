@@ -1,6 +1,12 @@
 .moveBottom{
     width: 100%;
 }
+@media (min-width:650px) {
+    .moveBottom{
+        position: sticky;
+        top: 0;
+    }
+}
 @media (max-width:650px) {
     .moveBottom{
         position: fixed;
