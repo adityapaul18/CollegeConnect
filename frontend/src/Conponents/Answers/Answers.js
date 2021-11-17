@@ -6,13 +6,16 @@ import HomePost from '../Home/HomePost';
 import PostAnswer from './PostAnswer';
 import axios from 'axios';
 import Header from "../Header/Header";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import CommentModal from './CommentModal';
 import moment from "moment";
 import AnswerModal from '../Home/AnswerModal';
 import { MenuItem, TextField } from '@material-ui/core';
+import Swal from "sweetalert2";
+import EditQuestion from "../EditModals/EditQuestion";
 
 function Answers(props) {
+  const history = useHistory();
   let postId = props && props.location.state;
   const [post, setPost] = useState("");
   const [profiles, setProfiles] = useState([]);
@@ -22,7 +25,9 @@ function Answers(props) {
   const [open, setopen] = useState(0);
   const [open2, setopen2] = useState(0);
   const [answerId, setAnswerId] = useState("");
-  const [modal, setModal] = useState("")
+  const [modal, setModal] = useState("");
+  const [editModal,setEditModal]=useState(0);
+
 
   const fetchProfiles = async () => {
     if (token) {
@@ -38,11 +43,21 @@ function Answers(props) {
     }
   }
 
-  const fetchTags = async () => {
-    let resp = await axios.get('/tag/all');
-    if (resp.data.message) {
-      setTags(resp.data.tags);
-    }
+  const fetchTags = async() => {
+      let resp = await axios.get('/tag/all');
+      if(resp.data.message){
+
+          if(token){
+            let response = await axios.get('/tag/follow',{ headers: { "Authorization" : `Bearer ${token}`} });
+            if(response.data.message){
+
+            setTags(resp.data.tags.filter((v)=>response.data.tags.filter((s)=>s._id==v._id).length==0))
+            }
+          }else{
+            setTags(resp.data.tags);
+          }
+      }
+
   }
 
   const fetchSinglePost = async () => {
@@ -62,8 +77,9 @@ function Answers(props) {
       <div className="moveBottom">
         <Header />
       </div>
-      <CommentModal open={open} setopen={setopen} postId={post._id} answerId={answerId} />
+      <CommentModal open={open} setopen={setopen} postId={post._id} answerId={answerId} fetchSinglePost={fetchSinglePost} />
       <AnswerModal open={open2} setopen={setopen2} modal={modal} setModal={setModal} />
+      <EditQuestion editModal={editModal} setEditModal={setEditModal} post={post} fetchPosts={fetchSinglePost}/>
       <div className="ProfileContainer">
         {post && <div className="ProfileLeft">
           <div className="ProfilePost" >
@@ -72,10 +88,26 @@ function Answers(props) {
                 <div className="PostTop">
                     <img alt="" className="PostLogo" src={post.question.user.profilePicture} /><div><span className="PostHeadName"><Link to={{ pathname: '/profile', state: post.question.user._id }} style={{ textDecoration: "none" }}>{post.question.user.name}</Link></span><span className="PostHeadCollege">{post.question.user.college}</span></div>
                 </div>
-                <TextField value=":" className="optionMenu" select>
-                    <MenuItem value="Edit" onClick={() => { setopen2(1); setModal(post) }}>Edit</MenuItem>
-                    <MenuItem value="Delete">Delete</MenuItem>
-                </TextField>
+                {userID==post.question.user._id&&<TextField value=":" className="optionMenu" select>
+                    <MenuItem value="Edit" onClick={() => { setEditModal(1); }}>Edit</MenuItem>
+                    <MenuItem value="Delete"
+                    onClick={async(e)=>{
+                      e.preventDefault();
+                      Swal.fire({
+                        title: 'Do you want to delete this post?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Delete'
+                      }).then(async(result) => {
+                        if (result.isConfirmed) {
+                          let resp = await axios.delete(`/question/${post._id}`,{ headers: { "Authorization" : `Bearer ${token}`} });
+                          if(resp.data.message){
+                            history.push("/home")
+                          }
+                        }
+                        })
+                    }}
+                    >Delete</MenuItem>
+                </TextField>}
             </div>
             <div className="PostAnswer">
               <h2>{post.question.title}</h2>
@@ -109,7 +141,19 @@ function Answers(props) {
           <div>
             {tags && tags.sort(() => Math.random() - Math.random()).slice(0, 5).map((t) =>
               <div className="SuggestdTagsBox">
-                <span className="TagSuggest">{t.name} <AddIcon /></span>
+                  <span className="TagSuggest">{t.name} {token&&<AddIcon
+                    onClick={async(e)=>{
+                      e.preventDefault();
+                      let resp = await axios.get(`/tag/${t._id}`,{ headers: { "Authorization" : `Bearer ${token}`} });
+                      if(resp.data.message){
+                        Swal.fire({
+                          icon: 'success',
+                          text: resp.data.message
+                        });
+                       await fetchTags();
+                       await fetchProfiles();
+                      }
+                    }} />}</span>
               </div>
             )}
           </div>

@@ -47,13 +47,21 @@ function AskPage() {
         };
     }
 
-
-    const fetchTags = async () => {
+    const fetchTags = async() => {
         let resp = await axios.get('/tag/all');
-        if (resp.data.message) {
-            setInputTags(resp.data.tags);
-            setTags(resp.data.tags);
+        if(resp.data.message){
+             setInputTags(resp.data.tags);
+            if(token){
+              let response = await axios.get('/tag/follow',{ headers: { "Authorization" : `Bearer ${token}`} });
+              if(response.data.message){
+
+              setTags(resp.data.tags.filter((v)=>response.data.tags.filter((s)=>s._id==v._id).length==0))
+              }
+            }else{
+              setTags(resp.data.tags);
+            }
         }
+
     }
 
     const fetchProfiles = async () => {
@@ -145,7 +153,7 @@ function AskPage() {
                                     text: err.response.data.error
                                 })
                             }
-                            
+
                         }}
                     >{loading ? "Loading..." : "POST"}</Button>
                     </div>
@@ -160,9 +168,21 @@ function AskPage() {
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
                     {tags && tags.slice(0, 5).map((t) =>
-                        <div className="SuggestdTagsBox">
-                            <span className="TagSuggest">{t.name} <AddIcon /></span>
-                        </div>
+                      <div className="SuggestdTagsBox">
+                          <span className="TagSuggest">{t.name} {token&&<AddIcon
+                            onClick={async(e)=>{
+                              e.preventDefault();
+                              let resp = await axios.get(`/tag/${t._id}`,{ headers: { "Authorization" : `Bearer ${token}`} });
+                              if(resp.data.message){
+                                Swal.fire({
+                                  icon: 'success',
+                                  text: resp.data.message
+                                });
+                               await fetchTags();
+                               await fetchProfiles();
+                              }
+                            }} />}</span>
+                      </div>
                     )}
                 </div>
             </div>

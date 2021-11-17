@@ -14,14 +14,19 @@ import Answers from './Conponents/Answers/Answers';
 import Saved from './Conponents/Saved/Saved';
 
 function App() {
+  const userID = localStorage.getItem("CConID");
+  const token = localStorage.getItem("CConUser");
   return (
     <div className="App">
       <Router>
                 <Switch>
                     <Route exact path="/">
-                        <Login />
+                        {token?<>  <div className="moveBottom">
+                              <Header/>
+                          </div>
+                              <Home/></>:<Login />}
                     </Route>
-                    <Route exact path="/home">
+                   <Route exact path="/home">
                         <div className="moveBottom">
                             <Header/>
                         </div>

@@ -13,14 +13,14 @@ function Login() {
 
     const history = useHistory()
 
-    const ff = () => {
+    /*const ff = () => {
         if (user !== "null")
             history.push('/home')
-    }
+    }*/
 
-    useEffect(() => {
+  /*  useEffect(() => {
         ff()
-    }, [])
+    }, [])*/
 
     const signin = async (e) => {
         e.preventDefault();

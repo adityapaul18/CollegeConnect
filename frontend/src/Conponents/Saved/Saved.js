@@ -7,6 +7,8 @@ import { useHistory } from 'react-router';
 import AnswerModal from './AnswerModal';
 import './Saved.css'
 import axios from 'axios';
+import Swal from "sweetalert2";
+import EditQuestion from "../EditModals/EditQuestion";
 
 function Saved() {
     const history = useHistory()
@@ -14,7 +16,11 @@ function Saved() {
     const userID = localStorage.getItem("CConID");
     const token = localStorage.getItem("CConUser");
     const [tags,setTags] = useState([]);
-    const [open, setopen] = useState(0)
+    const [open, setopen] = useState(0);
+    const [modal,setModal]=useState("");
+    const [savedPosts,setSavedPosts]=useState([]);
+    const [editModal,setEditModal]=useState(0);
+    const [editData,setEditData]=useState("");
 
     const fetchProfiles = async() => {
         if(token){
@@ -31,31 +37,48 @@ function Saved() {
       }
 
       const fetchTags = async() => {
-        let resp = await axios.get('/tag/all');
-        if(resp.data.message){
-          setTags(resp.data.tags);
+          let resp = await axios.get('/tag/all');
+          if(resp.data.message){
+
+              if(token){
+                let response = await axios.get('/tag/follow',{ headers: { "Authorization" : `Bearer ${token}`} });
+                if(response.data.message){
+
+                setTags(resp.data.tags.filter((v)=>response.data.tags.filter((s)=>s._id==v._id).length==0))
+                }
+              }else{
+                setTags(resp.data.tags);
+              }
+          }
+
+      }
+
+      const fetchSavedPosts = async() => {
+        if(token){
+          let resp = await axios.get('/savedPost/all',{ headers: { "Authorization" : `Bearer ${token}`} });
+          if(resp.data.message){
+            setSavedPosts(resp.data.posts)
+          }
         }
       }
 
       useEffect(()=>{
         fetchTags();
-        // fetchPosts();
+        fetchSavedPosts();
         fetchProfiles();
       },[]);
     return (
         <>
         <h2 className="SavedHeader">Your Saved Posts</h2>
         <div className="ProfileContainer">
-            <AnswerModal open={open} setopen={setopen} />
-            <div className="ProfileLeft">
-                <HomePost setopen={setopen}/>
-                <HomePost setopen={setopen}/>
-                <HomePost setopen={setopen}/>
-                <HomePost setopen={setopen}/>
-                <HomePost setopen={setopen}/>
-                <HomePost setopen={setopen}/>
-                <HomePost setopen={setopen}/>
-            </div>
+        <AnswerModal open={open} setopen={setopen} modal={modal} setModal={setModal}/>
+          <EditQuestion editModal={editModal} setEditModal={setEditModal} post={editData} fetchPosts={fetchSavedPosts}/>
+          <div className="ProfileLeft">
+              {savedPosts?savedPosts.length==0?<h3>No posts found!</h3>:savedPosts.map((p)=>{
+                return(<><HomePost fetchPosts={fetchSavedPosts} editModal={editModal} setEditModal={setEditModal} editData={editData} setEditData={setEditData}setopen={setopen} post={p} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
+              }):<h3>Loading...</h3>}
+
+          </div>
             <div className="ProfileRight">
                 <div className="ProfileRightHead" >Suggestions</div>
                 {profiles?profiles.length===0?<h3>No suggested profile found</h3>:profiles.sort(() => Math.random() - Math.random()).slice(0, 5).map((p)=>
@@ -64,20 +87,24 @@ function Saved() {
               }
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
-                    <div className="SuggestdTagsBox">
-                        <span className="TagSuggest">CP <AddIcon /></span>
-                        <span className="TagSuggest">Flutter<AddIcon /></span>
-                        <span className="TagSuggest">PayTm<AddIcon /></span>
-                    </div>
-                    <div className="SuggestdTagsBox">
-                        <span className="TagSuggest">Web D <AddIcon /></span>
-                        <span className="TagSuggest">DSA<AddIcon /></span>
-                        <span className="TagSuggest">Google<AddIcon /></span>
-                    </div>
-                    <div className="SuggestdTagsBox">
-                        {/* <span className="TagSuggest">Photography<AddIcon /></span>
-                        <span className="TagSuggest">IIIT<AddIcon /></span> */}
-                    </div>
+                    {tags && tags.sort(() => Math.random() - Math.random()).slice(0, 5).map((t)=>
+                      <div className="SuggestdTagsBox">
+                          <span className="TagSuggest">{t.name} {token&&<AddIcon
+                            onClick={async(e)=>{
+                              e.preventDefault();
+                              let resp = await axios.get(`/tag/${t._id}`,{ headers: { "Authorization" : `Bearer ${token}`} });
+                              if(resp.data.message){
+                                Swal.fire({
+                                  icon: 'success',
+                                  text: resp.data.message
+                                });
+                               await fetchTags();
+                               await fetchProfiles();
+                              }
+                            }} />}</span>
+                      </div>
+                    )}
+
                 </div>
             </div>
         </div>

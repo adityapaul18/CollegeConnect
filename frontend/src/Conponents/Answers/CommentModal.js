@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import {Link} from "react-router-dom";
 
-function CommentModal({open,setopen,postId,answerId}) {
+function CommentModal({open,setopen,postId,answerId,fetchSinglePost}) {
   const userID = localStorage.getItem("CConID");
   const token = localStorage.getItem("CConUser");
   const [loading,setLoading]=useState(false);
@@ -36,8 +36,9 @@ function CommentModal({open,setopen,postId,answerId}) {
                     <div>
                         {comments?comments.length==0?(<h2>No comments found on this answer</h2>):comments.map((c)=>
                           <div className="comment">
+                            <div className="PostTop">
                           <div className="PostTop"><img alt="" className="PostLogo" src={c.user.profilePicture} /><div><span className="PostHeadName"><Link to={{pathname:'/profile',state:c.user._id}} style={{textDecoration:"none"}}>{c.user.name}</Link></span></div></div>
-                              <div style={{marginLeft:40}}>
+                              </div><div style={{marginLeft:40}}>
                                 {c.comment}
                               </div>
                           </div>
@@ -55,6 +56,7 @@ function CommentModal({open,setopen,postId,answerId}) {
                               setLoading(false);
                               setComment("");
                               getComments();
+                              await fetchSinglePost();
                             }
                           }catch(err){
                             setLoading(false);

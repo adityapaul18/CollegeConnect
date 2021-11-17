@@ -121,3 +121,17 @@ exports.editCoverImage = async(req, res) => {
     res.status(500).json({error:"Something went wrong!"})
   }
 }
+
+exports.postFCM = async(req, res) => {
+  try{
+    let existingUser = await User.findById(req.user._id);
+    existingUser.fcmToken=req.body.fcm;
+    await existingUser.save();
+    res.status(200).json({
+      message:"FCM token saved successfully"
+    })
+  }catch(error){
+    console.log(error);
+    res.status(500).json({error:"Something went wrong!"})
+  }
+}

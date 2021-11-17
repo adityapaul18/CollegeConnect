@@ -12,7 +12,11 @@ const {
   upvoteAnswer,
   downvoteAnswer,
   updateQuestion,
-  updateAnswer
+  updateAnswer,
+  deleteQuestion,
+  deleteAnswer,
+  savePost,
+  getSavedPost
 }= require('../controllers/post');
 const multer = require('multer');
 const upload=multer({storage: multer.memoryStorage()})
@@ -26,7 +30,11 @@ router.get('/post/user/:userId',getUserPosts);
 router.get('/feed',authToken,getFeed);
 router.put('/post/upvote',authToken,upvoteAnswer);
 router.put('/post/downvote',authToken,downvoteAnswer);
-router.put('/question/:postId',authToken,upload.array('images'),updateQuestion);
-router.put('/answer/:postId/:answerId',authToken,upload.array('images'),updateAnswer);
+router.get('/post/save/:postId',authToken,savePost);
+router.get('/savedPost/all',authToken,getSavedPost);
+router.put('/question/:postId',authToken,updateQuestion);
+router.put('/answer/:postId/:answerId',authToken,updateAnswer);
+router.delete('/question/:postId',authToken,deleteQuestion);
+router.delete('/delete/answer/:postId/:answerId',authToken,deleteAnswer);
 
 module.exports = router;

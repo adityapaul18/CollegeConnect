@@ -28,10 +28,15 @@ const userSchema=new Schema({
   college: String,
   branch: String,
   academicYear: String,
+  fcmToken: String,
   tags: [{
     type: ObjectId,
     ref:'Tag'
-  }]
+  }],
+  savedPosts: [{
+    type: ObjectId,
+    ref:'Post'
+  }],
 
 },{timestamps: true});
 

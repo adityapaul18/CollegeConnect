@@ -3,7 +3,7 @@ const Tag = require("../models/tag");
 const Post = require("../models/post");
 const shortid = require("shortid");
 const path = require('path');
-const {bucket} =require("../utils/admin");
+const {bucket,messaging} =require("../utils/admin");
 const firebaseConfig = require("../utils/firebaseConfig");
 
 exports.createPost = async(req, res) => {
@@ -55,7 +55,21 @@ exports.addAnswer = async(req, res) => {
     req.body.user = req.user._id;
     await existingPost.answer.push(req.body);
     await existingPost.save();
+    let existingUser = await User.findById(existingPost.question.user);
+    //console.log(existingUser)
+    if(existingUser.fcmToken){
+      var message = {
+           notification: {
+             title: 'Answer added on your post!',
+             body: `${req.user.name} added an answer to your post: ${existingPost.question.title.substring(0,100)}`
+           },
+           token:existingUser.fcmToken
 
+         };
+
+        let response = await messaging.send(message);
+        console.log(response)
+    }
      res.status(200).json({
        message: 'Answer added to post successfully',
        existingPost
@@ -76,9 +90,24 @@ exports.addComment = async(req, res) => {
     if(!existingPost) return res.status(400).json({error:'Post not found!'});
     await existingPost.answer.map((a,i)=>{
       if(a._id==answerId){
-        a.comments.push({comment,user:req.user._id})
+        a.comments.push({comment,user:req.user._id});
       }
-    })
+    });
+    let answer = existingPost.answer.filter((a)=>a._id==answerId)[0];
+
+    let existingUser =await User.findById(answer.user);
+    if(existingUser.fcmToken){
+      var message = {
+           notification: {
+             title: 'Comment added on your answer!',
+             body: `${req.user.name} added comment to your answer on the post: ${existingPost.question.title.substring(0,100)}`
+           },
+           token:existingUser.fcmToken
+
+         };
+        let response =await messaging.send(message);
+        console.log("response",response)
+    }
     await existingPost.save();
 
      res.status(200).json({
@@ -170,8 +199,23 @@ exports.upvoteAnswer = async(req, res) => {
         }
         a.upvotes.push(userId);
       }
-
     });
+
+    let answer = existingPost.answer.filter((a)=>a._id==answerId)[0];
+
+    let existingUser =await User.findById(answer.user);
+    if(existingUser.fcmToken){
+      var message = {
+           notification: {
+             title: 'Your answer is upvoted!',
+             body: `${req.user.name} upvoted your answer on the post: ${existingPost.question.title.substring(0,100)}`
+           },
+           token:existingUser.fcmToken
+
+         };
+        let response =await messaging.send(message);
+        console.log("response",response)
+  }
     await existingPost.save();
     res.status(200).json({
       message:'Answer upvoted successfully!',
@@ -220,20 +264,12 @@ exports.updateQuestion = async(req, res) => {
    if(!postId||postId=="") return res.status(400).json({error:'PostId is required'});
    let existingPost = await Post.findById(postId);
    if(!existingPost) return res.status(400).json({error:'Post does not exists'})
-   if(existingPost.user!==req.user._id) return res.status(400).json({error:'Cannot edit this post!'})
-    if(req.files){
-      var imageArray= req.files.map((f)=>{
-         var fileName =shortid.generate() + path.extname(f.originalname);
-          bucket.file(fileName).createWriteStream().end(f.buffer)
-            const url = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${fileName}?alt=media`;
-            return url;
-        });
-        req.body.images=imageArray;
-    }
-    let updatedPost = await Post.findByIdAndUpdate(postId,req.body,{new: true})
+   existingPost.question={...existingPost.question,...req.body};
+   await existingPost.save();
+    //let updatedPost = await Post.findByIdAndUpdate(postId,req.body,{new: true})
      res.status(200).json({
        message: 'Post edited successfully',
-       updatedPost
+       existingPost
      })
   }catch(error){
     console.log(error);
@@ -248,20 +284,104 @@ exports.updateAnswer = async(req, res) => {
    if(!answerId||answerId=="") return res.status(400).json({error:'AnswerId is required'});
    let existingPost = await Post.findById(postId);
     if(!existingPost) return res.status(400).json({error:'Post does not exists'})
-    if(req.files){
-      var imageArray= req.files.map((f)=>{
-         var fileName =shortid.generate() + path.extname(f.originalname);
-          bucket.file(fileName).createWriteStream().end(f.buffer)
-            const url = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${fileName}?alt=media`;
-            return url;
-        });
-        req.body.images=imageArray;
-    }
-    existingPost = await Post.findOneAndUpdate({'answer._id':answerId},{'answer.$':req.body},{new: true});
-    console.log(existingPost)
+     existingPost.answer=existingPost.answer.map((v)=>{
+       if(v._id==answerId){
+         v.description=req.body.description
+       }
+       return v
+     });
+     //console.log(existingPost)
+     await existingPost.save();
      res.status(200).json({
        message: 'Post edited successfully'
      })
+  }catch(error){
+    console.log(error);
+    res.status(500).json({error:"Something went wrong!"})
+  }
+}
+
+exports.deleteQuestion = async(req, res) => {
+  try{
+   let { postId } = req.params;
+    let { title, description, tags } = req.body;
+   if(!postId||postId=="") return res.status(400).json({error:'PostId is required'});
+   let existingPost = await Post.findById(postId);
+   if(!existingPost) return res.status(400).json({error:'Post does not exists'})
+     await Post.findByIdAndDelete(postId);
+     res.status(200).json({
+       message: 'Post deleted successfully'
+     })
+  }catch(error){
+    console.log(error);
+    res.status(500).json({error:"Something went wrong!"})
+  }
+}
+
+exports.deleteAnswer = async(req, res) => {
+  try{
+   let { postId, answerId } = req.params;
+   if(!postId||postId=="") return res.status(400).json({error:'PostId is required'});
+   if(!answerId||answerId=="") return res.status(400).json({error:'AnswerId is required'});
+   let existingPost = await Post.findById(postId);
+    if(!existingPost) return res.status(400).json({error:'Post does not exists'})
+    await Post.findOneAndUpdate(
+     { _id: postId },
+     { $pull: { answer: { _id: answerId } } }
+   );
+     res.status(200).json({
+       message: 'Answer deleted successfully'
+     })
+  }catch(error){
+    console.log(error);
+    res.status(500).json({error:"Something went wrong!"})
+  }
+}
+
+exports.savePost = async(req, res) => {
+  try{
+    let {postId} = req.params;
+    if(!postId) return res.status(400).json({error:'Post ID is required'});
+    let existingUser = await User.findById(req.user._id);
+    if(existingUser.savedPosts.includes(postId)){
+      let index = existingUser.savedPosts.indexOf(postId);
+      existingUser.savedPosts.splice(index,1);
+      await existingUser.save();
+      return res.status(200).json({
+        message:'Unsaved post successfully'
+      });
+    }
+    existingUser.savedPosts.push(postId);
+    await existingUser.save();
+    res.status(200).json({
+      message:'Saved post successfully'
+    })
+  }catch(error){
+    console.log(error);
+    res.status(500).json({error:"Something went wrong!"})
+  }
+}
+
+exports.getSavedPost = async(req, res) => {
+  try{
+    let existingUser = await User.findById(req.user._id).populate(
+      {
+            path: 'savedPosts',
+            model: 'Post',
+            populate: [{
+                path: 'question.user',
+                model: 'User'
+            },{
+                path: 'question.tags',
+                model: 'Tag'
+            }]
+        }
+    );
+    res.status(200).json({
+      message:'Fetch saved post successfully',
+      posts: existingUser.savedPosts
+    })
+
   }catch(error){
     console.log(error);
     res.status(500).json({error:"Something went wrong!"})

@@ -11,6 +11,8 @@ import axios from 'axios';
 import EditModal from './EditModal';
 import Header from "../Header/Header";
 import AnswerModal from '../Home/AnswerModal';
+import Swal from "sweetalert2";
+import EditQuestion from "../EditModals/EditQuestion";
 
 function Profile(props) {
     const id = props && props.location.state;
@@ -20,9 +22,12 @@ function Profile(props) {
     const [open2, setopen2] = useState(0)
     const [user, setuser] = useState("");
     const [posts, setPosts] = useState([]);
+    const [savedPosts,setSavedPosts]=useState([]);
     const [profiles, setProfiles] = useState([]);
     const [tags, setTags] = useState([]);
-    const [modal, setModal] = useState("")
+    const [modal, setModal] = useState("");
+    const [editData,setEditData]=useState("");
+    const [editModal,setEditModal]=useState(0);
 
     const fetchUserPosts = async () => {
         let resp = await axios.get(`/post/user/${id}`);
@@ -31,11 +36,21 @@ function Profile(props) {
         }
     }
 
-    const fetchTags = async () => {
+    const fetchTags = async() => {
         let resp = await axios.get('/tag/all');
-        if (resp.data.message) {
-            setTags(resp.data.tags);
+        if(resp.data.message){
+
+            if(token){
+              let response = await axios.get('/tag/follow',{ headers: { "Authorization" : `Bearer ${token}`} });
+              if(response.data.message){
+
+              setTags(resp.data.tags.filter((v)=>response.data.tags.filter((s)=>s._id==v._id).length==0))
+              }
+            }else{
+              setTags(resp.data.tags);
+            }
         }
+
     }
 
     const fetchProfiles = async () => {
@@ -57,11 +72,21 @@ function Profile(props) {
             setuser(resp.data.user)
         }
     }
+
+    const fetchSavedPosts =async() => {
+      if(userID==user._id&&token){
+        let resp = await axios.get('/savedPost/all',{ headers: { "Authorization" : `Bearer ${token}`} });
+        if(resp.data.message){
+          setSavedPosts(resp.data.posts)
+        }
+      }
+    }
     useEffect(() => {
         fetchProfile();
         fetchUserPosts();
         fetchProfiles();
         fetchTags();
+        fetchSavedPosts();
     }, [props && props.location, open])
 
 
@@ -71,6 +96,7 @@ function Profile(props) {
         </div>
         <div className="ProfileContainer">
             <EditModal open={open} setopen={setopen} user={user} />
+            <EditQuestion editModal={editModal} setEditModal={setEditModal} post={editData} fetchPosts={fetchUserPosts}/>
             <AnswerModal open={open2} setopen={setopen2} modal={modal} setModal={setModal} />
             <div className="ProfileLeft">
                 <img className="ProfileCover" src={user.coverImage ? user.coverImage : ProfileCover} alt="" />
@@ -97,13 +123,16 @@ function Profile(props) {
                         <TabPanel>
                             <div className="SavedPosts">
                                 <h2>Your Posts</h2>
-                                {posts ? posts.length == 0 ? <h3>No posts yet!</h3> : posts.map((post) => <ProfilePost setopen2={setopen2} post={post} setModal={setModal} />) : <h6>Loading...</h6>}
+                                {posts ? posts.length == 0 ? <h3>No posts yet!</h3> : posts.map((post) => <ProfilePost fetchPosts={fetchUserPosts}editModal={editModal} setEditModal={setEditModal} editData={editData} setEditData={setEditData} setopen2={setopen2} post={post} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/>) : <h6>Loading...</h6>}
 
                             </div>
                         </TabPanel>
                         {userID == id && <TabPanel>
                             <div className="SavedPosts">
                                 <h2> Your Saved Posts</h2>
+                                {savedPosts?savedPosts.length==0?<h3>No posts found!</h3>:savedPosts.map((p)=>{
+                                  return(<><ProfilePost fetchPosts={fetchSavedPosts} setopen2={setopen2} post={p} setModal={setModal} savedPosts={savedPosts} setSavedPosts={setSavedPosts} fetchSavedPosts={fetchSavedPosts}/></>)
+                                }):<h3>Loading...</h3>}
 
                                 {/* <ProfilePost /> */}
                             </div>
@@ -122,9 +151,21 @@ function Profile(props) {
                 <div className="ProfileRightHead" >Suggested Tags</div>
                 <div>
                     {tags && tags.sort(() => Math.random() - Math.random()).slice(0, 5).map((t) =>
-                        <div className="SuggestdTagsBox">
-                            <span className="TagSuggest">{t.name} <AddIcon /></span>
-                        </div>
+                      <div className="SuggestdTagsBox">
+                          <span className="TagSuggest">{t.name} {token&&<AddIcon
+                            onClick={async(e)=>{
+                              e.preventDefault();
+                              let resp = await axios.get(`/tag/${t._id}`,{ headers: { "Authorization" : `Bearer ${token}`} });
+                              if(resp.data.message){
+                                Swal.fire({
+                                  icon: 'success',
+                                  text: resp.data.message
+                                });
+                               await fetchTags();
+                               await fetchProfiles();
+                              }
+                            }} />}</span>
+                      </div>
                     )}
 
 
